@@ -47,7 +47,9 @@ namespace HpTcgCardBrowser.Web.Pages.Browser
         {
             try
             {
-                var cards = _cardService.SearchCards(setId, null, null, lessonCost, searchText);
+                //Harding coding English for now, as we don't have other languages atm
+                var englishLanguageId = new Guid("4F5CC98D-4315-4410-809F-E2CC428E0C9B");
+                var cards = _cardService.SearchCards(setId, null, null, englishLanguageId, lessonCost, searchText);
                 return new JsonResult(new { success = true, json = cards });
             }
             catch (Exception ex)

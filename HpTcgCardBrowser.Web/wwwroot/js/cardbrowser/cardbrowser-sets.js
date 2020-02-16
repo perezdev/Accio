@@ -45,7 +45,7 @@ function AddSetsToDropDown(sets) {
         var set = sets[i];
         var img = '/images/seticons/' + set.iconFileName;
 
-        var option = '<option value="' + set.setId + '">' + set.name + '</option>';
+        var option = '<option value="' + set.cardSetId + '">' + set.name + '</option>';
         $(dropDownName).append(option);
     }
 }

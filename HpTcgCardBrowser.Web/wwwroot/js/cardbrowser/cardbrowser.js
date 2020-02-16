@@ -61,26 +61,10 @@ function AddCardsToDeck(cards) {
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
 
-        //Load the image directly so we can get the width
-        //var cardImage = new Image();
-        //cardImage.src = card.url;
-        //$(cardImage).on('load', function () {
-        //    //Add the card to deck after the image has loaded. The code will skip to the next
-        //    //card while the image loads
-        //    AddCardToDeck(card, cardImage.width);
-        //});
-
         //Get all of the previous items in the card deck so we can add the new one
         var cardDeckHtml = $(cardDeckId).html();
-        var cardElement = '<div class="card col-sm-3"><img src="' + card.url + '" /></div>';
+        var cardElement = '<div class="card col-sm-3"><img src="' + card.detail.url + '" /></div>';
         cardDeckHtml += cardElement;
         $(cardDeck).html(cardDeckHtml);
     }
-}
-function AddCardToDeck(card, cardWidth) {
-    //Get all of the previous items in the card deck so we can add the new one
-    var cardDeckHtml = $(cardDeckId).html();
-    //var cardElement = '<div style="width: ' + cardWidth + 'px" class="card col-sm-3"><img src="' + card.url + '" /></div>';
-    //cardDeckHtml += cardElement;
-    //$(cardDeck).html(cardDeckHtml);
 }

@@ -20,7 +20,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
         public List<CardModel> SearchCards(Guid? cardSetId, Guid? cardTypeId, Guid? cardRarityId, Guid languageId, int? lessonCost, string searchText)
         {
             var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardDetailId equals cardDetail.CardDetailId
+                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
                          join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
                          join cardSet in _context.CardSet on card.CardSetId equals cardSet.CardSetId
                          join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
@@ -93,7 +93,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                     Name = cardDetail.Name,
                     Text = cardDetail.Text,
                     TextHtml = cardDetail.TextHtml,
-                    Url = cardDetail.TextHtml,
+                    Url = cardDetail.Url,
                     FlavorText = cardDetail.FlavorText,
                     Illustrator = cardDetail.Illustrator,
                     Copyright = cardDetail.Copyright,

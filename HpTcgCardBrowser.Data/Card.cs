@@ -6,7 +6,6 @@ namespace HpTcgCardBrowser.Data
     public partial class Card
     {
         public Guid CardId { get; set; }
-        public Guid? CardDetailId { get; set; }
         public Guid? CardSetId { get; set; }
         public Guid? CardTypeId { get; set; }
         public Guid? CardRarityId { get; set; }
