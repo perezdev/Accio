@@ -1,0 +1,52 @@
+﻿.set-dropdown-image {
+    width: 16px;
+    height: 16px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+}
+/* The text of the dropdown items was being cut off inside of the menu. This is a temporary
+    fix to increase the container size so the text remains within. Will probably cause issues
+    on mobile.
+*/
+.dropdown-menu {
+    width: 210px !important
+}
+
+.lesson-button {
+    background-image: url('/images/scroll_icon.png');
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: Transparent;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+/* Number of Cards by Row based on Viewport */
+@media (min-width: 576px) {
+    .card-deck .card {
+        min-width: 50.1%; /* 1 Column */
+        margin-bottom: 12px;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-deck .card {
+        min-width: 33.4%; /* 2 Columns */
+    }
+}
+
+@media (min-width: 992px) {
+    .card-deck .card {
+        min-width: 25.1%; /* 3 Columns */
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-deck .card {
+        min-width: 20.1%; /* 4 Columns */
+    }
+}

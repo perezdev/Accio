@@ -1,0 +1,64 @@
+﻿/*
+    Main Navbar
+*/
+.main-navbar {
+    height: 30px !important; /* Override BS4's navbar height */
+}
+
+/*
+    Search Fields Navbar
+*/
+
+/*
+    Wrapper
+*/
+#wrapper {
+    /* The SB2 Admin wrapper class exands to fit the content. So by default, it's small. Which cuts off the
+        navbar items, like dropdowns. Since there isn't content on first page view, we have to expand the height
+        of the viewporrt so the wrapper so navbar stuff doesn't get cut off and so the wrapper background doesn't 
+        cut off and show the body background.
+    */
+    height: 100vh !important;
+}
+
+@font-face {
+    font-family: "Harry Potter Font";
+    src: url(/css/webfonts/HARRYP__.TTF) format("truetype");
+}
+
+@font-face {
+    font-family: "Inkpot Font";
+    src: url(/css/webfonts/InkPot.ttf) format("truetype");
+}
+
+button {
+    font-family: 'Inkpot Font', arial, serif;
+    font-size: 1.3rem !important;
+}
+
+a {
+    font-family: 'Inkpot Font', arial, serif !important;
+    font-size: 1.3rem;
+}
+
+input {
+    font-family: 'Inkpot Font', arial, serif;
+    font-size: 1.3rem !important;
+}
+
+select {
+    font-family: 'Inkpot Font', arial, serif;
+    font-size: 1.3rem !important;
+}
+option {
+    font-family: 'Inkpot Font', arial, serif;
+    font-size: 1.3rem !important;
+}
+
+/**
+    Changes to hide cards, because we only want to see the images
+*/
+.card{
+    background-color: transparent !important;
+    border-width: 0px;
+}
