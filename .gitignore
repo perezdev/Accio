@@ -338,3 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Site specific configs and confidential data
+_ScaffoldCommand.txt
+appsettings.json
+appsettings.Development.json
