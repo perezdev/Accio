@@ -14,6 +14,7 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
         public int? LessonCost { get; set; }
         public int? ActionCost { get; set; }
         public string CardNumber { get; set; }
+        public string CssSizeClass { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

@@ -50,6 +50,7 @@ select {
     font-family: 'Inkpot Font', arial, serif;
     font-size: 1.3rem !important;
 }
+
 option {
     font-family: 'Inkpot Font', arial, serif;
     font-size: 1.3rem !important;
@@ -58,7 +59,15 @@ option {
 /**
     Changes to hide cards, because we only want to see the images
 */
-.card{
+.card {
     background-color: transparent !important;
     border-width: 0px;
+}
+
+.card-size-vertical {
+    width: 250px !important;
+}
+
+.card-size-horizontal {
+    width: 350px !important;
 }

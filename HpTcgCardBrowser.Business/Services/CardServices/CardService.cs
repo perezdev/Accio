@@ -104,6 +104,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                     Deleted = cardDetail.Deleted,
                 },
                 CardNumber = card.CardNumber,
+                CssSizeClass = card.CssSizeClass,
                 CreatedById = card.CreatedById,
                 CreatedDate = card.CreatedDate,
                 UpdatedById = card.UpdatedById,

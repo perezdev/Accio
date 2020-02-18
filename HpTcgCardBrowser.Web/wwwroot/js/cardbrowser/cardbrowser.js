@@ -1,4 +1,4 @@
-﻿var cardDeckId = '#cardDeck';
+﻿var cardDeckId = '#cardContainer';
 
 $(document).ready(function () {
     InitializeSearchElements();
@@ -56,15 +56,24 @@ function SearchCards() {
 }
 
 function AddCardsToDeck(cards) {
-    $(cardDeckId).html(''); //Clear existing cards
+    //$(cardDeckId).html(''); //Clear existing cards
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
 
+        var cardHtml = `
+                        <div class="col-auto mb-3">
+                            <div class="card ` + card.cssSizeClass + `">
+                                <div class="card-body">
+                                    <img src="` + card.detail.url + `" />
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
         //Get all of the previous items in the card deck so we can add the new one
         var cardDeckHtml = $(cardDeckId).html();
-        var cardElement = '<div class="card col-sm-3"><img src="' + card.detail.url + '" /></div>';
-        cardDeckHtml += cardElement;
-        $(cardDeck).html(cardDeckHtml);
+        cardDeckHtml += cardHtml;
+        $(cardDeckId).html(cardDeckHtml);
     }
 }

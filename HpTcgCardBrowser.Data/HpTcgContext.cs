@@ -35,6 +35,10 @@ namespace HpTcgCardBrowser.Data
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
+                entity.Property(e => e.CssSizeClass)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
