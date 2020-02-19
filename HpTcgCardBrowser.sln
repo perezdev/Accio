@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.Web", "HpTcgCardBrowser.Web\HpTcgCardBrowser.Web.csproj", "{AAA89567-A62C-4D89-B929-B1C638C03201}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.Web", "HpTcgCardBrowser.Web\HpTcgCardBrowser.Web.csproj", "{AAA89567-A62C-4D89-B929-B1C638C03201}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.Business", "HpTcgCardBrowser.Business\HpTcgCardBrowser.Business.csproj", "{F6522F5A-FAB2-4612-8B91-3C421C280285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.Business", "HpTcgCardBrowser.Business\HpTcgCardBrowser.Business.csproj", "{F6522F5A-FAB2-4612-8B91-3C421C280285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.Data", "HpTcgCardBrowser.Data\HpTcgCardBrowser.Data.csproj", "{0EED1CB1-363A-4490-96CF-6335683F84E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.Data", "HpTcgCardBrowser.Data\HpTcgCardBrowser.Data.csproj", "{0EED1CB1-363A-4490-96CF-6335683F84E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.SetUpload", "HpTcgCardBrowser.SetUpload\HpTcgCardBrowser.SetUpload.csproj", "{8857A1D0-D11D-4C6F-918A-919B4F670D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0EED1CB1-363A-4490-96CF-6335683F84E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EED1CB1-363A-4490-96CF-6335683F84E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EED1CB1-363A-4490-96CF-6335683F84E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

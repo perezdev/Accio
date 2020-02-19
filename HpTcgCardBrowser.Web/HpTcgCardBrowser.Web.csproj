@@ -15,6 +15,10 @@
     <ProjectReference Include="..\HpTcgCardBrowser.Data\HpTcgCardBrowser.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\" />
+  </ItemGroup>
+
 
 
 </Project>
