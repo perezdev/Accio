@@ -15,11 +15,13 @@ namespace HpTcgCardBrowser.Data
 
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
+        public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
         public virtual DbSet<CardRarity> CardRarity { get; set; }
         public virtual DbSet<CardSet> CardSet { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<LessonType> LessonType { get; set; }
+        public virtual DbSet<RulingType> RulingType { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,7 +33,7 @@ namespace HpTcgCardBrowser.Data
             {
                 entity.Property(e => e.CardId).ValueGeneratedNever();
 
-                entity.Property(e => e.CardNumber).HasMaxLength(7);
+                entity.Property(e => e.CardNumber).HasMaxLength(50);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -60,6 +62,19 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<CardDetailRuling>(entity =>
+            {
+                entity.HasKey(e => e.CardDetailRuleId);
+
+                entity.Property(e => e.CardDetailRuleId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.DateOfRuling).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<CardRarity>(entity =>
             {
                 entity.Property(e => e.CardRarityId).ValueGeneratedNever();
@@ -82,6 +97,8 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.IconFileName).HasMaxLength(200);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.ReleaseDate).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -119,6 +136,19 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<RulingType>(entity =>
+            {
+                entity.Property(e => e.RulingTypeId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });

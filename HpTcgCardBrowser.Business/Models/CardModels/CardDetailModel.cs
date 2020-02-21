@@ -10,7 +10,9 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
         public LanguageModel Language { get; set; } = new LanguageModel();
         public string Name { get; set; }
         public string Text { get; set; }
-        public string TextHtml { get; set; }
+        public string Effect { get; set; }
+        public string ToSolve { get; set; }
+        public string Reward { get; set; }
         public string Url { get; set; }
         public string FlavorText { get; set; }
         public string Illustrator { get; set; }

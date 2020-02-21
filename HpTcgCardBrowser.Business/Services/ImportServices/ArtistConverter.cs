@@ -1,10 +1,9 @@
-﻿using HpTcgCardBrowser.SetUpload.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace HpTcgCardBrowser.SetUpload.CustomJsonConverters
+namespace HpTcgCardBrowser.Business.Services.ImportServices
 {
     public class ArtistConverter : JsonConverter
     {
@@ -19,7 +18,7 @@ namespace HpTcgCardBrowser.SetUpload.CustomJsonConverters
 
             if (token.Type == JTokenType.String)
             {
-                return new List<string>() 
+                return new List<string>()
                 {
                     token.Value<string>()
                 };

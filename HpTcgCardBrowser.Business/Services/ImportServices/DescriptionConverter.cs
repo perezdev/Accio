@@ -1,11 +1,9 @@
-﻿using HpTcgCardBrowser.SetUpload.Models;
+﻿using HpTcgCardBrowser.Business.Models.ImportModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace HpTcgCardBrowser.SetUpload.CustomJsonConverters
+namespace HpTcgCardBrowser.Business.Services.ImportServices
 {
     public class DescriptionConverter : JsonConverter
     {
@@ -34,16 +32,16 @@ namespace HpTcgCardBrowser.SetUpload.CustomJsonConverters
 
             if (token.Type == JTokenType.String)
             {
-                return new DescriptionModel()
+                return new ImportDescriptionModel()
                 {
                     Text = token.Value<string>()
                 };
             }
             else if (token.Type == JTokenType.Object)
             {
-                return token.ToObject<DescriptionModel>();
+                return token.ToObject<ImportDescriptionModel>();
             }
-            
+
             return null;
         }
 

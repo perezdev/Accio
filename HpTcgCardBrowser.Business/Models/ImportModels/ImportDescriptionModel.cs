@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace HpTcgCardBrowser.SetUpload.Models
+namespace HpTcgCardBrowser.Business.Models.ImportModels
 {
-    public class DescriptionModel
+    public class ImportDescriptionModel
     {
         public string Text { get; set; }
         [JsonProperty("effect")]

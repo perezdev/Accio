@@ -1,5 +1,6 @@
 ﻿using HpTcgCardBrowser.Business.Models.LanguageModels;
 using HpTcgCardBrowser.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,18 @@ namespace HpTcgCardBrowser.Business.Services.LanguageServices
                                   select GetLanguageModel(language)).ToList();
 
             return languageModels;
+        }
+        public Guid GetLanguageId(TypeOfLanguage typeOfLanguage)
+        {
+            var englishLanguageId = Guid.Parse("4F5CC98D-4315-4410-809F-E2CC428E0C9B");
+
+            switch (typeOfLanguage)
+            {
+                case TypeOfLanguage.English:
+                    return englishLanguageId;
+                default:
+                    throw new Exception("Language type is not valid.");
+            }
         }
 
         public static LanguageModel GetLanguageModel(Language language)

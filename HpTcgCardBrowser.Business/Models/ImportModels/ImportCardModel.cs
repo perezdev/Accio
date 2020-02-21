@@ -1,10 +1,10 @@
-﻿using HpTcgCardBrowser.SetUpload.CustomJsonConverters;
+﻿using HpTcgCardBrowser.Business.Services.ImportServices;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace HpTcgCardBrowser.SetUpload.Models
+namespace HpTcgCardBrowser.Business.Models.ImportModels
 {
-    public class CardModel
+    public class ImportCardModel
     {
         [JsonProperty("number")]
         public string Number { get; set; } //Numbers can be alphanumeric
@@ -18,7 +18,7 @@ namespace HpTcgCardBrowser.SetUpload.Models
         public string[] SubTypes { get; set; }
         [JsonProperty("description")]
         [JsonConverter(typeof(DescriptionConverter))]
-        public DescriptionModel Description { get; set; } = new DescriptionModel();
+        public ImportDescriptionModel Description { get; set; } = new ImportDescriptionModel();
         [JsonProperty("flavorText")]
         public string FlavorText { get; set; }
         [JsonProperty("rarity")]
@@ -28,6 +28,5 @@ namespace HpTcgCardBrowser.SetUpload.Models
         public List<string> Artists { get; set; }
         [JsonProperty("cost")]
         public string Cost { get; set; }
-
     }
 }

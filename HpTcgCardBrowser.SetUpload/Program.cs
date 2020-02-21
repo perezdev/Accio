@@ -1,12 +1,14 @@
-﻿using HpTcgCardBrowser.Business.Services.CardServices;
+﻿using HpTcgCardBrowser.Business.Models.ImportModels;
+using HpTcgCardBrowser.Business.Services.CardServices;
 using HpTcgCardBrowser.Business.Services.LanguageServices;
+using HpTcgCardBrowser.Business.Services.LessonServices;
 using HpTcgCardBrowser.Data;
-using HpTcgCardBrowser.SetUpload.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace HpTcgCardBrowser.SetUpload
@@ -21,6 +23,7 @@ namespace HpTcgCardBrowser.SetUpload
         private static CardRarityService _cardRarityService { get; set; }
         private static CardDetailService _cardDetailService { get; set; }
         private static LanguageService _languageService { get; set; }
+        private static LessonService _lessonService { get; set; }
 
         private static void RegisterServices()
         {
@@ -43,6 +46,7 @@ namespace HpTcgCardBrowser.SetUpload
             services.AddTransient<CardRarityService>();
             services.AddTransient<CardDetailService>();
             services.AddTransient<LanguageService>();
+            services.AddTransient<LessonService>();
 
             var provider = services.BuildServiceProvider();
             _cardService = provider.GetService<CardService>();
@@ -51,20 +55,21 @@ namespace HpTcgCardBrowser.SetUpload
             _cardRarityService = provider.GetService<CardRarityService>();
             _cardDetailService = provider.GetService<CardDetailService>();
             _languageService = provider.GetService<LanguageService>();
+            _lessonService = provider.GetService<LessonService>();
         }
 
         private static void Main(string[] args)
         {
             RegisterServices();
-
-            var baseSet = GetSet(SetType.Base);
-            var adventureAtHogwartsSet = GetSet(SetType.AdventureAtHogwarts);
-            var chamberOfSecretsSet = GetSet(SetType.ChamberOfSecrets);
-            var diagonAlleySet = GetSet(SetType.DiagonAlley);
-            var quidditchSet = GetSet(SetType.QuidditchCup);
+            ImportSets();
         }
 
-        private static SetModel GetSet(SetType setType)
+        private static void ImportSets()
+        {
+            var sets = GetSets();
+            _cardService.ImportCardsFromSets(sets);
+        }
+        private static ImportSetModel GetSet(SetType setType)
         {
             switch (setType)
             {
@@ -72,33 +77,50 @@ namespace HpTcgCardBrowser.SetUpload
                     var baseSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/base/cards.json";
                     var baseSetJson = GetJson(baseSetJsonUrl);
                     
-                    return JsonConvert.DeserializeObject<SetModel>(baseSetJson);
+                    return JsonConvert.DeserializeObject<ImportSetModel>(baseSetJson);
                 case SetType.AdventureAtHogwarts:
                     var aahSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/adventures%20at%20hogwarts/cards.json";
                     var aahSetJson = GetJson(aahSetJsonUrl);
                     
-                    return JsonConvert.DeserializeObject<SetModel>(aahSetJson);
+                    return JsonConvert.DeserializeObject<ImportSetModel>(aahSetJson);
                 case SetType.ChamberOfSecrets:
                     var cosSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/chamber%20of%20secrets/cards.json";
                     var cosSetJson = GetJson(cosSetJsonUrl);
                     
-                    return JsonConvert.DeserializeObject<SetModel>(cosSetJson);
+                    return JsonConvert.DeserializeObject<ImportSetModel>(cosSetJson);
                 case SetType.DiagonAlley:
                     var diagonAlleySetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/diagon%20alley/cards.json";
                     var diagonAlleySetJson = GetJson(diagonAlleySetJsonUrl);
 
-                    return JsonConvert.DeserializeObject<SetModel>(diagonAlleySetJson);
+                    return JsonConvert.DeserializeObject<ImportSetModel>(diagonAlleySetJson);
                 case SetType.QuidditchCup:
                     var quidditchSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/quidditch%20cup/cards.json";
                     var quidditchSetJson = GetJson(quidditchSetJsonUrl);
 
-                    return JsonConvert.DeserializeObject<SetModel>(quidditchSetJson);
+                    return JsonConvert.DeserializeObject<ImportSetModel>(quidditchSetJson);
                 default:
                     return null;
             }
         }
+        private static List<ImportSetModel> GetSets()
+        {
+            var baseSet = GetSet(SetType.Base);
+            var adventureAtHogwartsSet = GetSet(SetType.AdventureAtHogwarts);
+            var chamberOfSecretsSet = GetSet(SetType.ChamberOfSecrets);
+            var diagonAlleySet = GetSet(SetType.DiagonAlley);
+            var quidditchSet = GetSet(SetType.QuidditchCup);
 
-        public static string GetJson(string url)
+            var sets = new List<ImportSetModel>();
+            sets.Add(baseSet);
+            sets.Add(adventureAtHogwartsSet);
+            sets.Add(chamberOfSecretsSet);
+            sets.Add(diagonAlleySet);
+            sets.Add(quidditchSet);
+
+            return sets;
+        }
+
+        private static string GetJson(string url)
         {
             var contents = string.Empty;
             using (var wc = new System.Net.WebClient())

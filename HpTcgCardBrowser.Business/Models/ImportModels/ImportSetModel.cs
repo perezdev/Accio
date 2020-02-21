@@ -1,19 +1,17 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace HpTcgCardBrowser.SetUpload.Models
+namespace HpTcgCardBrowser.Business.Models.ImportModels
 {
-    public class SetModel
+    public class ImportSetModel
     {
         [JsonProperty("setName")]
-        public string SetName { get; set; }
+        public string Name { get; set; }
         [JsonProperty("releaseDate")]
         public string ReleaseDate { get; set; }
         [JsonProperty("totalCards")]
         public int TotalCards { get; set; }
         [JsonProperty("cards")]
-        public List<CardModel> Cards { get; set; } = new List<CardModel>();
+        public List<ImportCardModel> Cards { get; set; } = new List<ImportCardModel>();
     }
 }
