@@ -41,7 +41,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                          join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == languageId
+                               language.LanguageId == languageId && !string.IsNullOrEmpty(cardDetail.Url)
                          select new
                          {
                              card,

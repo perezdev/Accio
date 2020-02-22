@@ -56,16 +56,20 @@ function SearchCards() {
 }
 
 function AddCardsToDeck(cards) {
-    //$(cardDeckId).html(''); //Clear existing cards
+    $(cardDeckId).html(''); //Clear existing cards
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
+
+        if (card.detail.url === undefined || card.detail.url === null) {
+            continue;
+        }
 
         var cardHtml = `
                         <div class="col-auto mb-3">
                             <div class="card ` + card.cssSizeClass + `">
                                 <div class="card-body">
-                                    <img src="` + card.detail.url + `" />
+                                    <img class="d-none" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                                 </div>
                             </div>
                         </div>
@@ -75,5 +79,21 @@ function AddCardsToDeck(cards) {
         var cardDeckHtml = $(cardDeckId).html();
         cardDeckHtml += cardHtml;
         $(cardDeckId).html(cardDeckHtml);
+
+        //When I first loaded the images, they would pop into view and it would look very jarring. All of the images load asnchorsouly, so it's nice not having to wait
+        //for all the cards to load. But I wanted to animate it to look nicer. I do by hiding the image element as it's created. That allows the image to load before
+        //it's shown. Then this will remove that class that hides it and animate a fade in from animate.css. The 'each' part is required and forces the load event to
+        //fire when the image is loaded from cache. Which happens automatically by the browser.
+        $('img').on('load', function () {
+            $(this).removeClass('d-none');
+            $(this).addClass('animated fadeIn');
+        }).on('error', function () {
+        }).each(function () {
+            if (this.complete) {
+                $(this).load();
+            } else if (this.error) {
+                $(this).error();
+            }
+        });
     }
 }
