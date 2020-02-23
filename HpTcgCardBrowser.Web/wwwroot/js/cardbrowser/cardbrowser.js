@@ -1,12 +1,23 @@
 ﻿var cardDeckId = '#cardContainer';
 
-//
+//Store the card JSON at the class scope so we can use it to sort and update the card container
 var cardJson = '';
+
+const queryParameterNames = {
+    SetId: 'setId',
+    LessonCost: 'lessonCost',
+    SearchText: 'searchText'
+};
+
+const searchElementNames = {
+    SetId: '#setSelect',
+    LessonCost: '#setLessons',
+    SearchText: '#searchInput'
+};
 
 $(document).ready(function () {
     InitializeSearchElements();
-    //SetValuesFromQuery();
-
+    SetValuesFromQueryAndPeformSearch();
 });
 
 function InitializeSearchElements() {
@@ -106,10 +117,32 @@ function AddCardsToDeck(cards) {
     }
 }
 
-//function SetValuesFromQuery() {
-//    var baseUrl = window.location.href.split('?')[0];
-//    history.pushState(null, null, baseUrl + '?text=test');
-//}
+async function SetValuesFromQueryAndPeformSearch() {
+    var setId = getParameterByName(queryParameterNames.SetId);
+    var lessonCost = getParameterByName(queryParameterNames.LessonCost);
+    var searchText = getParameterByName(queryParameterNames.SearchText);
+
+    if (lessonCost) {
+        $(searchElementNames.LessonCost).val(lessonCost);
+    }
+    if (searchText) {
+        $(searchElementNames.SearchText).val(searchText);
+    }
+    
+    if (setId) {
+        //Set data comes from the database. We need to wait until it loads before we can
+        //set the selected value, because the load is async and if we don't wait, there's
+        //value to set
+        await until(_ => hasSetsLoaded === true);
+        $(searchElementNames.SetId).val(setId);
+    }
+
+    //This function is called on page load. If any of the query param values are passed in, we'll perform
+    //the search
+    if (setId || lessonCost || searchText) {
+        SearchCards();
+    }
+}
 
 function SetQueryFromValues(searchData) {
     //Only set the query string if at least one of the values have been set
@@ -119,18 +152,18 @@ function SetQueryFromValues(searchData) {
         var queryValues = '?';
 
         if (searchData.SetId) {
-            queryValues += 'setId=' + searchData.SetId + '&';
+            queryValues += queryParameterNames.SetId + '=' + searchData.SetId + '&';
         }
         if (searchData.LessonCost) {
-            queryValues += 'lessonCost=' + searchData.LessonCost + '&';
+            queryValues += queryParameterNames.LessonCost + '=' + searchData.LessonCost + '&';
         }
         if (searchData.SearchText) {
-            queryValues += 'searchText=' + searchData.SearchText + '&';
+            queryValues += queryParameterNames.SearchText + '=' + searchData.SearchText + '&';
         }
 
         //Since we don't know which fields the user will search, it's easiest to just to add & at the
         //end of each query value and lop the ending & once all have been set.
-        queryValues = queryValues.slice('&', -1); 
+        queryValues = queryValues.slice('&', -1);
 
         history.pushState(null, null, baseUrl + queryValues);
     }
@@ -141,9 +174,9 @@ function SetQueryFromValues(searchData) {
 //This will clear the default values before setting the search data, which will
 //allow us to properly check the query string and not set a value if it's false or default.
 function GetSearchData() {
-    var setId = $('#setSelect').val();
-    var lessonCost = $('#setLessons').val();
-    var searchText = $('#searchInput').val();
+    var setId = $(searchElementNames.SetId).val();
+    var lessonCost = $(searchElementNames.LessonCost).val();
+    var searchText = $(searchElementNames.SearchText).val();
 
     if (setId === '00000000-0000-0000-0000-000000000000') {
         setId = null;

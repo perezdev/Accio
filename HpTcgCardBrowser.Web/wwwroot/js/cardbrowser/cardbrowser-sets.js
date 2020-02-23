@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿//We need to complete some activities after the sets have loaded
+//Since that process isn't always fast, we'll set this variable and check it
+var hasSetsLoaded = false;
+
+$(document).ready(function () {
     SetCardSets();
     InitializeElements();
 });
@@ -48,4 +52,6 @@ function AddSetsToDropDown(sets) {
         var option = '<option value="' + set.cardSetId + '">' + set.name + '</option>';
         $(dropDownName).append(option);
     }
+
+    hasSetsLoaded = true;
 }
