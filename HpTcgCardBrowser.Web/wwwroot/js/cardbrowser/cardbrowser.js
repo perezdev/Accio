@@ -1,5 +1,8 @@
 ﻿var cardDeckId = '#cardContainer';
 
+//
+var cardJson = '';
+
 $(document).ready(function () {
     InitializeSearchElements();
     //SetValuesFromQuery();
@@ -116,13 +119,13 @@ function SetQueryFromValues(searchData) {
         var queryValues = '?';
 
         if (searchData.SetId) {
-            queryValues += searchData.SetId + '&';
+            queryValues += 'setId=' + searchData.SetId + '&';
         }
         if (searchData.LessonCost) {
-            queryValues += searchData.LessonCost + '&';
+            queryValues += 'lessonCost=' + searchData.LessonCost + '&';
         }
         if (searchData.SearchText) {
-            queryValues += searchData.SearchText + '&';
+            queryValues += 'searchText=' + searchData.SearchText + '&';
         }
 
         //Since we don't know which fields the user will search, it's easiest to just to add & at the
