@@ -76,7 +76,8 @@
                                 <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Accio!" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button id="searchButton" class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
+                                        <i id="searchButtonIcon" class="fas fa-search fa-sm"></i>
+                                        <span id="searchButtonSpinner" class="d-none spinner-border spinner-border-sm"></span>
                                     </button>
                                 </div>
                             </div>
@@ -88,16 +89,28 @@
                 <!-- Begin Page Content -->
 
                 <div class="container-fluid mt-4">
-                    <div id="cardContainer" class="row">
-                        
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <select id="sortCardsBy" title="Sort By" class="form-control w-25">
+                                <option value="NoSort">Sort By</option>
+                                <option value="LessonLowToHigh">Lesson: Low to High</option>
+                                <option value="LessonHighToLow">Lesson: High to Low</option>
+                                <option value="CardNameLowToHigh">Card Name: Low to High</option>
+                                <option value="CardNameHighToLow">Card Name: High to Low</option>
+                            </select>
+                            <div id="cardContainer" class="row">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3" style="background-color: blue !important; height: calc(100vh - 194px);">
+                            <div class="m-3">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                @*<div class="container-fluid">
-                        <div id="cardDeck" class="row card-deck">
 
-                        </div>
-                    </div>*@
                 <!-- /.container-fluid -->
 
             </div>

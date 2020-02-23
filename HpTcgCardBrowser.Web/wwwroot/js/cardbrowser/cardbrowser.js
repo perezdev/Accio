@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
     InitializeSearchElements();
+    //SetValuesFromQuery();
+
 });
 
 function InitializeSearchElements() {
@@ -17,14 +19,17 @@ function InitializeSearchElements() {
 }
 
 function SearchCards() {
-    var setId = $('#setSelect').val();
-    var lessonCost = $('#setLessons').val();
-    var searchText = $('#searchInput').val();
+    SetSearchLoadingState('loading');
+    const searchData = GetSearchData();
+
+    //Once the user executes a search, we want to set the values from the search to the query string so they can
+    //refresh the page and/or share the link without the page needing to be refreshed
+    SetQueryFromValues(searchData);
 
     var fd = new FormData();
-    fd.append('setId', setId);
-    fd.append('lessonCost', lessonCost);
-    fd.append('searchText', searchText);
+    fd.append('setId', searchData.SetId);
+    fd.append('lessonCost', searchData.LessonCost);
+    fd.append('searchText', searchData.SearchText);
 
     $.ajax({
         type: "POST",
@@ -47,7 +52,7 @@ function SearchCards() {
                 //ShowErrors(response.message, response.info);
             }
 
-            //SetDropDownMenuButtonLoadingState('unloading');
+            SetSearchLoadingState('unloading');
         },
         failure: function (response) {
             alert('Catastropic error');
@@ -95,5 +100,74 @@ function AddCardsToDeck(cards) {
                 $(this).error();
             }
         });
+    }
+}
+
+//function SetValuesFromQuery() {
+//    var baseUrl = window.location.href.split('?')[0];
+//    history.pushState(null, null, baseUrl + '?text=test');
+//}
+
+function SetQueryFromValues(searchData) {
+    //Only set the query string if at least one of the values have been set
+    if (searchData.SetId || searchData.LessonCost || searchData.SearchText) {
+        //If the existing URL has query string values, we need to ignore them so we don't add them to the existing ones.
+        var baseUrl = window.location.href.split('?')[0];
+        var queryValues = '?';
+
+        if (searchData.SetId) {
+            queryValues += searchData.SetId + '&';
+        }
+        if (searchData.LessonCost) {
+            queryValues += searchData.LessonCost + '&';
+        }
+        if (searchData.SearchText) {
+            queryValues += searchData.SearchText + '&';
+        }
+
+        //Since we don't know which fields the user will search, it's easiest to just to add & at the
+        //end of each query value and lop the ending & once all have been set.
+        queryValues = queryValues.slice('&', -1); 
+
+        history.pushState(null, null, baseUrl + queryValues);
+    }
+}
+
+//Default field values were causing issues with setting the query string from the field values
+//We check the default values server side, but weren't doing anything client side
+//This will clear the default values before setting the search data, which will
+//allow us to properly check the query string and not set a value if it's false or default.
+function GetSearchData() {
+    var setId = $('#setSelect').val();
+    var lessonCost = $('#setLessons').val();
+    var searchText = $('#searchInput').val();
+
+    if (setId === '00000000-0000-0000-0000-000000000000') {
+        setId = null;
+    }
+    if (lessonCost === '-1') {
+        lessonCost = null;
+    }
+    searchText = searchText.trim();
+
+    const searchData = {
+        SetId: setId,
+        LessonCost: lessonCost,
+        SearchText: searchText
+    };
+
+    return searchData;
+}
+
+function SetSearchLoadingState(loading) {
+    if (loading === 'loading') {
+        $('#searchButton').addClass('disabled');
+        $('#searchButtonIcon').addClass('d-none');
+        $('#searchButtonSpinner').removeClass('d-none');
+    }
+    else {
+        $('#searchButton').removeClass('disabled');
+        $('#searchButtonIcon').removeClass('d-none');
+        $('#searchButtonSpinner').addClass('d-none');
     }
 }
