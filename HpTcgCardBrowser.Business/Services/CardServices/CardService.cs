@@ -32,7 +32,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             _lessonService = lessonService;
         }
 
-        public List<CardModel> SearchCards(Guid? cardSetId, Guid? cardTypeId, Guid? cardRarityId, Guid languageId, int? lessonCost, string searchText)
+        public List<CardModel> SearchCards(Guid? cardSetId, Guid? cardTypeId, Guid? cardRarityId, Guid languageId, int? lessonCost, string searchText,
+                                           string sortBy)
         {
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
@@ -40,6 +41,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                          join cardSet in _context.CardSet on card.CardSetId equals cardSet.CardSetId
                          join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == languageId && !string.IsNullOrEmpty(cardDetail.Url)
                          select new
@@ -49,7 +52,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                              cardSet,
                              cardRarity,
                              cardType,
-                             language
+                             language,
+                             lessonType
                          });
 
             if (cardSetId != null && cardSetId != Guid.Empty)
@@ -75,10 +79,32 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                         select card;
             }
 
-            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language)).ToList();
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                cardModels = GetCardModelsSorted(cardModels, sortBy);
+            }
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
+        public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy)
+        {
+            switch (sortBy)
+            {
+                case "llth": //Lesson low to high
+                    return cards.OrderBy(x => x.LessonCost).ToList();
+                case "lhtl": //Lesson high to low
+                    return cards.OrderByDescending(x => x.LessonCost).ToList();
+                case "cnlth": //Card name low to high
+                    return cards.OrderBy(x => x.Detail.Name).ToList();
+                case "cnhtl": //Card name high to low
+                    return cards.OrderByDescending(x => x.Detail.Name).ToList();
+                default:
+                    throw new Exception("Sort by option was passed into the method, but was invalid.");
+            }
+        }
+
         public List<CardModel> GetAllCards()
         {
             var cards = (from card in _context.Card
@@ -87,6 +113,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                          join cardSet in _context.CardSet on card.CardSetId equals cardSet.CardSetId
                          join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardDetail.Deleted && !language.Deleted && !cardSet.Deleted && !cardRarity.Deleted &&
                                !cardType.Deleted
                          select new
@@ -96,10 +124,11 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                              cardSet,
                              cardRarity,
                              cardType,
-                             language
+                             language,
+                             lessonType
                          });
 
-            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language)).ToList();
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
@@ -132,9 +161,9 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             _context.SaveChanges();
         }
 
-        public static CardModel GetCardModel(Card card, CardSet cardSet, CardRarity cardRarity, CardType cardType, CardDetail cardDetail, Language language)
+        public static CardModel GetCardModel(Card card, CardSet cardSet, CardRarity cardRarity, CardType cardType, CardDetail cardDetail,
+                                             Language language, LessonType lessonType)
         {
-            //TODO: Add lesson type
             return new CardModel()
             {
                 CardId = card.CardId,
@@ -142,6 +171,9 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                 CardType = CardTypeService.GetCardTypeModel(cardType),
                 Rarity = CardRarityService.GetCardRarityModel(cardRarity),
                 Detail = CardDetailService.GetCardDetailModel(cardDetail, language),
+                LessonType = lessonType == null ? null : LessonService.GetLessonTypeModel(lessonType),
+                LessonCost = card.LessonCost,
+                ActionCost = card.ActionCost,
                 CardNumber = card.CardNumber,
                 CssSizeClass = card.CssSizeClass,
                 CreatedById = card.CreatedById,

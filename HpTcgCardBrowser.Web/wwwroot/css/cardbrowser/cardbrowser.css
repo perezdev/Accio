@@ -71,3 +71,7 @@ option {
 .card-size-horizontal {
     width: 350px !important;
 }
+
+#cardContainer{
+    margin: 0px !important;
+}

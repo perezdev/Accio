@@ -1,7 +1,7 @@
 ﻿@page
 @model HpTcgCardBrowser.Web.Pages.Browser.IndexModel
 @{
-    ViewData["Title"] = "Card Browse - HPCB";
+    ViewData["Title"] = "Card Browser - HPCB";
     Layout = null;
 }
 
@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+    <link href="~/css/navbar-fixed-top.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="~/css/cardbrowser/cardbrowser.css" asp-append-version="true" rel="stylesheet" />
@@ -27,7 +28,6 @@
     <link href="~/css/animate.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Content Wrapper -->
@@ -35,16 +35,7 @@
 
             <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
-                <nav class="main-navbar navbar navbar-expand navbar-light bg-white topbar static-top py-0">
-                    <a class="nav-link" href="~/">HPCB</a>
-
-                    <ul class="navbar-nav ml-auto">
-                        <!--  -->
-                    </ul>
-                </nav>
-                <ul class="navbar navbar-expand navbar-light bg-dark topbar static-top mr-auto">
+                <ul class="navbar navbar-expand navbar-light bg-dark topbar static-top mr-auto fixed-top">
                     <!-- Set Dropdown -->
                     <li class="nav-item mx-1">
                         <select id="setSelect" title="Select set" class="form-control">
@@ -93,10 +84,10 @@
                         <div class="col-sm-9">
                             <select id="sortCardsBy" title="Sort By" class="form-control w-25">
                                 <option value="NoSort">Sort By</option>
-                                <option value="LessonLowToHigh">Lesson: Low to High</option>
-                                <option value="LessonHighToLow">Lesson: High to Low</option>
-                                <option value="CardNameLowToHigh">Card Name: Low to High</option>
-                                <option value="CardNameHighToLow">Card Name: High to Low</option>
+                                <option value="llth">Lesson: Low to High</option>
+                                <option value="lhtl">Lesson: High to Low</option>
+                                <option value="cnlth">Card Name: Low to High</option>
+                                <option value="cnhtl">Card Name: High to Low</option>
                             </select>
                             <div id="cardContainer" class="row">
 
@@ -136,3 +127,7 @@
     <script src="~/js/cardbrowser/cardbrowser-sets.js" asp-append-version="true"></script>
 </body>
 </html>
+
+
+
+@*<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>*@

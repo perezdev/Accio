@@ -1,18 +1,19 @@
 ﻿var cardDeckId = '#cardContainer';
 
-//Store the card JSON at the class scope so we can use it to sort and update the card container
-var cardJson = '';
-
 const queryParameterNames = {
     SetId: 'setId',
     LessonCost: 'lessonCost',
-    SearchText: 'searchText'
+    SearchText: 'searchText',
+    SortBy: 'sortBy'
 };
 
 const searchElementNames = {
     SetId: '#setSelect',
-    LessonCost: '#setLessons',
-    SearchText: '#searchInput'
+    LessonCostId: '#setLessons',
+    SearchTextId: '#searchInput',
+    SearchButtonId: '#searchButton',
+    SearchInputId: '#searchInput',
+    SortCardsById: '#sortCardsBy'
 };
 
 $(document).ready(function () {
@@ -21,13 +22,24 @@ $(document).ready(function () {
 });
 
 function InitializeSearchElements() {
-    $('#searchButton').click(function () {
+    $(searchElementNames.SearchButtonId).click(function () {
         SearchCards();
     });
-    $('#searchInput').on('keypress', function (e) {
+    $(searchElementNames.SearchInputId).on('keypress', function (e) {
         if (e.which == 13) {
             SearchCards();
             e.preventDefault();
+        }
+    });
+    $(searchElementNames.SortCardsById).on('change', function () {
+        //I found an issue while testing. While not a huge problem, it made the experience weird. I wanted it so that
+        //you could choose the sort option and it would perform a search. Which was perfect when you had already entered search data.
+        //But it became troublesome when you hadn't entered anything, as it would just search everything. So I thought it best to make
+        //it so that it would only perform the search when they chose a proper sort option (not the default empty) and there was at
+        //least one search field with a valid value.
+        var searchData = GetSearchData();
+        if ((searchData.SetId || searchData.LessonCost || searchData.SearchText) && searchData.SortBy) {
+            SearchCards();
         }
     });
 }
@@ -41,9 +53,18 @@ function SearchCards() {
     SetQueryFromValues(searchData);
 
     var fd = new FormData();
-    fd.append('setId', searchData.SetId);
-    fd.append('lessonCost', searchData.LessonCost);
-    fd.append('searchText', searchData.SearchText);
+    if (searchData.SetId) {
+        fd.append('setId', searchData.SetId);
+    }
+    if (searchData.LessonCost) {
+        fd.append('lessonCost', searchData.LessonCost);
+    }
+    if (searchData.SearchText) {
+        fd.append('searchText', searchData.SearchText);
+    }
+    if (searchData.SortBy) {
+        fd.append('sortBy', searchData.SortBy);
+    }
 
     $.ajax({
         type: "POST",
@@ -56,14 +77,9 @@ function SearchCards() {
         contentType: false,
         processData: false,
         success: function (response) {
-            //ClearErrors(); //hide any errors from previous requests
-
             if (response.success) {
                 var cards = response.json;
                 AddCardsToDeck(cards);
-            }
-            else {
-                //ShowErrors(response.message, response.info);
             }
 
             SetSearchLoadingState('unloading');
@@ -121,14 +137,15 @@ async function SetValuesFromQueryAndPeformSearch() {
     var setId = getParameterByName(queryParameterNames.SetId);
     var lessonCost = getParameterByName(queryParameterNames.LessonCost);
     var searchText = getParameterByName(queryParameterNames.SearchText);
+    //TODO: Add sort by
 
     if (lessonCost) {
-        $(searchElementNames.LessonCost).val(lessonCost);
+        $(searchElementNames.LessonCostId).val(lessonCost);
     }
     if (searchText) {
-        $(searchElementNames.SearchText).val(searchText);
+        $(searchElementNames.SearchTextId).val(searchText);
     }
-    
+
     if (setId) {
         //Set data comes from the database. We need to wait until it loads before we can
         //set the selected value, because the load is async and if we don't wait, there's
@@ -160,6 +177,9 @@ function SetQueryFromValues(searchData) {
         if (searchData.SearchText) {
             queryValues += queryParameterNames.SearchText + '=' + searchData.SearchText + '&';
         }
+        if (searchData.SortBy) {
+            queryValues += queryParameterNames.SortBy + '=' + searchData.SortBy + '&';
+        }
 
         //Since we don't know which fields the user will search, it's easiest to just to add & at the
         //end of each query value and lop the ending & once all have been set.
@@ -175,8 +195,9 @@ function SetQueryFromValues(searchData) {
 //allow us to properly check the query string and not set a value if it's false or default.
 function GetSearchData() {
     var setId = $(searchElementNames.SetId).val();
-    var lessonCost = $(searchElementNames.LessonCost).val();
-    var searchText = $(searchElementNames.SearchText).val();
+    var lessonCost = $(searchElementNames.LessonCostId).val();
+    var searchText = $(searchElementNames.SearchTextId).val();
+    var sortBy = $(searchElementNames.SortCardsById).val();
 
     if (setId === '00000000-0000-0000-0000-000000000000') {
         setId = null;
@@ -185,11 +206,15 @@ function GetSearchData() {
         lessonCost = null;
     }
     searchText = searchText.trim();
+    if (sortBy === 'NoSort') {
+        sortBy = null;
+    }
 
     const searchData = {
         SetId: setId,
         LessonCost: lessonCost,
-        SearchText: searchText
+        SearchText: searchText,
+        SortBy: sortBy
     };
 
     return searchData;
