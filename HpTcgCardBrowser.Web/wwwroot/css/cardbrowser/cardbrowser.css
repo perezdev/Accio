@@ -62,6 +62,7 @@ option {
 .card {
     background-color: transparent !important;
     border-width: 0px;
+    /*z-index: 9001;*/ /* Had to set the z-index high so it would stay on top of other elements when the hover animation kicked in */
 }
 
 .card-size-vertical {
@@ -74,4 +75,13 @@ option {
 
 #cardContainer{
     margin: 0px !important;
+}
+
+.card:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+}
+.card-body {
+    padding-left: 0px;
+    padding-right: 0px;
 }

@@ -13,7 +13,8 @@ const searchElementNames = {
     SearchTextId: '#searchInput',
     SearchButtonId: '#searchButton',
     SearchInputId: '#searchInput',
-    SortCardsById: '#sortCardsBy'
+    SortCardsById: '#sortCardsBy',
+    CardModalId: '#cardModal'
 };
 
 $(document).ready(function () {
@@ -101,10 +102,10 @@ function AddCardsToDeck(cards) {
         }
 
         var cardHtml = `
-                        <div class="col-auto mb-3">
+                        <div onclick="ShowCardModal('` + card.cardId + `');" class="col-auto">
                             <div class="card ` + card.cssSizeClass + `">
                                 <div class="card-body">
-                                    <img class="d-none" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
+                                    <img style="cursor: pointer;" class="d-none" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                                 </div>
                             </div>
                         </div>
@@ -231,4 +232,8 @@ function SetSearchLoadingState(loading) {
         $('#searchButtonIcon').removeClass('d-none');
         $('#searchButtonSpinner').addClass('d-none');
     }
+}
+
+function ShowCardModal(id) {
+    $(searchElementNames.CardModalId).modal();
 }
