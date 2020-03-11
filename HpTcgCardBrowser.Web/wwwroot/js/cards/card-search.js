@@ -105,9 +105,9 @@ function AddCardsToDeck(cards) {
         }
 
         var cardHtml = `
-                        <div onclick="ShowCardModal('` + card.cardId + `');" class="col-auto">
+                        <div onclick="ShowCardModal('` + card.cardId + `');" class="col-auto p-0">
                             <div class="card ` + card.cssSizeClass + `">
-                                <div class="card-body">
+                                <div class="card-body py-4">
                                     <img style="cursor: pointer;" class="d-none" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                                 </div>
                             </div>
@@ -129,9 +129,9 @@ function AddCardsToDeck(cards) {
         }).on('error', function () {
         }).each(function () {
             if (this.complete) {
-                $(this).load();
+                $(this).trigger('load');
             } else if (this.error) {
-                $(this).error();
+                $(this).trigger('error');
             }
         });
     }
