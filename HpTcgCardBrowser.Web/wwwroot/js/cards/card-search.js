@@ -32,6 +32,9 @@ function InitializeSearchElements() {
             e.preventDefault();
         }
     });
+    $(searchElementNames.SetId).on('change', function () {
+        SearchCards();
+    });
     $(searchElementNames.SortCardsById).on('change', function () {
         //I found an issue while testing. While not a huge problem, it made the experience weird. I wanted it so that
         //you could choose the sort option and it would perform a search. Which was perfect when you had already entered search data.
@@ -69,7 +72,7 @@ function SearchCards() {
 
     $.ajax({
         type: "POST",
-        url: "CardBrowser?handler=SearchCards",
+        url: "Search?handler=SearchCards",
         data: fd,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",

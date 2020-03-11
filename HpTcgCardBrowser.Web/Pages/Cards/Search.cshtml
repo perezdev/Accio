@@ -1,0 +1,124 @@
+﻿@page
+@model HpTcgCardBrowser.Web.SearchModel
+@{
+    Layout = null;
+}
+
+@* Required for AJAX async calls *@
+@Html.AntiForgeryToken()
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Card Search</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <!-- Main navigation -->
+        <nav class="navbar navbar-expand fixed-top navbar-dark top-nav-menu p-0">
+            <ul class="navbar-nav main-navbar-nav mr-auto">
+                <li class="nav-item search-nav-item">
+                    <div class="input-group input-focus">
+                        <div class="input-group-prepend search-icon-container">
+                            <img class="search-icon" src="~/images/logos/logo_white.png" />
+                        </div>
+                        <input id="searchInput" type="search" placeholder="Search for a card" class="search-input form-control border-left-0">
+                    </div>
+                </li>
+                <li class="nav-item dropdown mx-2">
+                    <select id="setSelect" title="Select set" class="form-control">
+                    </select>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Random Card</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item avatar dropdown">
+                    <a class="nav-link dropdown-toggle p-0 mt-1 nav-link-dropdown-badge" data-toggle="dropdown">
+                        <img class="main-badge" id="mainBadge" src="~/images/badges/slytherin.png" alt="Slytherin Theme">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary badge-dropdown">
+                        <a id="badgeSlytherinLink" class="dropdown-item" href="">
+                            <img id="badgeSlytherin" src="~/images/badges/slytherin.png" />
+                        </a>
+                        <a class="dropdown-item" href="">
+                            <img src="~/images/badges/gryffindor.png" />
+                        </a>
+                        <a class="dropdown-item" href="">
+                            <img src="~/images/badges/hufflepuff.png" />
+                        </a>
+                        <a class="dropdown-item" href="">
+                            <img src="~/images/badges/ravenclaw.png" />
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item avatar dropdown">
+                    <a class="nav-link dropdown-toggle mt-1" data-toggle="dropdown">
+                        <img src="~/images/hp_face_35x34.png" class="rounded-circle" alt="avatar image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary profile-dropdown">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- Advanced search navigation -->
+        @*<nav class="navbar navbar-dark bg-dark fixed-top fixed-top-2">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar1">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="/" class="navbar-brand">One</a>
+                <div class="navbar-collapse collapse" id="navbar1">
+                    <ul class="navbar-nav">
+                        ..
+                    </ul>
+                </div>
+            </nav>*@
+    </header>
+
+    <main class="main-content" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-9">
+                    <select id="sortCardsBy" title="Sort By" class="form-control w-25">
+                        <option value="NoSort">Sort By</option>
+                        <option value="llth">Lesson: Low to High</option>
+                        <option value="lhtl">Lesson: High to Low</option>
+                        <option value="cnlth">Card Name: a to Z</option>
+                        <option value="cnhtl">Card Name: Z to a</option>
+                    </select>
+                    <div id="cardContainer" class="row">
+
+                    </div>
+                </div>
+                <div class="deck-container col-sm-2">
+                    <div class="m-3">
+                        <button onclick="test();">test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <footer class="footer">
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>© 2017-2018 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </footer>
+
+    <!-- Sripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/accio.js" asp-append-version="true"></script>
+    <script src="~/js/cards/card-search.js" asp-append-version="true"></script>
+    <script src="~/js/cards/card-search-sets.js" asp-append-version="true"></script>
+</body>
+</html>

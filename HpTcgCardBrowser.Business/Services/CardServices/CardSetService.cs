@@ -9,6 +9,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
     public class CardSetService
     {
         private HpTcgContext _context { get; set; }
+        private static List<CardSetModel> SetsCache { get; set; } = new List<CardSetModel>();
 
         public CardSetService(HpTcgContext context)
         {
@@ -17,12 +18,16 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
 
         public List<CardSetModel> GetSets()
         {
+            if (SetsCache.Count > 0)
+                return SetsCache;
+
             var sets = (from set in _context.CardSet
                         where !set.Deleted
                         orderby set.Order
                         select GetCardSetModel(set)).ToList();
+            SetsCache = sets;
 
-            return sets;
+            return SetsCache;
         }
 
         public static CardSetModel GetCardSetModel(CardSet set)

@@ -73,7 +73,7 @@ option {
     width: 350px !important;
 }
 
-#cardContainer{
+#cardContainer {
     margin: 0px !important;
 }
 
@@ -81,6 +81,7 @@ option {
     transition: all .2s ease-in-out;
     transform: scale(1.1);
 }
+
 .card-body {
     padding-left: 0px;
     padding-right: 0px;

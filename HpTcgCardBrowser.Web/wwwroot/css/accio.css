@@ -1,1 +1,151 @@
-﻿
+﻿/* Colors */
+:root {
+    --yellowBadger: #ecb939;
+    --redLion: #9d1f1b;
+    --blueRaven: #004e80;
+    --greenSnake: #067552;
+    --parchmentPaper: #e8e8e4;
+    --white: #ffffff;
+    --grayGargoyle: #333333;
+    --mainColor: var(--greenSnake);
+    /*--test: url('');*/
+}
+
+/* Changes required for multiple fixed menus */
+.fixed-top-2 {
+    margin-top: 50px;
+}
+
+body {
+    padding-top: 105px;
+    font-family: LibreBaskerville;
+    background-color: var(--parchmentPaper);
+}
+
+.top-nav-menu {
+    background-color: var(--mainColor);
+}
+
+.main-content {
+    /* Space between content and footer */
+    margin-bottom: 20px;
+}
+
+.deck-container {
+    background-color: blue !important;
+    height: calc(100vh - 194px);
+}
+
+.footer {
+    background-color: var(--mainColor);
+    width: 100%;
+    height: 308px;
+}
+
+@media (max-width: 240px) {
+    /* really tiny screens */
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    /* Up to, but not including an iPad */
+
+    .main-navbar-nav {
+        margin-left: 2%;
+        /*padding-top: 2px;*/
+    }
+}
+
+@media (min-width: 768px) {
+    /* iPad and bigger */
+
+    .search-nav-item {
+        width: 384px !important;
+    }
+
+    /* Left navbar that contains the search box and what not */
+    .main-navbar-nav {
+        margin-left: 13%;
+        /*padding-top: 2px;*/
+    }
+}
+
+.search-icon-container {
+    /* I used rgba instead of opacity so I could change the opacity of the container without affecting
+        the color of the icon image.
+    */
+    background: rgba(0,0,0,0.24);
+    color: #FFFFFF;
+    box-sizing: content-box;
+    /* The search icon container and the search element are two elements. So we only want to set the border
+        radius for the two left ones. The right corners will remain square and will appear as part of the search input
+    */
+    border-top-left-radius: .20rem;
+    border-bottom-left-radius: .20rem;
+    /* I think boostrap was setting this margin somewhere. It was adding space between the search icon container
+        and the search input
+    */
+    margin-right: 0px;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    margin-top: 7px;
+    margin-left: 7px;
+}
+
+.search-input {
+    background: rgba(0,0,0,0.24);
+    border: 0px;
+    border-radius: .20rem;
+    font-family: HelveticaNeue;
+    color: var(--white);
+}
+
+    .search-input:focus {
+        color: var(--white);
+        background: rgba(0,0,0,0.24);
+        border: 0px;
+        border-radius: 0.20rem;
+        box-shadow: inherit;
+    }
+
+    .search-input::-webkit-input-placeholder {
+        color: rgba(255,255,255,0.3);
+        font-family: HelveticaNeue !important;
+    }
+
+    .search-input::-moz-placeholder {
+        color: rgba(255,255,255,0.3);
+        font-family: HelveticaNeue !important;
+    }
+
+    .search-input:-ms-input-placeholder {
+        color: rgba(255,255,255,0.3);
+        font-family: HelveticaNeue !important;
+    }
+
+.profile-dropdown {
+    z-index: 1031 !important;
+}
+
+.nav-link-dropdown-badge {
+    cursor: pointer;
+}
+
+    .nav-link-dropdown-badge::after {
+        content: none;
+    }
+
+.badge-dropdown {
+    background-color: var(--mainColor);
+    min-width: 0px;
+}
+
+.main-badge {
+    /*background-image: url("../images/badges/slytherin.png") !important;
+    background-repeat: no-repeat !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;*/
+}

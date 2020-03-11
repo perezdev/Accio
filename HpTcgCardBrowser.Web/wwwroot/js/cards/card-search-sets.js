@@ -8,12 +8,12 @@ $(document).ready(function () {
 });
 
 function InitializeElements() {
-    
+
 }
 function SetCardSets() {
     $.ajax({
         type: "POST",
-        url: "CardBrowser?handler=GetSets",
+        url: "Search?handler=GetSets",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -42,7 +42,7 @@ function AddSetsToDropDown(sets) {
     var dropDownName = '#setSelect';
 
     //Add empty item so the user can choose to not search by set if they want
-    var emptyOption = '<option value="00000000-0000-0000-0000-000000000000">Select Set</option>';
+    var emptyOption = '<option value="00000000-0000-0000-0000-000000000000">All Sets</option>';
     $(dropDownName).append(emptyOption);
 
     for (var i = 0; i < sets.length; i++) {
