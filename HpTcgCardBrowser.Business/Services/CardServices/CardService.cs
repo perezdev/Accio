@@ -32,9 +32,10 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             _lessonService = lessonService;
         }
 
-        public List<CardModel> SearchCards(Guid? cardSetId, Guid? cardTypeId, Guid? cardRarityId, Guid languageId, int? lessonCost, string searchText,
-                                           string sortBy)
+        public List<CardModel> SearchCards(CardSearchParameters cardSearchParameters)
         {
+            var param = cardSearchParameters;
+
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
                          join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
@@ -44,7 +45,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == languageId && !string.IsNullOrEmpty(cardDetail.Url)
+                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url)
                          select new
                          {
                              card,
@@ -56,35 +57,35 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                              lessonType
                          });
 
-            if (cardSetId != null && cardSetId != Guid.Empty)
+            if (param.CardSetId != null && param.CardSetId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardSetId == cardSetId);
+                cards = cards.Where(x => x.card.CardSetId == param.CardSetId);
             }
-            if (cardTypeId != null && cardTypeId != Guid.Empty)
+            if (param.CardTypeId != null && param.CardTypeId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardTypeId == cardTypeId);
+                cards = cards.Where(x => x.card.CardTypeId == param.CardTypeId);
             }
-            if (cardRarityId != null && cardRarityId != Guid.Empty)
+            if (param.CardRarityId != null && param.CardRarityId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardRarityId == cardRarityId);
+                cards = cards.Where(x => x.card.CardRarityId == param.CardRarityId);
             }
-            if (lessonCost != null && lessonCost >= 0)
+            if (param.LessonCost != null && param.LessonCost >= 0)
             {
-                cards = cards.Where(x => x.card.LessonCost == lessonCost);
+                cards = cards.Where(x => x.card.LessonCost == param.LessonCost);
             }
-            if (!string.IsNullOrEmpty(searchText))
+            if (!string.IsNullOrEmpty(param.SearchText))
             {
                 cards = from card in cards
-                        where EF.Functions.Like(card.cardDetail.Name, $"%{searchText}%") || EF.Functions.Like(card.cardDetail.Text, $"%{searchText}%")
+                        where EF.Functions.Like(card.cardDetail.Name, $"%{param.SearchText}%") || EF.Functions.Like(card.cardDetail.Text, $"%{param.SearchText}%")
                         select card;
             }
 
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
 
-            if (!string.IsNullOrEmpty(sortBy))
-            {
-                cardModels = GetCardModelsSorted(cardModels, sortBy);
-            }
+            //if (!string.IsNullOrEmpty(sortBy))
+            //{
+            //    cardModels = GetCardModelsSorted(cardModels, sortBy);
+            //}
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }

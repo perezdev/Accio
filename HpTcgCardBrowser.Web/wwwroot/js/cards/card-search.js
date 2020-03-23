@@ -1,6 +1,4 @@
-﻿var cardDeckId = '#cardContainer';
-
-const queryParameterNames = {
+﻿const queryParameterNames = {
     SetId: 'setId',
     LessonCost: 'lessonCost',
     SearchText: 'searchText',
@@ -10,19 +8,19 @@ const queryParameterNames = {
 const searchElementNames = {
     SetId: '#setSelect',
     LessonCostId: '#setLessons',
-    SearchTextId: '#searchInput',
     SearchButtonId: '#searchButton',
     SearchInputId: '#searchInput',
     SortCardsById: '#sortCardsBy',
-    CardModalId: '#cardModal'
+    CardModalId: '#cardModal',
+    CardDeckId: '#cardContainer',
 };
 
 $(document).ready(function () {
-    InitializeSearchElements();
-    SetValuesFromQueryAndPeformSearch();
+    InitializeCardSearchElements();
+    SetValuesFromQueryAndPeformCardSearch();
 });
 
-function InitializeSearchElements() {
+function InitializeCardSearchElements() {
     $(searchElementNames.SearchButtonId).click(function () {
         SearchCards();
     });
@@ -95,7 +93,7 @@ function SearchCards() {
 }
 
 function AddCardsToDeck(cards) {
-    $(cardDeckId).html(''); //Clear existing cards
+    $(searchElementNames.CardDeckId).html(''); //Clear existing cards
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
@@ -115,9 +113,9 @@ function AddCardsToDeck(cards) {
                     `;
 
         //Get all of the previous items in the card deck so we can add the new one
-        var cardDeckHtml = $(cardDeckId).html();
+        var cardDeckHtml = $(searchElementNames.CardDeckId).html();
         cardDeckHtml += cardHtml;
-        $(cardDeckId).html(cardDeckHtml);
+        $(searchElementNames.CardDeckId).html(cardDeckHtml);
 
         //When I first loaded the images, they would pop into view and it would look very jarring. All of the images load asnchorsouly, so it's nice not having to wait
         //for all the cards to load. But I wanted to animate it to look nicer. I do by hiding the image element as it's created. That allows the image to load before
@@ -137,7 +135,7 @@ function AddCardsToDeck(cards) {
     }
 }
 
-async function SetValuesFromQueryAndPeformSearch() {
+async function SetValuesFromQueryAndPeformCardSearch() {
     var setId = getParameterByName(queryParameterNames.SetId);
     var lessonCost = getParameterByName(queryParameterNames.LessonCost);
     var searchText = getParameterByName(queryParameterNames.SearchText);
@@ -147,7 +145,7 @@ async function SetValuesFromQueryAndPeformSearch() {
         $(searchElementNames.LessonCostId).val(lessonCost);
     }
     if (searchText) {
-        $(searchElementNames.SearchTextId).val(searchText);
+        $(searchElementNames.SearchInputId).val(searchText);
     }
 
     if (setId) {
@@ -200,10 +198,10 @@ function SetQueryFromValues(searchData) {
 function GetSearchData() {
     var setId = $(searchElementNames.SetId).val();
     var lessonCost = $(searchElementNames.LessonCostId).val();
-    var searchText = $(searchElementNames.SearchTextId).val();
+    var searchText = $(searchElementNames.SearchInputId).val();
     var sortBy = $(searchElementNames.SortCardsById).val();
 
-    if (setId === '00000000-0000-0000-0000-000000000000') {
+    if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
         setId = null;
     }
     if (lessonCost === '-1') {

@@ -11,114 +11,136 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Card Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accio - Harry Potter Trading Card Game Search</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css" />*@
+    <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true">
+    <link href="~/css/animate.css" rel="stylesheet" />
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <!-- Main navigation -->
-        <nav class="navbar navbar-expand fixed-top navbar-dark top-nav-menu p-0">
-            <ul class="navbar-nav main-navbar-nav mr-auto">
-                <li class="nav-item search-nav-item">
-                    <div class="input-group input-focus">
-                        <div class="input-group-prepend search-icon-container">
-                            <img class="search-icon" src="~/images/logos/logo_white.png" />
-                        </div>
-                        <input id="searchInput" type="search" placeholder="Search for a card" class="search-input form-control border-left-0">
-                    </div>
-                </li>
-                <li class="nav-item dropdown mx-2">
-                    <select id="setSelect" title="Select set" class="form-control">
-                    </select>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Random Card</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item avatar dropdown">
-                    <a class="nav-link dropdown-toggle p-0 mt-1 nav-link-dropdown-badge" data-toggle="dropdown">
-                        <img class="main-badge" id="mainBadge" src="~/images/badges/slytherin.png" alt="Slytherin Theme">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary badge-dropdown">
-                        <a id="badgeSlytherinLink" class="dropdown-item" href="">
-                            <img id="badgeSlytherin" src="~/images/badges/slytherin.png" />
-                        </a>
-                        <a class="dropdown-item" href="">
-                            <img src="~/images/badges/gryffindor.png" />
-                        </a>
-                        <a class="dropdown-item" href="">
-                            <img src="~/images/badges/hufflepuff.png" />
-                        </a>
-                        <a class="dropdown-item" href="">
-                            <img src="~/images/badges/ravenclaw.png" />
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item avatar dropdown">
-                    <a class="nav-link dropdown-toggle mt-1" data-toggle="dropdown">
-                        <img src="~/images/hp_face_35x34.png" class="rounded-circle" alt="avatar image">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary profile-dropdown">
-                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
-                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
-                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <!-- Advanced search navigation -->
-        @*<nav class="navbar navbar-dark bg-dark fixed-top fixed-top-2">
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar1">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a href="/" class="navbar-brand">One</a>
-                <div class="navbar-collapse collapse" id="navbar1">
-                    <ul class="navbar-nav">
-                        ..
-                    </ul>
+    <!-- Begin Header -->
+    <header class="w-100">
+        <!-- Begin Search Nav -->
+        <div class="mw8 pv2 center">
+            <div class="cf">
+                <a class="fl logo-container" href="/">
+                    <img src="~/images/logos/logo_white_32x32.png" />
+                </a>
+                <div class="fl w-100 w-40-ns">
+                    <form id="search" accept-charset="UTF-8" method="get">
+                        <input id="searchInput" class="dib-ns db w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="Search for a card">
+                    </form>
                 </div>
-            </nav>*@
-    </header>
-
-    <main class="main-content" role="main">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-9">
-                    <select id="sortCardsBy" title="Sort By" class="form-control w-25">
-                        <option value="NoSort">Sort By</option>
-                        <option value="llth">Lesson: Low to High</option>
-                        <option value="lhtl">Lesson: High to Low</option>
-                        <option value="cnlth">Card Name: a to Z</option>
-                        <option value="cnhtl">Card Name: Z to a</option>
-                    </select>
-                    <div id="cardContainer" class="row">
-
-                    </div>
-                </div>
-                <div class="deck-container col-sm-2">
-                    <div class="m-3">
-                        <button onclick="test();">test</button>
-                    </div>
+                <div class="fl w-100 w-50-ns tr-ns tc">
+                    <nav class="pv2">
+                        <a class="dib-ns db mr3-ns" href="#" title="Advanced"><i class="fas fa-bolt mr2"></i>Advanced</a>
+                        <a class="dib-ns db mr3-ns" href="#" title="All Cards"><i class="fas fa-quidditch mr2"></i>Cards</a>
+                        <a class="dib-ns db" href="#" title="Random Card"><i class="fas fa-magic mr2"></i>Random</a>
+                    </nav>
                 </div>
             </div>
         </div>
-
-
+        <!-- End Search Nav -->
+    </header>
+    <!-- Begin Details Nav -->
+    <div class="w-100">
+        <div class="cf mw8 center" style="margin-top: 8px;">
+            <div class="fl w-100 w-30-ns">
+                <div class="b" style="font-size: 14px !important;">
+                    <i id="setIcon" class="fas fa-hat-wizard mr2"></i>
+                    <label id="setLabel">All Sets</label>
+                </div>
+                <div>
+                    <label id="cardCount" class="sub-menu-label">80 cards</label>
+                </div>
+            </div>
+            <div class="fl w-100 w-70-ns tr-ns tc">
+                <nav class="pv2">
+                    <select id="setSelect" class="dib-ns db mr1-ns">
+                        <option>All Sets</option>
+                    </select>
+                    <label class="dib-ns db mr1-ns sub-menu-label">
+                        viewed as
+                    </label>
+                    <select class="dib-ns db mr1-ns">
+                        <option value="checklist">Images</option>
+                        <option value="checklist">Checklist</option>
+                    </select>
+                    <label class="dib-ns db mr1-ns sub-menu-label">
+                        sorted by
+                    </label>
+                    <select id="sortCardsBy" class="dib-ns db mr1-ns">
+                        <option value="sn">Set/Number</option>
+                    </select>
+                    <label class="dib-ns db mr1-ns sub-menu-label">
+                        :
+                    </label>
+                    <select id="sortCardsOrder" class="dib-ns db">
+                        <option value="auto">Auto</option>
+                        <option value="asc">Asc</option>
+                        <option value="desc">Desc</option>
+                    </select>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- End Details Nav -->
+    <!-- End Header -->
+    <!-- Begin Content -->
+    <main class="w-100">
+        <div class="mw8 center content-container">
+            <div id="cardContainer" class="cf">
+                
+            </div>
+        </div>
     </main>
-    <footer class="footer">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>© 2017-2018 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    <!-- End Content -->
+    <!-- Begin Footer -->
+    <footer class="w-100 pv4">
+        <div class="mw7 center relative">
+            <!--<div class="w-100 tc">
+                <img src="img/crests/gryffindor.png" class="crest gryffindor">
+                <img src="img/crests/hufflepuff.png" class="crest hufflepuff">
+                <img src="img/crests/ravenclaw.png" class="crest ravenclaw">
+                <img src="img/crests/slytherin.png" class="crest slytherin">
+            </div>-->
+            <div class="cf">
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Find Cards</h4>
+                    <nav>
+                        <p><a href="#" title="Advanced"><i class="fas fa-bolt mr2"></i>Advanced</a></p>
+                        <p><a href="#" title="All Cards"><i class="fas fa-quidditch mr2"></i>All Cards</a></p>
+                        <p><a href="#" title="Random Card"><i class="fas fa-magic mr2"></i>Random Card</a></p>
+                    </nav>
+                </div>
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Accio</h4>
+                    <nav>
+                        <p><a href="#" title="Documentation"><i class="fas fa-book mr2"></i>Documentation</a></p>
+                        <p><a href="#" title="FAQ"><i class="fas fa-question mr2"></i>FAQ</a></p>
+                        <p><a href="#" title="Contact"><i class="fas fa-envelope mr2"></i>Contact</a></p>
+                    </nav>
+                </div>
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Social</h4>
+                    <nav>
+                        <p><a href="#" title="GitHub"><i class="fab fa-github mr2"></i>GitHub</a></p>
+                        <p><a href="#" title="Twitter"><i class="fab fa-twitter mr2"></i>Twitter</a></p>
+                    </nav>
+                </div>
+            </div>
+            <div class="w-100 ph3 tc">
+                <p class="copyright">The information presented on this site about Harry Potter, including card images, characters, names and related indicia are &trade; and &copy; Warner Bros. Entertainment Inc. This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
+    <!-- End Footer -->
 
-    <!-- Sripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fd25a25548.js"></script>
+    <script src="~/js/utlity.js" asp-append-version="true"></script>
     <script src="~/js/accio.js" asp-append-version="true"></script>
-    <script src="~/js/cards/card-search.js" asp-append-version="true"></script>
-    <script src="~/js/cards/card-search-sets.js" asp-append-version="true"></script>
 </body>
 </html>
