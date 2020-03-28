@@ -291,19 +291,19 @@ function GetLessonCssColorFromLessonType(lessonType) {
 }
 function GetLessonImageElementFromLessonType(lessonType) {
     if (lessonType === 'Care of Magical Creatures') {
-        return '<img class="card-table-cell-lesson-image" src="/images/lessons/care-of-magical-creatures.png" />';
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/care-of-magical-creatures.svg" />';
     }
     else if (lessonType === 'Charms') {
-        return '<img class="card-table-cell-lesson-image" src="/images/lessons/charms.png" />';
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/charms.svg" />';
     }
     else if (lessonType === 'Potions') {
-        return '<img class="card-table-cell-lesson-image" src="/images/lessons/potions.png" />';
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/potions.svg" />';
     }
     else if (lessonType === 'Quidditch') {
-        return '<img class="card-table-cell-lesson-image" src="/images/lessons/quidditch.png" />';
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/quidditch.svg" />';
     }
     else if (lessonType === 'Transfiguration') {
-        return '<img class="card-table-cell-lesson-image" src="/images/lessons/transfiguration.png" />';
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/transfiguration.svg" />';
     }
 }
 function GetRarityImageElementFromRaritySymbol(symbol) {

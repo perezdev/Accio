@@ -400,8 +400,9 @@ td:nth-child(6) {
 /* Class for lesson image that is set in accio.js */
 .card-table-cell-lesson-image {
     margin-left: 7px;
-    /*margin-top: 20px;*/
     vertical-align: middle;
+    width: 20px;
+    height: 20px;
 }
 
 .card-table-cell-lesson-label {
