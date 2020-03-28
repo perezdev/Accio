@@ -308,19 +308,19 @@ function GetLessonImageElementFromLessonType(lessonType) {
 }
 function GetRarityImageElementFromRaritySymbol(symbol) {
     if (symbol === 'C') {
-        return '<img src="/images/rarities/common.png" />';
+        return '<img class="card-table-cell-rarity-image" src="/images/rarities/common.png" />';
     }
     else if (symbol === 'R') {
-        return '<img src="/images/rarities/rare.png" />';
+        return '<img class="card-table-cell-rarity-image" src="/images/rarities/rare.png" />';
     }
     else if (symbol === 'U') {
-        return '<img src="/images/rarities/uncommon.png" />';
+        return '<img class="card-table-cell-rarity-image" src="/images/rarities/uncommon.png" />';
     }
     else if (symbol === 'FP') {
-        return '<img src="/images/rarities/foil-premium.png" />';
+        return '<img class="card-table-cell-rarity-image" src="/images/rarities/foil-premium.png" />';
     }
     else if (symbol === 'HP') {
-        return '<img src="/images/rarities/holo-portrait-premium.png" />';
+        return '<img class="card-table-cell-rarity-image" src="/images/rarities/holo-portrait-premium.png" />';
     }
 }
 

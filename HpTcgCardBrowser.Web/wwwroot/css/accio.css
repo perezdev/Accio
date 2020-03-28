@@ -55,9 +55,11 @@ button {
 .z-index-0 {
     z-index: 0 !important;
 }
+
 .z-index-1 {
     z-index: 1 !important;
 }
+
 .z-index-2 {
     z-index: 2 !important;
 }
@@ -408,4 +410,8 @@ td:nth-child(6) {
 .card-table-cell-lesson-label {
     vertical-align: middle;
     margin-top: 5px;
+}
+
+.card-table-cell-rarity-image {
+    padding-left: 5px;
 }
