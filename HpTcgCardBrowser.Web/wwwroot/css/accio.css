@@ -52,6 +52,16 @@ button {
         color: var(--black);
     }
 
+.z-index-0 {
+    z-index: 0 !important;
+}
+.z-index-1 {
+    z-index: 1 !important;
+}
+.z-index-2 {
+    z-index: 2 !important;
+}
+
 /* Header, Navigation, Footer */
 header {
     background-color: var(--mainColor);
@@ -110,6 +120,11 @@ header {
         margin-top: 4px;
         padding-right: 15px;
     }
+
+.search-logo {
+    width: 32px;
+    height: 32px;
+}
 
 form {
     /* The margin classes are specific to Chrome. For some crazy reason, it auto inserts these random ass margins. */

@@ -14,7 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Accio - Harry Potter Trading Card Game Search</title>
 
-    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css" />*@
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <link href="~/css/animate.css" rel="stylesheet" />
@@ -22,12 +21,12 @@
 </head>
 <body>
     <!-- Begin Header -->
-    <header class="w-100">
+    <header class="w-100 z-index-2">
         <!-- Begin Search Nav -->
         <div class="mw8 pv2 center">
             <div class="cf">
                 <a class="fl logo-container" href="/">
-                    <img src="~/images/logos/logo_white_32x32.png" />
+                    <img class="search-logo" src="~/images/logos/logo_white.svg" />
                 </a>
                 <div class="fl w-100 w-40-ns">
                     <form id="search" accept-charset="UTF-8" method="get">
@@ -46,7 +45,7 @@
         <!-- End Search Nav -->
     </header>
     <!-- Begin Details Nav -->
-    <div class="w-100">
+    <div class="w-100 z-index-1">
         <div class="cf mw8 center" style="margin-top: 8px;">
             <div class="fl w-100 w-30-ns">
                 <div class="b" style="font-size: 14px !important;">
@@ -90,7 +89,7 @@
     <!-- End Details Nav -->
     <!-- End Header -->
     <!-- Begin Content -->
-    <main class="w-100">
+    <main class="w-100 z-index-0">
         <div id="contentContainer" class="mw8 center content-container">
             <div id="cardContainer" class="flex flex-wrap dn">
                 
