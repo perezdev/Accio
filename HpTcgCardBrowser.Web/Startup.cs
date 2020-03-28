@@ -1,3 +1,4 @@
+using HpTcgCardBrowser.Business.Services.CardSearchHistoryServices;
 using HpTcgCardBrowser.Business.Services.CardServices;
 using HpTcgCardBrowser.Business.Services.LanguageServices;
 using HpTcgCardBrowser.Business.Services.LessonServices;
@@ -35,6 +36,7 @@ namespace HpTcgCardBrowser.Web
             services.AddTransient<CardDetailService>();
             services.AddTransient<LanguageService>();
             services.AddTransient<LessonService>();
+            services.AddTransient<CardSearchHistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

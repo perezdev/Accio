@@ -2,6 +2,7 @@
 using HpTcgCardBrowser.Business.Models.ImportModels;
 using HpTcgCardBrowser.Business.Models.LanguageModels;
 using HpTcgCardBrowser.Business.Models.LessonModels;
+using HpTcgCardBrowser.Business.Services.CardSearchHistoryServices;
 using HpTcgCardBrowser.Business.Services.LanguageServices;
 using HpTcgCardBrowser.Business.Services.LessonServices;
 using HpTcgCardBrowser.Data;
@@ -19,10 +20,12 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
         private CardTypeService _cardTypeService { get; set; }
         private CardRarityService _cardRarityService { get; set; }
         private LanguageService _languageService { get; set; }
-        public LessonService _lessonService { get; set; }
+        private LessonService _lessonService { get; set; }
+        private CardSearchHistoryService _cardSearchHistoryService { get; set; }
 
         public CardService(HpTcgContext context, CardSetService cardSetService, CardTypeService cardTypeService,
-                           CardRarityService cardRarityService, LanguageService languageService, LessonService lessonService)
+                           CardRarityService cardRarityService, LanguageService languageService, LessonService lessonService,
+                           CardSearchHistoryService cardSearchHistoryService)
         {
             _context = context;
             _cardSetService = cardSetService;
@@ -30,11 +33,13 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             _cardRarityService = cardRarityService;
             _languageService = languageService;
             _lessonService = lessonService;
+            _cardSearchHistoryService = cardSearchHistoryService;
         }
 
         public List<CardModel> SearchCards(CardSearchParameters cardSearchParameters)
         {
             var param = cardSearchParameters;
+            var utcNow = DateTime.UtcNow;
 
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
@@ -81,6 +86,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             }
 
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+
+            _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
             //if (!string.IsNullOrEmpty(sortBy))
             //{

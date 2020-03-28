@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace HpTcgCardBrowser.Data
 {
@@ -19,6 +17,7 @@ namespace HpTcgCardBrowser.Data
         public virtual DbSet<CardDetail> CardDetail { get; set; }
         public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
         public virtual DbSet<CardRarity> CardRarity { get; set; }
+        public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
         public virtual DbSet<CardSet> CardSet { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Language> Language { get; set; }
@@ -88,6 +87,19 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.Name).HasMaxLength(150);
 
                 entity.Property(e => e.Symbol).HasMaxLength(2);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<CardSearchHistory>(entity =>
+            {
+                entity.Property(e => e.CardSearchHistoryId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.SortBy).HasMaxLength(200);
+
+                entity.Property(e => e.SortOrder).HasMaxLength(200);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
