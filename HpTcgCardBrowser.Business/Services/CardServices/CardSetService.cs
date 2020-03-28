@@ -36,6 +36,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             {
                 CardSetId = set.CardSetId,
                 Name = set.Name,
+                ShortName = set.ShortName,
                 Description = set.Description,
                 IconFileName = set.IconFileName,
                 Order = set.Order,

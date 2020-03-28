@@ -16,6 +16,7 @@
 
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css" />*@
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <link href="~/css/animate.css" rel="stylesheet" />
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
@@ -90,10 +91,29 @@
     <!-- End Header -->
     <!-- Begin Content -->
     <main class="w-100">
-        <div class="mw8 center content-container">
-            <div id="cardContainer" class="cf">
+        <div id="contentContainer" class="mw8 center content-container">
+            <div id="cardContainer" class="flex flex-wrap dn">
                 
             </div>
+            <div id="tableContainer" class="mv2">
+                <table id="cardTable">
+                    <thead>
+                        <tr>
+                            <th>Set</th>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Cost</th>
+                            <th>Type</th>
+                            <th>Rarity</th>
+                            <th>Artist</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </main>
     <!-- End Content -->
@@ -140,6 +160,7 @@
 
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/fd25a25548.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/js/utlity.js" asp-append-version="true"></script>
     <script src="~/js/accio.js" asp-append-version="true"></script>
 </body>

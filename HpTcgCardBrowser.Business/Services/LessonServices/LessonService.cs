@@ -29,6 +29,7 @@ namespace HpTcgCardBrowser.Business.Services.LessonServices
             {
                 LessonTypeId = lessonType.LessonTypeId,
                 Name = lessonType.Name,
+                ImageName = lessonType.ImageName,
                 CreatedById = lessonType.CreatedById,
                 CreatedDate = lessonType.CreatedDate,
                 UpdatedById = lessonType.UpdatedById,

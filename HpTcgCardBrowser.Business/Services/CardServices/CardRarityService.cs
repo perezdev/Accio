@@ -29,6 +29,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             {
                 CardRarityId = cardRarity.CardRarityId,
                 Name = cardRarity.Name,
+                Symbol = cardRarity.Symbol,
+                ImageName = cardRarity.ImageName,
                 CreatedById = cardRarity.CreatedById,
                 CreatedDate = cardRarity.CreatedDate,
                 UpdatedById = cardRarity.UpdatedById,

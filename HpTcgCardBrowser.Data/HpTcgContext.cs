@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HpTcgCardBrowser.Data
 {
@@ -81,7 +83,11 @@ namespace HpTcgCardBrowser.Data
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ImageName).HasMaxLength(200);
+
                 entity.Property(e => e.Name).HasMaxLength(150);
+
+                entity.Property(e => e.Symbol).HasMaxLength(2);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -99,6 +105,8 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.ReleaseDate).HasMaxLength(50);
+
+                entity.Property(e => e.ShortName).HasMaxLength(10);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -132,6 +140,8 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.LessonTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ImageName).HasMaxLength(500);
 
                 entity.Property(e => e.Name)
                     .IsRequired()

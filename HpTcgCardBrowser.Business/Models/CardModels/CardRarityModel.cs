@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HpTcgCardBrowser.Business.Models.CardModels
 {
@@ -8,6 +6,8 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
     {
         public Guid CardRarityId { get; set; }
         public string Name { get; set; }
+        public string Symbol { get; set; }
+        public string ImageName { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

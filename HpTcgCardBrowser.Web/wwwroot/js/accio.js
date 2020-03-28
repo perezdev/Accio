@@ -8,6 +8,7 @@ $(document).ready(function () {
     /* Card search initialization */
     InitializeCardSearchElements();
     SetValuesFromQueryAndPeformCardSearch();
+    InitializeCardTable();
 });
 
 /**
@@ -89,6 +90,11 @@ const searchElementNames = {
     SortCardsOrderId: '#sortCardsOrder'
 };
 
+const resultsContainerNames = {
+    ContentContainerId: '#contentContainer',
+    CardTableId: '#cardTable'
+};
+
 /* Hold cards in global variable so we can swap views with the existing cards without
  * performing another query.
  */
@@ -116,6 +122,18 @@ function InitializeCardSearchElements() {
         }
     });
 }
+var cardTable = null;
+function InitializeCardTable() {
+    cardTable = $(resultsContainerNames.CardTableId).DataTable({
+        lengthChange: false,
+        searching: false,
+        pageLength: 15,
+        columnDefs: [
+            { width: '50px', targets: [0, 1, 3, 5] }
+        ]
+    });
+}
+
 
 function SearchCards() {
     //SetSearchLoadingState('loading');
@@ -152,7 +170,8 @@ function SearchCards() {
         success: function (response) {
             if (response.success) {
                 cards = response.json;
-                AddCardsToDeck(cards);
+                //AddCardsToDeck(cards);
+                AddCardsToTable(cards);
             }
 
             //SetSearchLoadingState('unloading');
@@ -164,7 +183,11 @@ function SearchCards() {
 }
 
 function AddCardsToDeck(cards) {
-    $(searchElementNames.CardDeckId).html(''); //Clear existing cards
+    //TODO: Hide/show containers
+
+
+    //Clear existing cards
+    $(resultsContainerNames.CardDeckId).html('');
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
@@ -174,22 +197,18 @@ function AddCardsToDeck(cards) {
         }
 
         var cardHtml = `
-                        <div onclick="ShowCardModal('` + card.cardId + `');" class="col-auto p-0">
-                            <div class="card ` + card.cssSizeClass + `">
-                                <div class="card-body py-4">
-                                    <img style="cursor: pointer;" class="d-none" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
-                                </div>
-                            </div>
+                        <div onclick="ShowCardModal('` + card.cardId + `');" class="ma1 ` + card.cssSizeClass + `">
+                            <img class="tc" style="cursor: pointer;" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
 
         //Get all of the previous items in the card deck so we can add the new one
-        var cardDeckHtml = $(searchElementNames.CardDeckId).html();
+        var cardDeckHtml = $(resultsContainerNames.CardDeckId).html();
         cardDeckHtml += cardHtml;
-        $(searchElementNames.CardDeckId).html(cardDeckHtml);
+        $(resultsContainerNames.CardDeckId).html(cardDeckHtml);
 
         //When I first loaded the images, they would pop into view and it would look very jarring. All of the images load asnchorsouly, so it's nice not having to wait
-        //for all the cards to load. But I wanted to animate it to look nicer. I do by hiding the image element as it's created. That allows the image to load before
+        //for all the cards to load. But I wanted to animate it to look nicer. I do this by hiding the image element as it's created. That allows the image to load before
         //it's shown. Then this will remove that class that hides it and animate a fade in from animate.css. The 'each' part is required and forces the load event to
         //fire when the image is loaded from cache. Which happens automatically by the browser.
         $('img').on('load', function () {
@@ -203,6 +222,105 @@ function AddCardsToDeck(cards) {
                 $(this).trigger('error');
             }
         });
+    }
+}
+function AddCardsToTable(cards) {
+    //Remove all cards prior to adding any new ones from search
+    cardTable.clear().draw();
+
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+
+        var costValue = card.lessonCost === null ? '' : card.lessonCost;
+        var setColumn = '<td>' + card.cardSet.shortName + '</td>';
+        var cardNumberColumn = '<td>' + card.cardNumber + '</td>';
+        var cardNameColumn = '<td>' + card.detail.name + '</td>';
+
+        var costColumn = null;
+        if (card.lessonType === null) {
+            costColumn = costColumn = '<td>' + costValue + '</td>';
+        }
+        else if (card.lessonType !== null && costValue !== '') {
+            var imgElement = GetLessonImageElementFromLessonType(card.lessonType.name);
+            costColumn = costColumn = '<td><label class="card-table-cell-lesson-label">' + costValue + '</label>' + imgElement + '</td>';
+        }
+
+        var typeColumn = '<td>' + card.cardType.name + '</td>';
+
+        var rarityColumn = null;
+        if (card.rarity.imageName === null) {
+            rarityColumn = '<td>' + card.rarity.symbol + '</td>';
+        }
+        else {
+            var rarityImage = GetRarityImageElementFromRaritySymbol(card.rarity.symbol);
+            rarityColumn = '<td>' + card.rarity.symbol + rarityImage + '</td>';
+        }
+
+        var artistColumn = '<td>' + card.detail.illustrator + '</td>';
+
+        //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
+        //The second column is hidden by the column definitions when the table was instantiated
+        var rowNode = cardTable.row.add([
+            setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
+        ]).draw().node();
+
+        //The design calls for changing the color of the font and can really only be done after the fact. DT.js
+        //overwrites style changes when made as part of the column html.
+        if (card.lessonType !== null) {
+            var lessonCssColor = GetLessonCssColorFromLessonType(card.lessonType.name);
+            $(rowNode).find('td').eq(3).css('color', lessonCssColor);
+        }
+    }
+}
+function GetLessonCssColorFromLessonType(lessonType) {
+    if (lessonType === 'Care of Magical Creatures') {
+        return 'var(--brownPaw)';
+    }
+    else if (lessonType === 'Charms') {
+        return 'var(--blueRaven)';
+    }
+    else if (lessonType === 'Potions') {
+        return 'var(--greenSnake)';
+    }
+    else if (lessonType === 'Quidditch') {
+        return 'var(--yellowBadger)';
+    }
+    else if (lessonType === 'Transfiguration') {
+        return 'var(--redLion)';
+    }
+}
+function GetLessonImageElementFromLessonType(lessonType) {
+    if (lessonType === 'Care of Magical Creatures') {
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/care-of-magical-creatures.png" />';
+    }
+    else if (lessonType === 'Charms') {
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/charms.png" />';
+    }
+    else if (lessonType === 'Potions') {
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/potions.png" />';
+    }
+    else if (lessonType === 'Quidditch') {
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/quidditch.png" />';
+    }
+    else if (lessonType === 'Transfiguration') {
+        return '<img class="card-table-cell-lesson-image" src="/images/lessons/transfiguration.png" />';
+    }
+}
+function GetRarityImageElementFromRaritySymbol(symbol) {
+    if (symbol === 'C') {
+        return '<img src="/images/rarities/common.png" />';
+    }
+    else if (symbol === 'R') {
+        return '<img src="/images/rarities/rare.png" />';
+    }
+    else if (symbol === 'U') {
+        return '<img src="/images/rarities/uncommon.png" />';
+    }
+    else if (symbol === 'FP') {
+        return '<img src="/images/rarities/foil-premium.png" />';
+    }
+    else if (symbol === 'HP') {
+        return '<img src="/images/rarities/holo-portrait-premium.png" />';
     }
 }
 
@@ -221,7 +339,7 @@ async function SetValuesFromQueryAndPeformCardSearch() {
     if (sortOrder) {
         $(searchElementNames.SortOrder).val(sortOrder);
     }
-    
+
     if (setId) {
         //Set data comes from the database. We need to wait until it loads before we can
         //set the selected value, because the load is async and if we don't wait, there's
