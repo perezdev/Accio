@@ -27,6 +27,7 @@
             <div class="cf">
                 <a class="fl logo-container" href="/">
                     <img class="search-logo" src="~/images/logos/logo_white.svg" />
+                    @*<img class="search-logo" src="~/images/loader_cube.gif" />*@
                 </a>
                 <div class="fl w-100 w-40-ns">
                     <form id="search" accept-charset="UTF-8" method="get">
@@ -64,8 +65,8 @@
                     <label class="dib-ns db mr1-ns sub-menu-label">
                         viewed as
                     </label>
-                    <select class="dib-ns db mr1-ns">
-                        <option value="checklist">Images</option>
+                    <select id="cardView" class="dib-ns db mr1-ns">
+                        <option value="images">Images</option>
                         <option value="checklist">Checklist</option>
                     </select>
                     <label class="dib-ns db mr1-ns sub-menu-label">
@@ -91,11 +92,11 @@
     <!-- Begin Content -->
     <main class="w-100 z-index-0">
         <div id="contentContainer" class="mw8 center content-container">
-            <div id="cardContainer" class="flex flex-wrap dn">
-                
+            <div id="cardContainer" class="flex flex-wrap">
+
             </div>
-            <div id="tableContainer" class="mv2">
-                <table id="cardTable">
+            <div id="tableContainer" class="mv2 dn">
+                <table id="cardTable" class="w-100">
                     <thead>
                         <tr>
                             <th>Set</th>
@@ -108,7 +109,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                     </tbody>
                 </table>
             </div>

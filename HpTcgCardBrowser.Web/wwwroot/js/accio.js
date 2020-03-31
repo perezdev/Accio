@@ -78,7 +78,8 @@ const queryParameterNames = {
     SetId: 'setId',
     SearchText: 'searchText',
     SortBy: 'sortBy',
-    SortOrder: 'sortOrder'
+    SortOrder: 'sortOrder',
+    CardView: 'cardView'
 };
 
 const searchElementNames = {
@@ -86,13 +87,15 @@ const searchElementNames = {
     SearchInputId: '#searchInput',
     SortCardsById: '#sortCardsBy',
     CardModalId: '#cardModal',
-    CardDeckId: '#cardContainer',
-    SortCardsOrderId: '#sortCardsOrder'
+    SortCardsOrderId: '#sortCardsOrder',
+    CardViewId: '#cardView'
 };
 
 const resultsContainerNames = {
     ContentContainerId: '#contentContainer',
-    CardTableId: '#cardTable'
+    CardContainerId: '#cardContainer',
+    CardTableId: '#cardTable',
+    CardTableContainerId: '#tableContainer'
 };
 
 /* Hold cards in global variable so we can swap views with the existing cards without
@@ -101,15 +104,23 @@ const resultsContainerNames = {
 var cards = null;
 
 function InitializeCardSearchElements() {
+    //Search text press enter
     $(searchElementNames.SearchInputId).on('keypress', function (e) {
         if (e.which === 13) {
             SearchCards();
             e.preventDefault();
         }
     });
+    //Set change
     $(searchElementNames.SetId).on('change', function () {
         SearchCards();
     });
+    //Card view change - images/list
+    $(searchElementNames.CardViewId).on('change', function () {
+        //Will swap the containers and populate the cards if they have been populated. Or performs the search if the cards haven't been populated
+        ToggleViewSearch();
+    });
+    //Sort by change
     $(searchElementNames.SortCardsById).on('change', function () {
         //I found an issue while testing. While not a huge problem, it made the experience weird. I wanted it so that
         //you could choose the sort option and it would perform a search. Which was perfect when you had already entered search data.
@@ -121,19 +132,16 @@ function InitializeCardSearchElements() {
             SearchCards();
         }
     });
+    //TODO: sort order change
 }
 var cardTable = null;
 function InitializeCardTable() {
     cardTable = $(resultsContainerNames.CardTableId).DataTable({
         lengthChange: false,
         searching: false,
-        pageLength: 15,
-        columnDefs: [
-            { width: '50px', targets: [0, 1, 3, 5] }
-        ]
+        pageLength: 15
     });
 }
-
 
 function SearchCards() {
     //SetSearchLoadingState('loading');
@@ -170,8 +178,7 @@ function SearchCards() {
         success: function (response) {
             if (response.success) {
                 cards = response.json;
-                //AddCardsToDeck(cards);
-                AddCardsToTable(cards);
+                AddCardsToContainer(cards);
             }
 
             //SetSearchLoadingState('unloading');
@@ -181,13 +188,48 @@ function SearchCards() {
         }
     });
 }
+//Adds cards to selected container if the cards have already been searched
+//Searches cards and adds them otherwise
+function ToggleViewSearch() {
+    if (cards !== null) {
+        //Normally we'd only get the searchdata and update the query values while searching
+        //But in the case where the card data already exists, we want to update the query data because
+        //we won't perform a search.
+        const searchData = GetSearchData();
+        SetQueryFromValues(searchData);
 
+        AddCardsToContainer(cards);
+    }
+    else {
+        SearchCards();
+    }
+}
+function ToggleViewContainers() {
+    var cardView = $(searchElementNames.CardViewId).val();
+    if (cardView === 'images') {
+        $(resultsContainerNames.CardContainerId).css('display', 'flex');
+        $(resultsContainerNames.CardTableContainerId).css('display', 'none');
+    } else if (cardView === 'checklist') {
+        $(resultsContainerNames.CardContainerId).css('display', 'none');
+        $(resultsContainerNames.CardTableContainerId).css('display', 'block');
+    }
+}
+
+//Makes the current selected container visible and then adds the cards to that container
+function AddCardsToContainer(cards) {
+    ToggleViewContainers();
+    var cardView = $(searchElementNames.CardViewId).val();
+    if (cardView === 'images') {
+        AddCardsToDeck(cards);
+    } else if (cardView === 'checklist') {
+        AddCardsToTable(cards);
+    }
+}
 function AddCardsToDeck(cards) {
     //TODO: Hide/show containers
 
-
     //Clear existing cards
-    $(resultsContainerNames.CardDeckId).html('');
+    $(resultsContainerNames.CardContainerId).html('');
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
@@ -203,9 +245,9 @@ function AddCardsToDeck(cards) {
                     `;
 
         //Get all of the previous items in the card deck so we can add the new one
-        var cardDeckHtml = $(resultsContainerNames.CardDeckId).html();
+        var cardDeckHtml = $(resultsContainerNames.CardContainerId).html();
         cardDeckHtml += cardHtml;
-        $(resultsContainerNames.CardDeckId).html(cardDeckHtml);
+        $(resultsContainerNames.CardContainerId).html(cardDeckHtml);
 
         //When I first loaded the images, they would pop into view and it would look very jarring. All of the images load asnchorsouly, so it's nice not having to wait
         //for all the cards to load. But I wanted to animate it to look nicer. I do this by hiding the image element as it's created. That allows the image to load before
@@ -329,15 +371,19 @@ async function SetValuesFromQueryAndPeformCardSearch() {
     var searchText = getParameterByName(queryParameterNames.SearchText);
     var sortBy = getParameterByName(queryParameterNames.SortBy);
     var sortOrder = getParameterByName(queryParameterNames.SortOrder);
+    var cardView = getParameterByName(queryParameterNames.CardView);
 
     if (searchText) {
         $(searchElementNames.SearchInputId).val(searchText);
     }
     if (sortBy) {
-        $(searchElementNames.SortBy).val(sortBy);
+        $(searchElementNames.SortCardsById).val(sortBy);
     }
     if (sortOrder) {
-        $(searchElementNames.SortOrder).val(sortOrder);
+        $(searchElementNames.SortCardsOrderId).val(sortOrder);
+    }
+    if (cardView) {
+        $(searchElementNames.CardViewId).val(cardView);
     }
 
     if (setId) {
@@ -372,7 +418,10 @@ function SetQueryFromValues(searchData) {
             queryValues += queryParameterNames.SortBy + '=' + searchData.SortBy + '&';
         }
         if (searchData.SortOrder) {
-            queryValues += queryParameterNames.SortBy + '=' + searchData.SortOrder + '&';
+            queryValues += queryParameterNames.SortOrder + '=' + searchData.SortOrder + '&';
+        }
+        if (searchData.CardView) {
+            queryValues += queryParameterNames.CardView + '=' + searchData.CardView + '&';
         }
 
         //Since we don't know which fields the user will search, it's easiest to just to add & at the
@@ -392,6 +441,7 @@ function GetSearchData() {
     var searchText = $(searchElementNames.SearchInputId).val().trim();
     var sortBy = $(searchElementNames.SortCardsById).val();
     var sortOrder = $(searchElementNames.SortCardsOrderById).val();
+    var cardView = $(searchElementNames.CardViewId).val();
 
     if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
         setId = null;
@@ -405,7 +455,8 @@ function GetSearchData() {
         SetId: setId,
         SearchText: searchText,
         SortBy: sortBy,
-        SortOrder: sortOrder
+        SortOrder: sortOrder,
+        CardView: cardView,
     };
 
     return searchData;
