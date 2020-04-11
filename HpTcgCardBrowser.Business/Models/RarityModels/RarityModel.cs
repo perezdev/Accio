@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace HpTcgCardBrowser.Business.Models.CardModels
+namespace HpTcgCardBrowser.Business.Models.RarityModels
 {
-    public class CardRarityModel
+    public class RarityModel
     {
-        public Guid CardRarityId { get; set; }
+        public Guid RarityId { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }
         public string ImageName { get; set; }

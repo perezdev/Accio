@@ -343,3 +343,4 @@ healthchecksdb
 _ScaffoldCommand.txt
 appsettings.json
 appsettings.Development.json
+/HpTcgCardBrowser.Web.API

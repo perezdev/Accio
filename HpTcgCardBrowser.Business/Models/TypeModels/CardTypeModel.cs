@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace HpTcgCardBrowser.Data
+namespace HpTcgCardBrowser.Business.Models.TypeModels
 {
-    public partial class CardRarity
+    public class CardTypeModel
     {
-        public Guid CardRarityId { get; set; }
+        public Guid CardTypeId { get; set; }
         public string Name { get; set; }
-        public string Symbol { get; set; }
-        public string ImageName { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

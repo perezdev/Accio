@@ -239,6 +239,28 @@ footer {
     }
 
 /* Hogwarts Houses */
+.crest {
+    position: relative;
+    top: -25px;
+    cursor: pointer;
+}
+
+.crest-tooltip {
+    display: none;
+}
+.crest-in-tooltip {
+    cursor: pointer;
+    z-index: 9999 !important;
+}
+
+.tippy-box {
+    background-color: var(--mainColor);
+}
+
+    .tippy-box[data-placement^=top]>.tippy-arrow:before {
+        border-top-color: var(--mainColor);
+    }
+
 header.gryffindor,
 footer.gryffindor {
     background-color: var(--redLion) !important;

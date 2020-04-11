@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.Business",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.Data", "HpTcgCardBrowser.Data\HpTcgCardBrowser.Data.csproj", "{0EED1CB1-363A-4490-96CF-6335683F84E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.SetUpload", "HpTcgCardBrowser.SetUpload\HpTcgCardBrowser.SetUpload.csproj", "{8857A1D0-D11D-4C6F-918A-919B4F670D50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HpTcgCardBrowser.SetUpload", "HpTcgCardBrowser.SetUpload\HpTcgCardBrowser.SetUpload.csproj", "{8857A1D0-D11D-4C6F-918A-919B4F670D50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HpTcgCardBrowser.Web.API", "HpTcgCardBrowser.Web.API\HpTcgCardBrowser.Web.API.csproj", "{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8857A1D0-D11D-4C6F-918A-919B4F670D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

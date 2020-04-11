@@ -9,6 +9,9 @@ $(document).ready(function () {
     InitializeCardSearchElements();
     SetValuesFromQueryAndPeformCardSearch();
     InitializeCardTable();
+
+    /* Crest initialization */
+    InitializeCrestElements();
 });
 
 /**
@@ -88,7 +91,8 @@ const searchElementNames = {
     SortCardsById: '#sortCardsBy',
     CardModalId: '#cardModal',
     SortCardsOrderId: '#sortCardsOrder',
-    CardViewId: '#cardView'
+    CardViewId: '#cardView',
+    CardCountId: '#cardCount',
 };
 
 const resultsContainerNames = {
@@ -178,6 +182,7 @@ function SearchCards() {
         success: function (response) {
             if (response.success) {
                 cards = response.json;
+                $(searchElementNames.CardCountId).html(cards.length + ' cards');
                 AddCardsToContainer(cards);
             }
 
@@ -478,3 +483,33 @@ function GetSearchData() {
 //function ShowCardModal(id) {
 //    $(searchElementNames.CardModalId).modal();
 //}
+
+/**
+ * Crests
+ * -----------------------------------------------------------------------------------------------------
+ */
+
+const crestElementNames = {
+    CrestId: '#crest',
+    CrestTooltipId: '#crestsTooltip',
+    CrestButtonGryffindorId: '#crestButtonGryffindor',
+    CrestButtonHufflepuffId: '#crestButtonHufflepuff',
+    CrestButtonRavenclawId: '#crestButtonRavenclaw',
+    CrestButtonSlytherinId: '#crestButtonSlytherin'
+};
+
+function InitializeCrestElements() {
+    var crestTooltipHtml = $(crestElementNames.CrestTooltipId).html();
+    tippy(crestElementNames.CrestId, {
+        content: crestTooltipHtml,
+        allowHTML: true,
+        interactive: true,
+        offset: [0, -26], //We have to offset the tooltip by because the main crest is offset
+        trigger: 'click'
+    });
+
+    $('#crestButtonGryffindor').on('click', function () {
+        //console.log($(this).html());
+        alert('test');
+    });
+}

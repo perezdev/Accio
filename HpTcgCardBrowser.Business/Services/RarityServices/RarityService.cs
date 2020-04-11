@@ -1,33 +1,34 @@
 ﻿using HpTcgCardBrowser.Business.Models.CardModels;
+using HpTcgCardBrowser.Business.Models.RarityModels;
 using HpTcgCardBrowser.Data;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HpTcgCardBrowser.Business.Services.CardServices
 {
-    public class CardRarityService
+    public class RarityService
     {
         private HpTcgContext _context { get; set; }
 
-        public CardRarityService(HpTcgContext context)
+        public RarityService(HpTcgContext context)
         {
             _context = context;
         }
 
-        public List<CardRarityModel> GetCardRarities()
+        public List<RarityModel> GetCardRarities()
         {
-            var rarities = (from set in _context.CardRarity
+            var rarities = (from set in _context.Rarity
                             where !set.Deleted
-                            select GetCardRarityModel(set)).ToList();
+                            select GetRarityModel(set)).ToList();
 
             return rarities;
         }
 
-        public static CardRarityModel GetCardRarityModel(CardRarity cardRarity)
+        public static RarityModel GetRarityModel(Rarity cardRarity)
         {
-            return new CardRarityModel()
+            return new RarityModel()
             {
-                CardRarityId = cardRarity.CardRarityId,
+                RarityId = cardRarity.RarityId,
                 Name = cardRarity.Name,
                 Symbol = cardRarity.Symbol,
                 ImageName = cardRarity.ImageName,

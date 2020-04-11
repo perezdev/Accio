@@ -1,40 +1,39 @@
-﻿using HpTcgCardBrowser.Business.Models.CardModels;
+﻿using HpTcgCardBrowser.Business.Models.SetModels;
 using HpTcgCardBrowser.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HpTcgCardBrowser.Business.Services.CardServices
 {
-    public class CardSetService
+    public class SetService
     {
         private HpTcgContext _context { get; set; }
-        private static List<CardSetModel> SetsCache { get; set; } = new List<CardSetModel>();
+        private static List<SetModel> SetsCache { get; set; } = new List<SetModel>();
 
-        public CardSetService(HpTcgContext context)
+        public SetService(HpTcgContext context)
         {
             _context = context;
         }
 
-        public List<CardSetModel> GetSets()
+        public List<SetModel> GetSets()
         {
             if (SetsCache.Count > 0)
                 return SetsCache;
 
-            var sets = (from set in _context.CardSet
+            var sets = (from set in _context.Set
                         where !set.Deleted
                         orderby set.Order
-                        select GetCardSetModel(set)).ToList();
+                        select GetSetModel(set)).ToList();
             SetsCache = sets;
 
             return SetsCache;
         }
 
-        public static CardSetModel GetCardSetModel(CardSet set)
+        public static SetModel GetSetModel(Set set)
         {
-            return new CardSetModel()
+            return new SetModel()
             {
-                CardSetId = set.CardSetId,
+                SetId = set.SetId,
                 Name = set.Name,
                 ShortName = set.ShortName,
                 Description = set.Description,

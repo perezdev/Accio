@@ -18,9 +18,9 @@ namespace HpTcgCardBrowser.SetUpload
         private static IConfiguration _configuration { get; set; }
 
         private static CardService _cardService { get; set; }
-        private static CardSetService _cardSetService { get; set; }
-        private static CardTypeService _cardTypeService { get; set; }
-        private static CardRarityService _cardRarityService { get; set; }
+        private static SetService _cardSetService { get; set; }
+        private static TypeService _cardTypeService { get; set; }
+        private static RarityService _cardRarityService { get; set; }
         private static CardDetailService _cardDetailService { get; set; }
         private static LanguageService _languageService { get; set; }
         private static LessonService _lessonService { get; set; }
@@ -41,18 +41,18 @@ namespace HpTcgCardBrowser.SetUpload
             services.AddDbContext<HpTcgContext>(options => options.UseSqlServer(_configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
             services.AddSingleton(_configuration);
             services.AddTransient<CardService>();
-            services.AddTransient<CardSetService>();
-            services.AddTransient<CardTypeService>();
-            services.AddTransient<CardRarityService>();
+            services.AddTransient<SetService>();
+            services.AddTransient<TypeService>();
+            services.AddTransient<RarityService>();
             services.AddTransient<CardDetailService>();
             services.AddTransient<LanguageService>();
             services.AddTransient<LessonService>();
 
             var provider = services.BuildServiceProvider();
             _cardService = provider.GetService<CardService>();
-            _cardSetService = provider.GetService<CardSetService>();
-            _cardTypeService = provider.GetService<CardTypeService>();
-            _cardRarityService = provider.GetService<CardRarityService>();
+            _cardSetService = provider.GetService<SetService>();
+            _cardTypeService = provider.GetService<TypeService>();
+            _cardRarityService = provider.GetService<RarityService>();
             _cardDetailService = provider.GetService<CardDetailService>();
             _languageService = provider.GetService<LanguageService>();
             _lessonService = provider.GetService<LessonService>();

@@ -1,4 +1,7 @@
 ﻿using HpTcgCardBrowser.Business.Models.LessonModels;
+using HpTcgCardBrowser.Business.Models.RarityModels;
+using HpTcgCardBrowser.Business.Models.SetModels;
+using HpTcgCardBrowser.Business.Models.TypeModels;
 using System;
 
 namespace HpTcgCardBrowser.Business.Models.CardModels
@@ -7,9 +10,9 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
     {
         public Guid CardId { get; set; }
         public CardDetailModel Detail { get; set; } = new CardDetailModel();
-        public CardSetModel CardSet { get; set; } = new CardSetModel();
+        public SetModel CardSet { get; set; } = new SetModel();
         public CardTypeModel CardType { get; set; } = new CardTypeModel();
-        public CardRarityModel Rarity { get; set; } = new CardRarityModel();
+        public RarityModel Rarity { get; set; } = new RarityModel();
         public LessonTypeModel LessonType { get; set; } = new LessonTypeModel();
         public int? LessonCost { get; set; }
         public int? ActionCost { get; set; }

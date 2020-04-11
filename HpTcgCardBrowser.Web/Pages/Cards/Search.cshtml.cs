@@ -11,10 +11,10 @@ namespace HpTcgCardBrowser.Web
 {
     public class SearchModel : PageModel
     {
-        private CardSetService _setService { get; set; }
+        private SetService _setService { get; set; }
         private CardService _cardService { get; set; }
 
-        public SearchModel(CardSetService setService, CardService cardService)
+        public SearchModel(SetService setService, CardService cardService)
         {
             _setService = setService;
             _cardService = cardService;

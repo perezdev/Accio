@@ -2,6 +2,9 @@
 using HpTcgCardBrowser.Business.Models.ImportModels;
 using HpTcgCardBrowser.Business.Models.LanguageModels;
 using HpTcgCardBrowser.Business.Models.LessonModels;
+using HpTcgCardBrowser.Business.Models.RarityModels;
+using HpTcgCardBrowser.Business.Models.SetModels;
+using HpTcgCardBrowser.Business.Models.TypeModels;
 using HpTcgCardBrowser.Business.Services.CardSearchHistoryServices;
 using HpTcgCardBrowser.Business.Services.LanguageServices;
 using HpTcgCardBrowser.Business.Services.LessonServices;
@@ -16,15 +19,15 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
     public class CardService
     {
         private HpTcgContext _context { get; set; }
-        private CardSetService _cardSetService { get; set; }
-        private CardTypeService _cardTypeService { get; set; }
-        private CardRarityService _cardRarityService { get; set; }
+        private SetService _cardSetService { get; set; }
+        private TypeService _cardTypeService { get; set; }
+        private RarityService _cardRarityService { get; set; }
         private LanguageService _languageService { get; set; }
         private LessonService _lessonService { get; set; }
         private CardSearchHistoryService _cardSearchHistoryService { get; set; }
 
-        public CardService(HpTcgContext context, CardSetService cardSetService, CardTypeService cardTypeService,
-                           CardRarityService cardRarityService, LanguageService languageService, LessonService lessonService,
+        public CardService(HpTcgContext context, SetService cardSetService, TypeService cardTypeService,
+                           RarityService cardRarityService, LanguageService languageService, LessonService lessonService,
                            CardSearchHistoryService cardSearchHistoryService)
         {
             _context = context;
@@ -44,8 +47,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
                          join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.CardSet on card.CardSetId equals cardSet.CardSetId
-                         join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
+                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
@@ -118,8 +121,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
                          join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.CardSet on card.CardSetId equals cardSet.CardSetId
-                         join cardRarity in _context.CardRarity on card.CardRarityId equals cardRarity.CardRarityId
+                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
@@ -169,15 +172,15 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             _context.SaveChanges();
         }
 
-        public static CardModel GetCardModel(Card card, CardSet cardSet, CardRarity cardRarity, CardType cardType, CardDetail cardDetail,
+        public static CardModel GetCardModel(Card card, Set cardSet, Rarity cardRarity, CardType cardType, CardDetail cardDetail,
                                              Language language, LessonType lessonType)
         {
             return new CardModel()
             {
                 CardId = card.CardId,
-                CardSet = CardSetService.GetCardSetModel(cardSet),
-                CardType = CardTypeService.GetCardTypeModel(cardType),
-                Rarity = CardRarityService.GetCardRarityModel(cardRarity),
+                CardSet = SetService.GetSetModel(cardSet),
+                CardType = TypeService.GetCardTypeModel(cardType),
+                Rarity = RarityService.GetRarityModel(cardRarity),
                 Detail = CardDetailService.GetCardDetailModel(cardDetail, language),
                 LessonType = lessonType == null ? null : LessonService.GetLessonTypeModel(lessonType),
                 LessonCost = card.LessonCost,
@@ -191,8 +194,8 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                 Deleted = card.Deleted,
             };
         }
-        public Card GetCard(ImportCardModel importCardModel, string setName, List<CardSetModel> cardSetCache, List<CardTypeModel> cardTypesCache,
-                            List<CardRarityModel> raritiesCache, List<LessonTypeModel> lessonTypeCache)
+        public Card GetCard(ImportCardModel importCardModel, string setName, List<SetModel> cardSetCache, List<CardTypeModel> cardTypesCache,
+                            List<RarityModel> raritiesCache, List<LessonTypeModel> lessonTypeCache)
         {
             /*
              * As a general rule, each item's (set, type, raritiy), name should match up between the DB and the JSON.
@@ -219,9 +222,9 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             return new Card()
             {
                 CardId = Guid.NewGuid(),
-                CardSetId = cardSet?.CardSetId,
+                CardSetId = cardSet?.SetId,
                 CardTypeId = cardType?.CardTypeId,
-                CardRarityId = cardRarity?.CardRarityId,
+                CardRarityId = cardRarity?.RarityId,
                 LessonTypeId = lessonType?.LessonTypeId,
                 LessonCost = importCardModel.Cost == null ? null : (int?)Convert.ToInt32(importCardModel.Cost),
                 ActionCost = actionCost,

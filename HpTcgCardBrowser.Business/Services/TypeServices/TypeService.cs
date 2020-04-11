@@ -1,4 +1,4 @@
-﻿using HpTcgCardBrowser.Business.Models.CardModels;
+﻿using HpTcgCardBrowser.Business.Models.TypeModels;
 using HpTcgCardBrowser.Data;
 using System;
 using System.Collections.Generic;
@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace HpTcgCardBrowser.Business.Services.CardServices
 {
-    public class CardTypeService
+    public class TypeService
     {
         private HpTcgContext _context { get; set; }
 
-        public CardTypeService(HpTcgContext context)
+        public TypeService(HpTcgContext context)
         {
             _context = context;
         }

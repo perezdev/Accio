@@ -1,4 +1,4 @@
-﻿namespace HpTcgCardBrowser.Business.Models.CardModels
+﻿namespace HpTcgCardBrowser.Business.Models.TypeModels
 {
     public enum TypeOfCard
     {

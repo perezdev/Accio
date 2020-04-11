@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace HpTcgCardBrowser.Business.Models.CardModels
+namespace HpTcgCardBrowser.Business.Models.SetModels
 {
-    public class CardSetModel
+    public class SetModel
     {
-        public Guid CardSetId { get; set; }
+        public Guid SetId { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string Description { get; set; }

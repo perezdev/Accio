@@ -30,9 +30,9 @@ namespace HpTcgCardBrowser.Web
             services.AddDbContext<HpTcgContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
 
             services.AddTransient<CardService>();
-            services.AddTransient<CardSetService>();
-            services.AddTransient<CardTypeService>();
-            services.AddTransient<CardRarityService>();
+            services.AddTransient<SetService>();
+            services.AddTransient<TypeService>();
+            services.AddTransient<RarityService>();
             services.AddTransient<CardDetailService>();
             services.AddTransient<LanguageService>();
             services.AddTransient<LessonService>();
