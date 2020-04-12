@@ -44,6 +44,12 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
             var param = cardSearchParameters;
             var utcNow = DateTime.UtcNow;
 
+            if (param.LanguageId == null || param.LanguageId == Guid.Empty)
+            {
+                var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
+                param.LanguageId = englishLanguageId;
+            }
+
             var cards = (from card in _context.Card
                          join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
                          join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
@@ -65,17 +71,17 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                              lessonType
                          });
 
-            if (param.CardSetId != null && param.CardSetId != Guid.Empty)
+            if (param.SetId != null && param.SetId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardSetId == param.CardSetId);
+                cards = cards.Where(x => x.card.CardSetId == param.SetId);
             }
-            if (param.CardTypeId != null && param.CardTypeId != Guid.Empty)
+            if (param.TypeId != null && param.TypeId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardTypeId == param.CardTypeId);
+                cards = cards.Where(x => x.card.CardTypeId == param.TypeId);
             }
-            if (param.CardRarityId != null && param.CardRarityId != Guid.Empty)
+            if (param.RarityId != null && param.RarityId != Guid.Empty)
             {
-                cards = cards.Where(x => x.card.CardRarityId == param.CardRarityId);
+                cards = cards.Where(x => x.card.CardRarityId == param.RarityId);
             }
             if (param.LessonCost != null && param.LessonCost >= 0)
             {

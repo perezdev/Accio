@@ -43,7 +43,7 @@ namespace HpTcgCardBrowser.Web
             {
                 var cardSearchParameters = new CardSearchParameters()
                 {
-                    CardSetId = setId,
+                    SetId = setId,
                     SearchText = searchText,
                     SortBy = sortBy,
                     SortOrder = sortOrder,
