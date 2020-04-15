@@ -13,5 +13,6 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
         public string SortBy { get; set; } = null;
         public string SortOrder { get; set; } = null;
         public Guid? PerformedByUserId { get; set; } = null;
+        public Guid SourceId { get; set; }
     }
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HpTcgCardBrowser.Business.Models.CardModels;
+using HpTcgCardBrowser.Business.Models.SourceModels;
 using HpTcgCardBrowser.Business.Services.CardServices;
+using HpTcgCardBrowser.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,11 +15,13 @@ namespace HpTcgCardBrowser.Web
     {
         private SetService _setService { get; set; }
         private CardService _cardService { get; set; }
+        private SourceService _sourceService { get; set; }
 
-        public SearchModel(SetService setService, CardService cardService)
+        public SearchModel(SetService setService, CardService cardService, SourceService sourceService)
         {
             _setService = setService;
             _cardService = cardService;
+            _sourceService = sourceService;
         }
 
         public void OnGet()
@@ -41,6 +45,8 @@ namespace HpTcgCardBrowser.Web
         {
             try
             {
+                var websiteSource = _sourceService.GetSource(SourceType.Website);
+
                 var cardSearchParameters = new CardSearchParameters()
                 {
                     SetId = setId,
@@ -49,6 +55,7 @@ namespace HpTcgCardBrowser.Web
                     SortOrder = sortOrder,
                     //Harding coding English for now, as we don't have other languages atm
                     LanguageId = new Guid("4F5CC98D-4315-4410-809F-E2CC428E0C9B"),
+                    SourceId = websiteSource.SourceId,
                 };
 
                 var cards = _cardService.SearchCards(cardSearchParameters);

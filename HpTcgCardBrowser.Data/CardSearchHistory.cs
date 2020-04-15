@@ -15,6 +15,7 @@ namespace HpTcgCardBrowser.Data
         public int? LessonCost { get; set; }
         public string SortBy { get; set; }
         public string SortOrder { get; set; }
+        public Guid? SourceId { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

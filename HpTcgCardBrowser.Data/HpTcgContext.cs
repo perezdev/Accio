@@ -23,6 +23,7 @@ namespace HpTcgCardBrowser.Data
         public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<RulingType> RulingType { get; set; }
         public virtual DbSet<Set> Set { get; set; }
+        public virtual DbSet<Source> Source { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -171,6 +172,17 @@ namespace HpTcgCardBrowser.Data
                 entity.Property(e => e.ReleaseDate).HasMaxLength(50);
 
                 entity.Property(e => e.ShortName).HasMaxLength(10);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Source>(entity =>
+            {
+                entity.Property(e => e.SourceId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
