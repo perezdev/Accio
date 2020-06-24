@@ -12,6 +12,9 @@ $(document).ready(function () {
 
     /* Crest initialization */
     InitializeCrestElements();
+
+    /* Modal initialization */
+    InitializeModal();
 });
 
 /**
@@ -243,8 +246,10 @@ function AddCardsToDeck(cards) {
             continue;
         }
 
+        var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
+        var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
         var cardHtml = `
-                        <div onclick="ShowCardModal('` + card.cardId + `');" class="ma1 ` + card.cssSizeClass + `">
+                        <div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
                             <img class="tc" style="cursor: pointer;" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
@@ -279,7 +284,7 @@ function AddCardsToTable(cards) {
         var card = cards[i];
 
         var costValue = card.lessonCost === null ? '' : card.lessonCost;
-        var setColumn = '<td>' + card.cardSet.shortName + '</td>';
+        var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = '<td>' + card.cardNumber + '</td>';
         var cardNameColumn = '<td>' + card.detail.name + '</td>';
 
@@ -299,7 +304,7 @@ function AddCardsToTable(cards) {
             rarityColumn = '<td>' + card.rarity.symbol + '</td>';
         }
         else {
-            var rarityImage = GetRarityImageElementFromRaritySymbol(card.rarity.symbol);
+            var rarityImage = GetRarityImageElement(card.rarity.imageName);
             rarityColumn = '<td>' + card.rarity.symbol + rarityImage + '</td>';
         }
 
@@ -353,22 +358,20 @@ function GetLessonImageElementFromLessonType(lessonType) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/transfiguration.svg" />';
     }
 }
-function GetRarityImageElementFromRaritySymbol(symbol) {
-    if (symbol === 'C') {
-        return '<img class="card-table-cell-rarity-image" src="/images/rarities/common.png" />';
-    }
-    else if (symbol === 'R') {
-        return '<img class="card-table-cell-rarity-image" src="/images/rarities/rare.png" />';
-    }
-    else if (symbol === 'U') {
-        return '<img class="card-table-cell-rarity-image" src="/images/rarities/uncommon.png" />';
-    }
-    else if (symbol === 'FP') {
-        return '<img class="card-table-cell-rarity-image" src="/images/rarities/foil-premium.png" />';
-    }
-    else if (symbol === 'HP') {
-        return '<img class="card-table-cell-rarity-image" src="/images/rarities/holo-portrait-premium.png" />';
-    }
+function GetRarityImageElement(imageName) {
+    return '<img class="card-table-cell-rarity-image" src="/images/rarities/' + imageName + '" />';
+}
+function GetSetIconImageElement(setFileName) {
+    return '<img class="card-table-cell-icon-image" src="/images/seticons/' + setFileName + '" />';
+}
+function RotateCardHorizontally(card) {
+    card.style.transform = 'rotate(90deg)';
+    card.style.position = 'relative';
+    card.style.zIndex = '9999';
+}
+function RotateCardVertically(card) {
+    card.style.transform = 'rotate(0deg)';
+    card.style.zIndex = '0';
 }
 
 async function SetValuesFromQueryAndPeformCardSearch() {
@@ -480,9 +483,17 @@ function GetSearchData() {
 //    }
 //}
 
-//function ShowCardModal(id) {
-//    $(searchElementNames.CardModalId).modal();
-//}
+/**
+ * Modal
+ * -----------------------------------------------------------------------------------------------------
+ */
+
+function InitializeModal() {
+    $("#modal-custom").iziModal();
+}
+function ShowCardModal(id) {
+    $('#modal-custom').iziModal('open');
+}
 
 /**
  * Crests

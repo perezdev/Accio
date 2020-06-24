@@ -192,7 +192,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                 LessonCost = card.LessonCost,
                 ActionCost = card.ActionCost,
                 CardNumber = card.CardNumber,
-                CssSizeClass = card.CssSizeClass,
+                Orientation = card.Orientation,
                 CreatedById = card.CreatedById,
                 CreatedDate = card.CreatedDate,
                 UpdatedById = card.UpdatedById,
@@ -235,7 +235,7 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
                 LessonCost = importCardModel.Cost == null ? null : (int?)Convert.ToInt32(importCardModel.Cost),
                 ActionCost = actionCost,
                 CardNumber = importCardModel.Number,
-                CssSizeClass = "card-size-vertical", //Most cards are vertical. We'll set this to vertical by default and change it manually later
+                Orientation = "Vertical", //Most cards are vertical. We'll set this to vertical by default and change it manually later
                 CreatedById = Guid.Empty,
                 CreatedDate = DateTime.UtcNow,
                 UpdatedById = Guid.Empty,

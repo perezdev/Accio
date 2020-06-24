@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
@@ -93,7 +94,7 @@
     <!-- End Details Nav -->
     <!-- End Header -->
     <!-- Begin Content -->
-    <main class="w-100 z-index-0">
+    <main class="w-100">
         <div id="contentContainer" class="mw8 center content-container">
             <div id="cardContainer" class="flex flex-wrap">
 
@@ -118,7 +119,43 @@
 
         </div>
     </main>
+
+    <!-- Card Modal -->
+
+    @*<div id="modal-custom" data-izimodal-fullscreen="true" data-izimodal-icon="icon-home" aria-hidden="false" aria-labelledby="modal-default" role="dialog" class="iziModal" data-izimodal-group="grupo1" data-izimodal-loop="true" style="z-index: 999; border-radius: 3px; border-bottom: 3px solid rgb(136, 160, 185); overflow: hidden; max-width: 900px; display: block; height: 638px;">
+        <div class="iziModal-header" style="background: rgb(136, 160, 185); padding-right: 78px;"><i class="iziModal-header-icon icon-home"></i><div class="iziModal-progressbar"><div style="background-color: white; width: 100%;"></div></div><h2 class="iziModal-header-title">Welcome to the iziModal</h2><p class="iziModal-header-subtitle">Elegant, responsive, flexible and lightweight modal plugin with jQuery.</p><div class="iziModal-header-buttons"><a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a><a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a></div></div><div class="iziModal-wrap" style="height: auto;">
+            <div class="iziModal-content" style="padding: 20px;">
+                <p>You have several possibilities to use the easy Modal, with options, and also data-attributes. Click below for see some examples.</p>
+
+                <h4><span>Progress</span></h4>
+                <button class="btn btn-progress-start">Start Progress</button>
+                <button class="btn btn-progress-pause">Pause Progress</button>
+                <button class="btn btn-progress-resume">Resume Progress</button>
+                <button class="btn btn-progress-reset">Reset Progress</button>
+
+                <h4><span>Ajax/Fetch</span></h4>
+                <button class="btn btn-ajax">Load Ajax</button>
+                <button class="btn btn-fetch">Load Fetch</button>
+
+                <h4><span>Group</span></h4>
+                <button class="btn" data-izimodal-prev="">Prev Modal</button>
+                <button class="btn" data-izimodal-next="">Next Modal</button>
+
+                <h4><span>Data-Attributes</span></h4>
+                <button class="btn" data-izimodal-close="">Close</button>
+                <button class="btn" data-izimodal-fullscreen="">Fullscreen</button>
+                <button data-izimodal-open="#modal-custom" data-izimodal-transitionin="fadeInDown" data-izimodal-transitionout="fadeOutDown">Open a specific Modal</button>
+
+                <h4><span>Another Modal</span></h4>
+                <button class="btn" data-izimodal-open="#modal-custom" data-izimodal-zindex="20000" data-izimodal-preventclose="">Another Modal</button>
+            </div>
+        </div>
+    </div>*@
+
+    <!-- End Card Modal -->
+
     <!-- End Content -->
+    
     <!-- Begin Footer -->
     <footer class="w-100 pb4" style="overflow: visible !important;">
         <div class="w-100 tc">
@@ -169,6 +206,7 @@
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/fd25a25548.js"></script>
     <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" asp-append-version="true"></script>
     <script src="~/js/utlity.js" asp-append-version="true"></script>
     <script src="~/js/accio.js" asp-append-version="true"></script>
 </body>
