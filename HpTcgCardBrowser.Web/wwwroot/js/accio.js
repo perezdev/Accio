@@ -1,4 +1,6 @@
-﻿/**
+﻿
+
+/**
  * On page load
  */
 $(document).ready(function () {
@@ -120,6 +122,7 @@ function InitializeCardSearchElements() {
     });
     //Set change
     $(searchElementNames.SetId).on('change', function () {
+        UpdateSetLabelAndIcon();
         SearchCards();
     });
     //Card view change - images/list
@@ -146,7 +149,8 @@ function InitializeCardTable() {
     cardTable = $(resultsContainerNames.CardTableId).DataTable({
         lengthChange: false,
         searching: false,
-        pageLength: 15
+        paging: false,
+        bInfo: false,
     });
 }
 
@@ -523,4 +527,13 @@ function InitializeCrestElements() {
         //console.log($(this).html());
         alert('test');
     });
+}
+
+
+/*
+ * Misc
+ * ----------------------------------------------------------------------------------------------------
+ */
+function UpdateSetLabelAndIcon() {
+
 }

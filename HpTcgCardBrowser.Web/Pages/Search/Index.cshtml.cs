@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HpTcgCardBrowser.Business.Models.CardModels;
 using HpTcgCardBrowser.Business.Models.SourceModels;
 using HpTcgCardBrowser.Business.Services.CardServices;
@@ -9,15 +6,15 @@ using HpTcgCardBrowser.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HpTcgCardBrowser.Web
+namespace HpTcgCardBrowser.Web.Pages.Search
 {
-    public class SearchModel : PageModel
+    public class IndexModel : PageModel
     {
         private SetService _setService { get; set; }
         private CardService _cardService { get; set; }
         private SourceService _sourceService { get; set; }
 
-        public SearchModel(SetService setService, CardService cardService, SourceService sourceService)
+        public IndexModel(SetService setService, CardService cardService, SourceService sourceService)
         {
             _setService = setService;
             _cardService = cardService;

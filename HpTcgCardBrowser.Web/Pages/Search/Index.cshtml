@@ -1,0 +1,113 @@
+﻿@page
+@model HpTcgCardBrowser.Web.Pages.Search.IndexModel
+@{
+    ViewData["Title"] = "Accio - Card Search";
+    Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+}
+
+@* Required for AJAX async calls *@
+@Html.AntiForgeryToken()
+
+<!-- Begin Details Nav -->
+<div class="w-100 z-index-1">
+    <div class="cf mw8 center" style="margin-top: 8px;">
+        <div class="fl w-100 w-30-ns">
+            <div class="b" style="font-size: 14px !important;">
+                <i id="setIcon" class="fas fa-hat-wizard mr2"></i>
+                <label id="setLabel">All Sets</label>
+            </div>
+            <div>
+                <label id="cardCount" class="sub-menu-label"></label>
+            </div>
+        </div>
+        <div class="fl w-100 w-70-ns tr-ns tc">
+            <nav class="pv2">
+                <select id="setSelect" class="dib-ns db mr1-ns">
+                    <option>All Sets</option>
+                </select>
+                <label class="dib-ns db mr1-ns sub-menu-label">
+                    viewed as
+                </label>
+                <select id="cardView" class="dib-ns db mr1-ns">
+                    <option value="images">Images</option>
+                    <option value="checklist">Checklist</option>
+                </select>
+                <label class="dib-ns db mr1-ns sub-menu-label">
+                    sorted by
+                </label>
+                <select id="sortCardsBy" class="dib-ns db mr1-ns">
+                    <option value="sn">Set/Number</option>
+                </select>
+                <label class="dib-ns db mr1-ns sub-menu-label">
+                    :
+                </label>
+                <select id="sortCardsOrder" class="dib-ns db">
+                    <option value="auto">Auto</option>
+                    <option value="asc">Asc</option>
+                    <option value="desc">Desc</option>
+                </select>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- End Details Nav -->
+<!-- Begin Content -->
+<main class="w-100">
+    <div id="contentContainer" class="mw8 center content-container">
+        <div id="cardContainer" class="flex flex-wrap">
+
+        </div>
+        <div id="tableContainer" class="mv2 dn">
+            <table id="cardTable" class="w-100">
+                <thead>
+                    <tr>
+                        <th>Set</th>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Cost</th>
+                        <th>Type</th>
+                        <th>Rarity</th>
+                        <th>Artist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<!-- Card Modal -->
+@*<div id="modal-custom" data-izimodal-fullscreen="true" data-izimodal-icon="icon-home" aria-hidden="false" aria-labelledby="modal-default" role="dialog" class="iziModal" data-izimodal-group="grupo1" data-izimodal-loop="true" style="z-index: 999; border-radius: 3px; border-bottom: 3px solid rgb(136, 160, 185); overflow: hidden; max-width: 900px; display: block; height: 638px;">
+        <div class="iziModal-header" style="background: rgb(136, 160, 185); padding-right: 78px;"><i class="iziModal-header-icon icon-home"></i><div class="iziModal-progressbar"><div style="background-color: white; width: 100%;"></div></div><h2 class="iziModal-header-title">Welcome to the iziModal</h2><p class="iziModal-header-subtitle">Elegant, responsive, flexible and lightweight modal plugin with jQuery.</p><div class="iziModal-header-buttons"><a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a><a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a></div></div><div class="iziModal-wrap" style="height: auto;">
+            <div class="iziModal-content" style="padding: 20px;">
+                <p>You have several possibilities to use the easy Modal, with options, and also data-attributes. Click below for see some examples.</p>
+
+                <h4><span>Progress</span></h4>
+                <button class="btn btn-progress-start">Start Progress</button>
+                <button class="btn btn-progress-pause">Pause Progress</button>
+                <button class="btn btn-progress-resume">Resume Progress</button>
+                <button class="btn btn-progress-reset">Reset Progress</button>
+
+                <h4><span>Ajax/Fetch</span></h4>
+                <button class="btn btn-ajax">Load Ajax</button>
+                <button class="btn btn-fetch">Load Fetch</button>
+
+                <h4><span>Group</span></h4>
+                <button class="btn" data-izimodal-prev="">Prev Modal</button>
+                <button class="btn" data-izimodal-next="">Next Modal</button>
+
+                <h4><span>Data-Attributes</span></h4>
+                <button class="btn" data-izimodal-close="">Close</button>
+                <button class="btn" data-izimodal-fullscreen="">Fullscreen</button>
+                <button data-izimodal-open="#modal-custom" data-izimodal-transitionin="fadeInDown" data-izimodal-transitionout="fadeOutDown">Open a specific Modal</button>
+
+                <h4><span>Another Modal</span></h4>
+                <button class="btn" data-izimodal-open="#modal-custom" data-izimodal-zindex="20000" data-izimodal-preventclose="">Another Modal</button>
+            </div>
+        </div>
+    </div>*@
+
+<!-- End Card Modal -->
+<!-- End Content -->

@@ -14,7 +14,8 @@
     --whiteWizard: #FFFFFF;
     --yellowBadger: #ECB939;
     --brownPaw: #836444;
-    --mainColor: var(--redLion);
+    --purpleFirecracker: #6B63B5;
+    --mainColor: var(--purpleFirecracker);
     /* Fonts */
     --sansSerif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --serif: "Literata", Georgia, serif;
@@ -193,6 +194,10 @@ footer {
         opacity: 0.65;
     }
 
+.footer-content {
+    margin-top: 30px;
+}
+
 /* Content */
 .card-image {
     transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
@@ -249,6 +254,7 @@ footer {
 .crest-tooltip {
     display: none;
 }
+
 .crest-in-tooltip {
     cursor: pointer;
     z-index: 9999 !important;
@@ -258,7 +264,7 @@ footer {
     background-color: var(--mainColor);
 }
 
-    .tippy-box[data-placement^=top]>.tippy-arrow:before {
+    .tippy-box[data-placement^=top] > .tippy-arrow:before {
         border-top-color: var(--mainColor);
     }
 
@@ -353,6 +359,26 @@ select {
     letter-spacing: normal;
     color: var(--parchmentPaper);
 }
+
+    select option {
+        background: #FFFFFF;
+        color: var(--grayGargoyle);
+        font-family: Arial;
+    }
+
+        select option:hover,
+        select option:focus,
+        select option:active {
+            background: linear-gradient(#000000, #000000);
+            background-color: #000000 !important; /* for IE */
+            color: #ffed00 !important;
+        }
+
+        select option:checked {
+            background: linear-gradient(#d6d6d6, #d6d6d6);
+            background-color: #d6d6d6 !important; /* for IE */
+            color: #000000 !important;
+        }
 
 #setLabel {
     font-family: LibreBaskerville-Regular;

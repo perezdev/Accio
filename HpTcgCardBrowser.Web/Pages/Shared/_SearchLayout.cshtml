@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    
+</head>
+<body>
+    <div>
+        
+    </div>
+</body>
+</html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+
+    <link href="https://unpkg.com/tippy.js@6/themes/light.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
+    <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+    <!-- Begin Header -->
+    <header class="w-100 z-index-2">
+        <!-- Begin Search Nav -->
+        <div class="mw8 pv2 center">
+            <div class="cf">
+                <a class="fl logo-container" href="/">
+                    <img class="search-logo" src="~/images/logos/logo_white.svg" />
+                    @*<img class="search-logo" src="~/images/loader_cube.gif" />*@
+                </a>
+                <div class="fl w-100 w-40-ns">
+                    <form id="search" accept-charset="UTF-8" method="get">
+                        <input id="searchInput" class="dib-ns db w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="Search for a card">
+                    </form>
+                </div>
+                <div class="fl w-100 w-50-ns tr-ns tc">
+                    <nav class="pv2">
+                        <a class="dib-ns db mr3-ns" href="#" title="Advanced"><i class="fas fa-bolt mr2"></i>Advanced</a>
+                        <a class="dib-ns db mr3-ns" href="#" title="All Cards"><i class="fas fa-quidditch mr2"></i>Cards</a>
+                        <a class="dib-ns db mr3-ns" href="#" title="Random Card"><i class="fas fa-magic mr2"></i>Random</a>
+                        <label class="text-white mr3-ns" style="color: #FFFFFF;">|</label>
+                        <a class="dib-ns db" href="#" title="Profile"><i class="fas fa-user-circle"></i></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- End Search Nav -->
+    </header>
+    <!-- End Header -->
+    <!-- Begin Content -->
+
+    @RenderBody()
+
+    <!-- End Content -->
+    <!-- Begin Footer -->
+    <footer class="w-100 pb4" style="overflow: visible !important;">
+        @*<div class="w-100 tc">
+            <img id="crest" src="~/images/badges/gryffindor.png" class="crest gryffindor">
+
+            <div id="crestsTooltip" class="crest-tooltip tc">
+                <img id="crestButtonGryffindor" src="~/images/badges/gryffindor.png" class="gryffindor mt2 crest-in-tooltip">
+                <img id="crestButtonHufflepuff" src="~/images/badges/hufflepuff.png" class="hufflepuff crest-in-tooltip">
+                <img id="crestButtonRavenclaw" src="~/images/badges/ravenclaw.png" class="ravenclaw crest-in-tooltip">
+                <img id="crestButtonSlytherin" src="~/images/badges/slytherin.png" class="slytherin crest-in-tooltip">
+            </div>
+        </div>*@
+        <div class="footer-content mw7 center relative">
+            <div class="cf">
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Find Cards</h4>
+                    <nav>
+                        <p><a href="#" title="Advanced"><i class="fas fa-bolt mr2"></i>Advanced</a></p>
+                        <p><a href="#" title="All Cards"><i class="fas fa-quidditch mr2"></i>All Cards</a></p>
+                        <p><a href="#" title="Random Card"><i class="fas fa-magic mr2"></i>Random Card</a></p>
+                    </nav>
+                </div>
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Accio</h4>
+                    <nav>
+                        <p><a href="#" title="Documentation"><i class="fas fa-book mr2"></i>Documentation</a></p>
+                        <p><a href="#" title="FAQ"><i class="fas fa-question mr2"></i>FAQ</a></p>
+                        <p><a href="#" title="Contact"><i class="fas fa-envelope mr2"></i>Contact</a></p>
+                    </nav>
+                </div>
+                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
+                    <h4>Social</h4>
+                    <nav>
+                        <p><a href="#" title="GitHub"><i class="fab fa-github mr2"></i>GitHub</a></p>
+                        <p><a href="#" title="Twitter"><i class="fab fa-twitter mr2"></i>Twitter</a></p>
+                    </nav>
+                </div>
+            </div>
+            <div class="w-100 ph3 tc">
+                <p class="copyright">The information presented on this site about Harry Potter, including card images, characters, names and related indicia are &trade; and &copy; Warner Bros. Entertainment Inc. This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <script src="https://unpkg.com/@@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fd25a25548.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js" asp-append-version="true"></script>
+    <script src="~/js/utlity.js" asp-append-version="true"></script>
+    <script src="~/js/accio.js" asp-append-version="true"></script>
+</body>
+</html>
