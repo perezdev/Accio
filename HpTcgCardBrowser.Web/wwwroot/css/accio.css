@@ -424,7 +424,12 @@ table.dataTable.no-footer {
 
 table {
     font-size: 14px;
+    width: 100% !important;
 }
+
+    table tbody tr {
+        cursor: pointer;
+    }
 
 /* Alternating row styles for the table. These have to be !important because datatable.js sets their own styles */
 tbody tr:nth-child(odd) {

@@ -1,9 +1,22 @@
-﻿
+﻿var currentPage = null;
 
 /**
  * On page load
  */
 $(document).ready(function () {
+    //The Search and Card page both derive from the same layout page
+    //So they share the same JS. This ensures we only load the stuff for the appropriate page,
+    //regardless of the domain.
+    currentPage = GetCurrentPage();
+    if (currentPage === Page.Search) {
+        InitializeSearchPage();
+    }
+    else if (currentPage === Page.Card) {
+        InitializeCardPage();
+    }
+});
+
+function InitializeSearchPage() {
     /* Card set initialization */
     SetCardSets();
 
@@ -17,7 +30,11 @@ $(document).ready(function () {
 
     /* Modal initialization */
     InitializeModal();
-});
+}
+function InitializeCardPage() {
+    /* Card search initialization */
+    InitializeSearchBoxOnCardPage();
+}
 
 /**
  * Card Sets
@@ -151,6 +168,18 @@ function InitializeCardTable() {
         searching: false,
         paging: false,
         bInfo: false,
+        columnDefs: [
+            {
+                //Hide the card ID column
+                targets: [0],
+                visible: false,
+            }
+        ]
+    });
+
+    $(resultsContainerNames.CardTableId + ' tbody').on('click', 'tr', function () {
+        var data = cardTable.row(this).data();
+        RedirectToCardPage(data[0]);
     });
 }
 
@@ -238,8 +267,6 @@ function AddCardsToContainer(cards) {
     }
 }
 function AddCardsToDeck(cards) {
-    //TODO: Hide/show containers
-
     //Clear existing cards
     $(resultsContainerNames.CardContainerId).html('');
 
@@ -252,8 +279,10 @@ function AddCardsToDeck(cards) {
 
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
+
+        //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
         var cardHtml = `
-                        <div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
+                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="ma1 card-image">
                             <img class="tc" style="cursor: pointer;" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
@@ -287,6 +316,7 @@ function AddCardsToTable(cards) {
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
 
+        var cardIdColumn = card.cardId;
         var costValue = card.lessonCost === null ? '' : card.lessonCost;
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = '<td>' + card.cardNumber + '</td>';
@@ -317,7 +347,7 @@ function AddCardsToTable(cards) {
         //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
         //The second column is hidden by the column definitions when the table was instantiated
         var rowNode = cardTable.row.add([
-            setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
+            cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
         ]).draw().node();
 
         //The design calls for changing the color of the font and can really only be done after the fact. DT.js
@@ -473,6 +503,15 @@ function GetSearchData() {
 
     return searchData;
 }
+function RedirectToCardPage(cardID) {
+    var baseUrl = location.protocol + '//' + location.host;
+    var cardRoute = '/Card?cardId=' + cardID;
+
+    window.open(
+        baseUrl + cardRoute,
+        '_blank'
+    );
+}
 
 //function SetSearchLoadingState(loading) {
 //    if (loading === 'loading') {
@@ -536,4 +575,33 @@ function InitializeCrestElements() {
  */
 function UpdateSetLabelAndIcon() {
 
+}
+
+/*
+ * Page Tools
+ * ----------------------------------------------------------------------------------------------------
+ */
+const Page = {
+    Search: '/Search',
+    Card: '/Card'
+};
+function GetCurrentPage() {
+    return window.location.pathname;
+}
+
+/*
+ * Card Page Search
+ * ----------------------------------------------------------------------------------------------------
+ */
+
+//The search box will behave differently on the card page. We'll basically just redirect to the search page
+//so that'll seem like a seamless integration
+function InitializeSearchBoxOnCardPage() {
+    //Search text press enter
+    $(searchElementNames.SearchInputId).on('keypress', function (e) {
+        if (e.which === 13) {
+            window.location.href = '/Search?searchText=' + $(this).val() + '&sortBy=sn&cardView=images';
+            e.preventDefault();
+        }
+    });
 }
