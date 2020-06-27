@@ -15,7 +15,9 @@
     --yellowBadger: #ECB939;
     --brownPaw: #836444;
     --purpleFirecracker: #6B63B5;
+    --lightPurpleFirecracker: #F0F0F8;
     --mainColor: var(--purpleFirecracker);
+    --mainLightColor: var(--lightPurpleFirecracker);
     /* Fonts */
     --sansSerif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --serif: "Literata", Georgia, serif;
@@ -410,15 +412,6 @@ select {
 }
 /* Card list table */
 
-/* Datatables.js adds borders to the header and footer of the table, but they aren't part of the design by Tressley */
-table.dataTable thead th {
-    border: none;
-}
-
-table.dataTable.no-footer {
-    border-bottom: none;
-}
-
 table {
     font-size: 14px;
     width: 100% !important;
@@ -428,10 +421,23 @@ table {
         cursor: pointer;
     }
 
-        table tbody tr td {
-            /*border: 4px solid red !important;*/
-            font-size: 20px !important;
+        table tbody tr:hover {
+            background-color: var(--lightPurpleFirecracker) !important;
+            cursor: pointer;
         }
+
+    table tr:hover td:first-child {
+        border-left: 2px solid var(--mainColor) !important;
+    }
+
+    /* Datatables.js adds borders to the header and footer of the table, but they aren't part of the design by Tressley */
+    table.dataTable thead th {
+        border: none;
+    }
+
+    table.dataTable.no-footer {
+        border-bottom: none;
+    }
 
 /* Alternating row styles for the table. These have to be !important because datatable.js sets their own styles */
 tbody tr:nth-child(odd) {
