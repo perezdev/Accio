@@ -4,6 +4,7 @@ namespace HpTcgCardBrowser.Business.Models.CardModels
 {
     public class CardSearchParameters
     {
+        public Guid? CardId { get; set; } = null;
         public string SearchText { get; set; } = null;
         public Guid? SetId { get; set; } = null;
         public Guid? TypeId { get; set; } = null;

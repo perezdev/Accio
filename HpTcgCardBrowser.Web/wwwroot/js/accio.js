@@ -34,6 +34,9 @@ function InitializeSearchPage() {
 function InitializeCardPage() {
     /* Card search initialization */
     InitializeSearchBoxOnCardPage();
+
+    /* Perform card search */
+    SetValuesFromQueryAndPeformSingleCardSearch();
 }
 
 /**
@@ -104,7 +107,8 @@ const queryParameterNames = {
     SearchText: 'searchText',
     SortBy: 'sortBy',
     SortOrder: 'sortOrder',
-    CardView: 'cardView'
+    CardView: 'cardView',
+    CardId: 'cardId',
 };
 
 const searchElementNames = {
@@ -594,6 +598,10 @@ function GetCurrentPage() {
  * ----------------------------------------------------------------------------------------------------
  */
 
+const singleCardSearchElementNames = {
+    SingleCardImage: '#singleCardImage',
+};
+
 //The search box will behave differently on the card page. We'll basically just redirect to the search page
 //so that'll seem like a seamless integration
 function InitializeSearchBoxOnCardPage() {
@@ -604,4 +612,40 @@ function InitializeSearchBoxOnCardPage() {
             e.preventDefault();
         }
     });
+}
+
+function SetValuesFromQueryAndPeformSingleCardSearch() {
+    var cardId = getParameterByName(queryParameterNames.CardId);
+
+    if (cardId) {
+        var fd = new FormData();
+        fd.append('cardId', cardId);
+
+        $.ajax({
+            type: "POST",
+            url: "Card?handler=SearchSingleCard",
+            data: fd,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.success) {
+                    var card = response.json;
+                    AddCardToPage(card);
+                }
+
+                //SetSearchLoadingState('unloading');
+            },
+            failure: function (response) {
+                alert('Catastropic error');
+            }
+        });
+    }
+}
+
+function AddCardToPage(card) {
+    $(singleCardSearchElementNames.SingleCardImage).attr('src', card.detail.url);
 }

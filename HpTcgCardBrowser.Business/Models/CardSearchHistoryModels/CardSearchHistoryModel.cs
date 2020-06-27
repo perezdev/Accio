@@ -4,6 +4,7 @@ namespace HpTcgCardBrowser.Business.Models.CardSearchHistoryModels
 {
     public class CardSearchHistoryModel
     {
+        public Guid? CardId { get; set; }
         public Guid CardSearchHistoryId { get; set; }
         public Guid? UserId { get; set; }
         public string SearchText { get; set; }

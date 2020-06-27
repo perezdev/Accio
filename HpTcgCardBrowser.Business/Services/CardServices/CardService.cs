@@ -105,6 +105,47 @@ namespace HpTcgCardBrowser.Business.Services.CardServices
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
+        public CardModel SearchSingleCard(CardSearchParameters cardSearchParameters)
+        {
+            var param = cardSearchParameters;
+            var utcNow = DateTime.UtcNow;
+
+            if (param.LanguageId == null || param.LanguageId == Guid.Empty)
+            {
+                var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
+                param.LanguageId = englishLanguageId;
+            }
+
+            var cards = (from card in _context.Card
+                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
+                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         from lessonType in lessonTypeDefault.DefaultIfEmpty()
+                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
+                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
+                               card.CardId == cardSearchParameters.CardId
+
+                         select new
+                         {
+                             card,
+                             cardDetail,
+                             cardSet,
+                             cardRarity,
+                             cardType,
+                             language,
+                             lessonType
+                         });
+
+            var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).Single();
+
+            _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
+
+            return cardModel;
+        }
+
         public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy)
         {
             switch (sortBy)

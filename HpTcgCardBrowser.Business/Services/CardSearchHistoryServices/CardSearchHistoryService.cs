@@ -29,6 +29,7 @@ namespace HpTcgCardBrowser.Business.Services.CardSearchHistoryServices
 
             return new CardSearchHistoryModel()
             {
+                CardId = searchParams.CardId,
                 CardSearchHistoryId = Guid.NewGuid(),
                 UserId = userId,
                 SearchText = searchParams.SearchText,
@@ -53,6 +54,7 @@ namespace HpTcgCardBrowser.Business.Services.CardSearchHistoryServices
             return new CardSearchHistory()
             {
                 CardSearchHistoryId = cardSearchHistoryModel.CardSearchHistoryId,
+                CardId = cardSearchHistoryModel.CardId,
                 UserId = cardSearchHistoryModel.UserId,
                 SearchText = cardSearchHistoryModel.SearchText,
                 SetId = cardSearchHistoryModel.SetId,
