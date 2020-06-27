@@ -177,6 +177,10 @@ function InitializeCardTable() {
                 //Hide the card ID column
                 targets: [0],
                 visible: false,
+            },
+            {
+                targets: [2],
+                type: 'natural-nohtml', //This allow DT to sort the column alphanumerically
             }
         ]
     });
@@ -323,30 +327,30 @@ function AddCardsToTable(cards) {
         var cardIdColumn = card.cardId;
         var costValue = card.lessonCost === null ? '' : card.lessonCost;
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
-        var cardNumberColumn = '<td>' + card.cardNumber + '</td>';
-        var cardNameColumn = '<td>' + card.detail.name + '</td>';
+        var cardNumberColumn = card.cardNumber;
+        var cardNameColumn = card.detail.name;
 
         var costColumn = null;
         if (card.lessonType === null) {
-            costColumn = costColumn = '<td>' + costValue + '</td>';
+            costColumn = costValue;
         }
         else if (card.lessonType !== null && costValue !== '') {
             var imgElement = GetLessonImageElementFromLessonType(card.lessonType.name);
-            costColumn = costColumn = '<td><label class="card-table-cell-lesson-label">' + costValue + '</label>' + imgElement + '</td>';
+            costColumn = '<label class="card-table-cell-lesson-label">' + costValue + '</label>' + imgElement;
         }
 
-        var typeColumn = '<td>' + card.cardType.name + '</td>';
+        var typeColumn = card.cardType.name;
 
         var rarityColumn = null;
         if (card.rarity.imageName === null) {
-            rarityColumn = '<td>' + card.rarity.symbol + '</td>';
+            rarityColumn = card.rarity.symbol;
         }
         else {
             var rarityImage = GetRarityImageElement(card.rarity.imageName);
-            rarityColumn = '<td>' + card.rarity.symbol + rarityImage + '</td>';
+            rarityColumn = card.rarity.symbol + rarityImage;
         }
 
-        var artistColumn = '<td>' + card.detail.illustrator + '</td>';
+        var artistColumn = card.detail.illustrator;
 
         //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
         //The second column is hidden by the column definitions when the table was instantiated
