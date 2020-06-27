@@ -1,0 +1,19 @@
+﻿@page
+@model Accio.Web.Pages.Card.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+}
+
+@* Required for AJAX async calls *@
+@Html.AntiForgeryToken()
+
+<!-- Begin Content -->
+<main class="w-100">
+    <div class="mw8 center card-content-container">
+        <img id="singleCardImage" style="width: 224px; height: 320px;" />
+
+    </div>
+</main>
+
+<!-- End Content -->
