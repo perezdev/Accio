@@ -1,3 +1,3 @@
-# HpTcgCardBrowser
+# Accio
 
-Test site: https://accio.devperez.com/Cards/Search
+http://accio.cards/Search
