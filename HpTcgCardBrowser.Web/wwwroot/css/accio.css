@@ -87,7 +87,7 @@ header {
         padding: 0.5rem 0.5rem 0.5rem 1rem;
         text-indent: 29px; /* Push the text box cursor to the right so it doesn't overlap with the logo background image */
         background-origin: content-box, padding-box;
-        background-image: url('../images/search_14x14.png');
+        background-image: url('../images/search.svg');
         background-position: left center;
         background-repeat: no-repeat;
         background-size: contain;
