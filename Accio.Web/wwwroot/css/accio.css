@@ -439,6 +439,12 @@ table {
         border-bottom: none;
     }
 
+    table.dataTable thead .sorting_asc {
+        background-image: url("../images/chevron_asc.svg")
+    }
+    table.dataTable thead .sorting_desc {
+        background-image: url("../images/chevron_desc.svg")
+    }
 /* Alternating row styles for the table. These have to be !important because datatable.js sets their own styles */
 tbody tr:nth-child(odd) {
     background-color: var(--whiteWizard) !important;
