@@ -163,7 +163,13 @@ function InitializeCardSearchElements() {
             SearchCards();
         }
     });
-    //TODO: sort order change
+    //Sort order change
+    $(searchElementNames.SortCardsOrderId).on('change', function () {
+        var searchData = GetSearchData();
+        if ((searchData.SetId || searchData.LessonCost || searchData.SearchText)) {
+            SearchCards();
+        }
+    });
 }
 var cardTable = null;
 function InitializeCardTable() {
@@ -209,7 +215,7 @@ function SearchCards() {
     if (searchData.SortBy) {
         fd.append('sortBy', searchData.SortBy);
     }
-    if (searchData.SortBy) {
+    if (searchData.SortOrder) {
         fd.append('sortOrder', searchData.SortOrder);
     }
 
@@ -356,7 +362,7 @@ function AddCardsToTable(cards) {
         //The second column is hidden by the column definitions when the table was instantiated
         var rowNode = cardTable.row.add([
             cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
-        ]).draw().node();
+        ]);
 
         //The design calls for changing the color of the font and can really only be done after the fact. DT.js
         //overwrites style changes when made as part of the column html.
@@ -365,7 +371,51 @@ function AddCardsToTable(cards) {
             $(rowNode).find('td').eq(3).css('color', lessonCssColor);
         }
     }
+
+    ApplySortToTable();
 }
+const SortBy = {
+    SetNumber: 'sn',
+    Name: 'name',
+    Cost: 'cost',
+    Type: 'type',
+    Rarity: 'rarity',
+    Artist: 'artist',
+};
+const SortOrder = {
+    Ascending: 'asc',
+    Descending: 'desc',
+};
+const CardTableColumnIndex = {
+    CardId: 0,
+    Set: 1,
+    Number: 2,
+    Name: 3,
+    Cost: 4,
+    Type: 5,
+    Rarity: 6,
+    Artist: 7,
+}
+//Sort values come from the server, but datatables overrides that.
+function ApplySortToTable() {
+    var sortBy = $(searchElementNames.SortCardsById).val();
+    var sortOrder = $(searchElementNames.SortCardsOrderId).val();
+
+    if (sortBy === SortBy.SetNumber) {
+        cardTable.order([CardTableColumnIndex.Set, sortOrder], [CardTableColumnIndex.Number, sortOrder]).draw();
+    } else if (sortBy === SortBy.Name) {
+        cardTable.order([CardTableColumnIndex.Name, sortOrder]).draw();
+    } else if (sortBy === SortBy.Cost) {
+        cardTable.order([CardTableColumnIndex.Cost, sortOrder]).draw();
+    } else if (sortBy === SortBy.Type) {
+        cardTable.order([CardTableColumnIndex.Type, sortOrder]).draw();
+    } else if (sortBy === SortBy.Rarity) {
+        cardTable.order([CardTableColumnIndex.Rarity, sortOrder]).draw();
+    } else if (sortBy === SortBy.Artist) {
+        cardTable.order([CardTableColumnIndex.Artist, sortOrder]).draw();
+    }
+}
+
 function GetLessonCssColorFromLessonType(lessonType) {
     if (lessonType === 'Care of Magical Creatures') {
         return 'var(--brownPaw)';
@@ -490,15 +540,11 @@ function GetSearchData() {
     var setId = $(searchElementNames.SetId).val();
     var searchText = $(searchElementNames.SearchInputId).val().trim();
     var sortBy = $(searchElementNames.SortCardsById).val();
-    var sortOrder = $(searchElementNames.SortCardsOrderById).val();
+    var sortOrder = $(searchElementNames.SortCardsOrderId).val();
     var cardView = $(searchElementNames.CardViewId).val();
 
     if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
         setId = null;
-    }
-    //Temporary until I can convene with the others to determine what auto will mean later
-    if (sortOrder === 'Auto') {
-        sortOrder = 'asc';
     }
 
     const searchData = {

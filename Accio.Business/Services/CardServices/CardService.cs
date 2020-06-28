@@ -98,10 +98,10 @@ namespace Accio.Business.Services.CardServices
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
-            //if (!string.IsNullOrEmpty(sortBy))
-            //{
-            //    cardModels = GetCardModelsSorted(cardModels, sortBy);
-            //}
+            if (cardModels?.Count > 1  && !string.IsNullOrEmpty(cardSearchParameters.SortBy) && !string.IsNullOrEmpty(cardSearchParameters.SortOrder))
+            {
+                cardModels = GetCardModelsSorted(cardModels, cardSearchParameters.SortBy, cardSearchParameters.SortOrder);
+            }
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
@@ -146,20 +146,65 @@ namespace Accio.Business.Services.CardServices
             return cardModel;
         }
 
-        public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy)
+        public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy, string sortOrder)
         {
-            switch (sortBy)
+            if (sortBy == SortType.SetNumber)
             {
-                case "llth": //Lesson low to high
-                    return cards.OrderBy(x => x.LessonCost).ToList();
-                case "lhtl": //Lesson high to low
-                    return cards.OrderByDescending(x => x.LessonCost).ToList();
-                case "cnlth": //Card name low to high
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.CardSet.Name).ThenBy(x => x.CardNumber).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.CardSet.Name).ThenByDescending(x => x.CardNumber).ToList();
+                else
+                    throw new Exception("Set and number were sorted by, but no valid sort order was passed in.");
+            }
+            else if (sortBy == SortType.Name)
+            {
+                if (sortOrder == SortOrder.Ascending)
                     return cards.OrderBy(x => x.Detail.Name).ToList();
-                case "cnhtl": //Card name high to low
+                else if (sortOrder == SortOrder.Descending)
                     return cards.OrderByDescending(x => x.Detail.Name).ToList();
-                default:
-                    throw new Exception("Sort by option was passed into the method, but was invalid.");
+                else
+                    throw new Exception("Name was sorted by, but no valid sort order was passed in.");
+            }
+            else if (sortBy == SortType.Cost)
+            {
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.LessonCost).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.LessonCost).ToList();
+                else
+                    throw new Exception("Lesson cost was sorted by, but no valid sort order was passed in.");
+            }
+            else if (sortBy == SortType.Type)
+            {
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.CardType.Name).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.CardType.Name).ToList();
+                else
+                    throw new Exception("Card type was sorted by, but no valid sort order was passed in.");
+            }
+            else if (sortBy == SortType.Rarity)
+            {
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.Rarity.Name).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.Rarity.Name).ToList();
+                else
+                    throw new Exception("Rarity was sorted by, but no valid sort order was passed in.");
+            }
+            else if (sortBy == SortType.Artist)
+            {
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.Detail.Illustrator).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.Detail.Illustrator).ToList();
+                else
+                    throw new Exception("Artist was sorted by, but no valid sort order was passed in.");
+            }
+            else
+            {
+                throw new Exception("Sort by option was passed into the method, but was invalid.");
             }
         }
 
