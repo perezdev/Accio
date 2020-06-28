@@ -323,6 +323,16 @@ function AddCardsToDeck(cards) {
         });
     }
 }
+const CardTableColumnIndex = {
+    CardId: 0,
+    Set: 1,
+    Number: 2,
+    Name: 3,
+    Cost: 4,
+    Type: 5,
+    Rarity: 6,
+    Artist: 7,
+};
 function AddCardsToTable(cards) {
     //Remove all cards prior to adding any new ones from search
     cardTable.clear().draw();
@@ -363,16 +373,29 @@ function AddCardsToTable(cards) {
         var rowNode = cardTable.row.add([
             cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
         ]);
-
-        //The design calls for changing the color of the font and can really only be done after the fact. DT.js
-        //overwrites style changes when made as part of the column html.
-        if (card.lessonType !== null) {
-            var lessonCssColor = GetLessonCssColorFromLessonType(card.lessonType.name);
-            $(rowNode).find('td').eq(3).css('color', lessonCssColor);
-        }
     }
 
     ApplySortToTable();
+
+    //The design calls for changing the color of the font and can really only be done after the fact. DT.js
+    //overwrites style changes when made as part of the column html.
+    cardTable.rows().every(function (index, element) {
+        var row = $(this.node());
+        var cardId = cardTable.cell(index, CardTableColumnIndex.CardId).data();
+
+        for (var i = 0; i < cards.length; i++) {
+            var c = cards[i];
+            if (c.cardId === cardId) {
+
+                if (c.lessonType !== null) {
+                    var lessonCssColor = GetLessonCssColorFromLessonType(c.lessonType.name);
+                    //The ID column gets hidden, which screws up the index. So we have to do -1 here so we can
+                    //maintain the const usage when changes occur
+                    row.find('td').eq(CardTableColumnIndex.Cost - 1).css('color', lessonCssColor);
+                }
+            }
+        }
+    });
 }
 const SortBy = {
     SetNumber: 'sn',
@@ -386,16 +409,6 @@ const SortOrder = {
     Ascending: 'asc',
     Descending: 'desc',
 };
-const CardTableColumnIndex = {
-    CardId: 0,
-    Set: 1,
-    Number: 2,
-    Name: 3,
-    Cost: 4,
-    Type: 5,
-    Rarity: 6,
-    Artist: 7,
-}
 //Sort values come from the server, but datatables overrides that.
 function ApplySortToTable() {
     var sortBy = $(searchElementNames.SortCardsById).val();
