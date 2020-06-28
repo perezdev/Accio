@@ -396,7 +396,7 @@ select {
 .content-container {
     margin-top: 125px;
     min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
-    overflow: auto;
+    overflow: visible;
 }
 
 /* The card-size classes are set from the database */
