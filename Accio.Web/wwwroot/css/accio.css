@@ -246,6 +246,10 @@ footer {
         font-family: var(--sansSerif);
     }
 
+#cardContainer {
+    justify-content: space-evenly;
+}
+
 /* Hogwarts Houses */
 .crest {
     position: relative;
