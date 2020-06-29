@@ -442,6 +442,7 @@ table {
     table.dataTable thead .sorting_asc {
         background-image: url("../images/chevron_asc.svg")
     }
+
     table.dataTable thead .sorting_desc {
         background-image: url("../images/chevron_desc.svg")
     }
@@ -498,4 +499,12 @@ td:nth-child(6) {
     margin-top: 70px;
     min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
     overflow: auto;
+}
+
+.set-name-date-separator {
+    opacity: 0.15;
+    color: var(--parchmentPaper);
+}
+
+.set-date {
 }

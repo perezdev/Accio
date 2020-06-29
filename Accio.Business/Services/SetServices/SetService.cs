@@ -1,5 +1,6 @@
 ﻿using Accio.Business.Models.SetModels;
 using Accio.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +29,17 @@ namespace Accio.Business.Services.CardServices
 
             return SetsCache;
         }
+        public SetModel GetSet(Guid setId)
+        {
+            if (SetsCache.Count > 0)
+                return SetsCache.Single(x => x.SetId == setId);
+
+            var set = (from s in _context.Set
+                        where !s.Deleted where s.SetId == setId
+                        select GetSetModel(s)).Single();
+
+            return set;
+        }
 
         public static SetModel GetSetModel(Set set)
         {
@@ -39,6 +51,8 @@ namespace Accio.Business.Services.CardServices
                 Description = set.Description,
                 IconFileName = set.IconFileName,
                 Order = set.Order,
+                ReleaseDate = set.ReleaseDate,
+                TotalCards = set.TotalCards,
                 CreatedById = set.CreatedById,
                 CreatedDate = set.CreatedDate,
                 UpdatedById = set.UpdatedById,

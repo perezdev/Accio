@@ -10,6 +10,8 @@ namespace Accio.Business.Models.SetModels
         public string Description { get; set; }
         public string IconFileName { get; set; }
         public int? Order { get; set; }
+        public string ReleaseDate { get; set; }
+        public int? TotalCards { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

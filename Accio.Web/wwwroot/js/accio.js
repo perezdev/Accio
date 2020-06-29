@@ -119,6 +119,7 @@ const searchElementNames = {
     SortCardsOrderId: '#sortCardsOrder',
     CardViewId: '#cardView',
     CardCountId: '#cardCount',
+    SetDateClassName: '.set-date',
 };
 
 const resultsContainerNames = {
@@ -143,7 +144,6 @@ function InitializeCardSearchElements() {
     });
     //Set change
     $(searchElementNames.SetId).on('change', function () {
-        UpdateSetLabelAndIcon();
         SearchCards();
     });
     //Card view change - images/list
@@ -260,6 +260,7 @@ function ToggleViewSearch() {
     }
 }
 function ToggleViewContainers() {
+    //TODO: change this to tachyons display classes
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
         $(resultsContainerNames.CardContainerId).css('display', 'flex');
@@ -640,9 +641,6 @@ function InitializeCrestElements() {
  * Misc
  * ----------------------------------------------------------------------------------------------------
  */
-function UpdateSetLabelAndIcon() {
-
-}
 
 /*
  * Page Tools
