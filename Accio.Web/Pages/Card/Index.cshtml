@@ -9,11 +9,103 @@
 @Html.AntiForgeryToken()
 
 <!-- Begin Content -->
-<main class="w-100">
-    <div class="mw8 center card-content-container">
-        <img id="singleCardImage" style="width: 224px; height: 320px;" />
+<main class="w-100 main-container">
+    <div class="single-card-main-container">
+        <section class="mw5 mw7-ns center ph5-ns card-content-container">
+            <div class="cf">
+                <div class="fl w-100 w-50-ns">
+                    <img id="cardImage" class="single-card-image-vertical fr" />
+                </div>
+                <div class="fl w-100 w-50-ns">
+                    @* Card data *@
+                    <div class="single-card-segment">
+                        <div class="dt dt--fixed">
+                            <div class="dt-row">
+                                <div class="cf">
+                                    <div class="v-mid mv2">
+                                        <div class="fl w-70 tl">
+                                            <div id="cardTitle" class="card-row-item-content b">
+                                            </div>
+                                        </div>
+                                        <div class="fl w-30 tl">
+                                            <div class="card-row-item-content-right tr">
+                                                <label id="lessonNumber" class="v-mid"></label>
+                                                <img id="lessonImage" class="lesson-image v-mid" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <hr class="segment-divider" />
+                            </div>
+                            <div class="dt-row">
+                                <div class="v-mid mv2">
+                                    <div id="cardType" class="card-row-item-content">
+                                    </div>
+                                </div>
+
+                                <hr class="segment-divider" />
+                            </div>
+                            <div class="dt-row">
+                                <div class="card-row-item-content v-mid mv2">
+                                    <p id="description">
+                                    </p>
+                                    <p id="flavorText" class="card-row-item-content-flavor">
+                                    </p>
+                                </div>
+
+                                <hr class="segment-divider" />
+                            </div>
+                            <div class="dt-row">
+                                <div class="v-mid mv2">
+                                    <div id="illustrator" class="card-row-item-content">
+                                    </div>
+                                </div>
+
+                                <hr class="segment-divider" />
+                            </div>
+                            <div class="dt-row">
+                                <div class="card-row-item-content v-mid mv2 set-info">
+                                    <img id="cardInfoSetIcon" class="set-info-item set-info-icon v-mid" />
+                                    <label id="cardInfoSetName" class="set-info-item"></label>
+                                    <div class="set-info-separator set-info-item">●</div>
+                                    <label id="cardInfoNumber" class="set-info-item"></label>
+                                    <div class="set-info-separator set-info-item">●</div>
+                                    <label id="cardInfoRarity" class="set-info-item"></label>
+                                </div>
+
+                                <hr class="segment-divider" />
+                            </div>
+                            <div class="dt-row">
+                                <div class="card-row-item-content v-mid mv2">
+                                    <label class="card-printings-text">Printings</label>
+                                </div>
+
+                                <div id="printingsEn" class="printings-selected tc">
+                                    EN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-white w-100 rulings-container">
+            <div id="rulingNoDataFound" class="tc v-mid">
+                <h3>No Data Found</h3>
+                <label>No notes or rules found for this card</label>
+            </div>
+        </div>
     </div>
 </main>
+
+
+
+
+
+@*<main class="w-100">
+        test
+    </main>*@
 
 <!-- End Content -->

@@ -5,7 +5,7 @@
 
 :root {
     /* Colors */
-    --black: #1D1D1D;
+    --blackBat: #1D1D1D;
     --blueRaven: #004E80;
     --grayGargoyle: #333333;
     --greenSnake: #067552;
@@ -51,8 +51,8 @@ button {
     button:focus,
     button:hover {
         background-color: var(--whiteWizard);
-        border-color: var(--black);
-        color: var(--black);
+        border-color: var(--blackBat);
+        color: var(--blackBat);
     }
 
 .z-index-0 {
@@ -201,6 +201,10 @@ footer {
 }
 
 /* Content */
+/*#cardContainer {
+    justify-content: space-between !important;
+}*/
+
 .card-image {
     transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -231,13 +235,18 @@ footer {
     font-weight: bold;
 }
 
+.rulings-container {
+    min-height: 248px;
+    margin-top: 60px;
+}
+
 #rulings {
     background-color: var(--whiteWizard);
     border-top: .0625rem inset rgba(29, 29, 29, 0.30);
 }
 
     #rulings h3 {
-        color: var(--black);
+        color: var(--blackBat);
         font-size: 0.875rem;
         line-height: 1.715;
     }
@@ -392,11 +401,17 @@ select {
 
 /* Card content area */
 
+.main-container {
+    position: relative;
+}
+
 /* Container used as parent to card container */
 .content-container {
     margin-top: 125px;
     min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
     overflow: visible;
+    display: flex;
+    flex-direction: column;
 }
 
 /* The card-size classes are set from the database */
@@ -492,19 +507,155 @@ td:nth-child(6) {
     padding-left: 5px;
 }
 
-/* Card Modal */
-
-/* Card Page - Card Content */
-.card-content-container {
-    margin-top: 70px;
-    min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
-    overflow: auto;
-}
-
 .set-name-date-separator {
     opacity: 0.15;
     color: var(--parchmentPaper);
 }
 
 .set-date {
+}
+
+/* Card Modal */
+
+/* Card Page - Card Content */
+.single-card-main-container {
+    margin-top: 90px;
+}
+
+.card-content-container {
+    overflow: auto;
+}
+
+.single-card-image-vertical {
+    width: 224px;
+    height: 334px;
+    margin-right: 45px;
+}
+
+.single-card-image-horizontal {
+    width: 334px;
+    height: 224px;
+}
+
+.single-card-segment {
+    background-color: var(--whiteWizard);
+    min-height: 364px;
+    width: 306px;
+}
+
+.segment-header-border-default {
+    border-top: 3px solid var(--mainColor);
+}
+
+.segment-header-border-comc {
+    border-top: 3px solid var(--brownPaw);
+}
+
+.segment-header-border-charms {
+    border-top: 3px solid var(--blueRaven);
+}
+
+.segment-header-border-potions {
+    border-top: 3px solid var(--greenSnake);
+}
+
+.segment-header-border-quidditch {
+    border-top: 3px solid var(--yellowBadger);
+}
+
+.segment-header-border-transfig {
+    border-top: 3px solid var(--redLion);
+}
+
+.segment-divider {
+    border: 1px solid var(--parchmentPaper);
+}
+/* Card Page - Card Info */
+.card-row-item-content {
+    color: var(--grayGargoyle);
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.card-row-item-content-right {
+    margin-left: 15px;
+    margin-right: 20px;
+}
+
+.card-row-item-content-flavor {
+    color: var(--blackBat);
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+.card-printings-text {
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.card-illustrator {
+    font-size: 0.75rem;
+}
+
+.card-illustrator-text {
+    color: var(--blueRaven);
+}
+
+.lesson-color-comc {
+    color: var(--brownPaw);
+}
+
+.lesson-color-charms {
+    color: var(--blueRaven);
+}
+
+.lesson-color-potions {
+    color: var(--greenSnake);
+}
+
+.lesson-color-quidditch {
+    color: var(--yellowBadger);
+}
+
+.lesson-color-transfig {
+    color: var(--redLion);
+}
+
+.lesson-image {
+    height: 16px;
+    width: 16px;
+}
+
+.printings-selected {
+    width: 25px;
+    height: 24px;
+    background-color: var(--mainColor);
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border-radius: 2px;
+}
+
+.printings-unselected {
+    cursor: pointer;
+}
+
+.set-info-separator {
+    color: var(--parchmentPaper);
+}
+
+.set-info-item {
+    float: left;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.set-info-icon {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+}
+
+.set-info {
+    display: inline-block !important;
 }

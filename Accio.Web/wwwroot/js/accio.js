@@ -97,6 +97,14 @@ function AddSetsToDropDown(sets) {
     hasSetsLoaded = true;
 }
 
+const LessonTypeName = {
+    CareOfMagicalCreatures: 'Care of Magical Creatures',
+    Charms: 'Charms',
+    Potions: 'Potions',
+    Quidditch: 'Quidditch',
+    Transfiguration: 'Transfiguration',
+}
+
 /**
  * Card Search
  * -----------------------------------------------------------------------------------------------------
@@ -431,36 +439,36 @@ function ApplySortToTable() {
 }
 
 function GetLessonCssColorFromLessonType(lessonType) {
-    if (lessonType === 'Care of Magical Creatures') {
+    if (lessonType === LessonTypeName.CareOfMagicalCreatures) {
         return 'var(--brownPaw)';
     }
-    else if (lessonType === 'Charms') {
+    else if (lessonType === LessonTypeName.Charms) {
         return 'var(--blueRaven)';
     }
-    else if (lessonType === 'Potions') {
+    else if (lessonType === LessonTypeName.Potions) {
         return 'var(--greenSnake)';
     }
-    else if (lessonType === 'Quidditch') {
+    else if (lessonType === LessonTypeName.Quidditch) {
         return 'var(--yellowBadger)';
     }
-    else if (lessonType === 'Transfiguration') {
+    else if (lessonType === LessonTypeName.Transfiguration) {
         return 'var(--redLion)';
     }
 }
 function GetLessonImageElementFromLessonType(lessonType) {
-    if (lessonType === 'Care of Magical Creatures') {
+    if (lessonType === LessonTypeName.CareOfMagicalCreatures) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/care-of-magical-creatures.svg" />';
     }
-    else if (lessonType === 'Charms') {
+    else if (lessonType === LessonTypeName.Charms) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/charms.svg" />';
     }
-    else if (lessonType === 'Potions') {
+    else if (lessonType === LessonTypeName.Potions) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/potions.svg" />';
     }
-    else if (lessonType === 'Quidditch') {
+    else if (lessonType === LessonTypeName.Quidditch) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/quidditch.svg" />';
     }
-    else if (lessonType === 'Transfiguration') {
+    else if (lessonType === LessonTypeName.Transfiguration) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/transfiguration.svg" />';
     }
 }
@@ -659,8 +667,21 @@ function GetCurrentPage() {
  * ----------------------------------------------------------------------------------------------------
  */
 
-const singleCardSearchElementNames = {
-    SingleCardImage: '#singleCardImage',
+const singleCardSearchElementIds = {
+    SingleCardImageId: '#cardImage',
+    SingleCardSegmentCssName: '.single-card-segment',
+    CardTitleId: '#cardTitle',
+    CardTypeId: '#cardType',
+    LessonNumberId: '#lessonNumber',
+    LessonImageId: '#lessonImage',
+    DescriptionId: '#description',
+    FlavorTextId: '#flavorText',
+    IllustratorId: '#illustrator',
+    SetIconId: '#cardInfoSetIcon',
+    SetNameId: '#cardInfoSetName',
+    CardNumberId: '#cardInfoNumber',
+    CardRarityId: '#cardInfoRarity',
+    PrintingsEnglishId: '#printingsEnglish',
 };
 
 //The search box will behave differently on the card page. We'll basically just redirect to the search page
@@ -708,5 +729,79 @@ function SetValuesFromQueryAndPeformSingleCardSearch() {
 }
 
 function AddCardToPage(card) {
-    $(singleCardSearchElementNames.SingleCardImage).attr('src', card.detail.url);
+    var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
+    $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
+
+    //Image
+    $(singleCardSearchElementIds.SingleCardImageId).attr('src', card.detail.url);
+    //Name
+    $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
+    //Lesson
+    SetLessonDetails(card);
+    //Type
+    $(singleCardSearchElementIds.CardTypeId).html(card.cardType.name);
+    //Description
+    $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
+    //Flavor text
+    $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    //Illustrator
+    $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));
+    //Set
+    SetSetInfo(card);
+
+    //Printings
+}
+function GetIllustratorText(illustrator) {
+    return '<div class="card-illustrator">Illustrated by <label class="card-illustrator-text">' + illustrator + '</label></div>';
+}
+function GetSegmentHeaderClass(lessonType) {
+    if (lessonType === null) {
+        return 'segment-header-border-default';
+    } else if (lessonType.name === LessonTypeName.CareOfMagicalCreatures) {
+        return 'segment-header-border-comc';
+    } else if (lessonType.name === LessonTypeName.Charms) {
+        return 'segment-header-border-charms';
+    } else if (lessonType.name === LessonTypeName.Potions) {
+        return 'segment-header-border-potions';
+    } else if (lessonType.name === LessonTypeName.Quidditch) {
+        return 'segment-header-border-quidditch';
+    } else if (lessonType.name === LessonTypeName.Transfiguration) {
+        return 'segment-header-border-transfig';
+    }
+}
+function GetLessonColorClass(card) {
+    if (card.lessonCost === null || card.lessonType === null) {
+        return '';
+    }
+    else {
+        var lessonType = card.lessonType;
+        if (lessonType.name === LessonTypeName.CareOfMagicalCreatures) {
+            return 'lesson-color-comc';
+        } else if (lessonType.name === LessonTypeName.Charms) {
+            return 'lesson-color-charms';
+        } else if (lessonType.name === LessonTypeName.Potions) {
+            return 'lesson-color-potions';
+        } else if (lessonType.name === LessonTypeName.Quidditch) {
+            return 'lesson-color-quidditch';
+        } else if (lessonType.name === LessonTypeName.Transfiguration) {
+            return 'lesson-color-transfig';
+        }
+    }
+}
+function SetLessonDetails(card) {
+    var lessonColorCost = GetLessonColorClass(card);
+    $(singleCardSearchElementIds.LessonNumberId).html(card.lessonCost);
+    $(singleCardSearchElementIds.LessonNumberId).addClass(lessonColorCost);
+    if (card.lessonType !== null) {
+        $(singleCardSearchElementIds.LessonImageId).attr('src', 'images/lessons/' + card.lessonType.imageName);
+    }
+    else {
+        $(singleCardSearchElementIds.LessonImageId).addClass('dn');
+    }
+}
+function SetSetInfo(card) {
+    $(singleCardSearchElementIds.SetIconId).attr('src', 'images/seticons/' + card.cardSet.iconFileName);
+    $(singleCardSearchElementIds.SetNameId).html(card.cardSet.name);
+    $(singleCardSearchElementIds.CardNumberId).html('#' + card.cardNumber);
+    $(singleCardSearchElementIds.CardRarityId).html(card.rarity.name);
 }
