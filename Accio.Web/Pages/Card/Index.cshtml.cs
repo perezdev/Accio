@@ -32,7 +32,6 @@ namespace Accio.Web.Pages.Card
             try
             {
                 var websiteSource = _sourceService.GetSource(SourceType.Website);
-
                 var cardSearchParameters = new CardSearchParameters()
                 {
                     CardId = cardId,

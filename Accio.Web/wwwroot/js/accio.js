@@ -251,6 +251,27 @@ function SearchCards() {
         }
     });
 }
+function PopulateDefaultCards() {
+    $.ajax({
+        type: "POST",
+        url: "Search?handler=GetPopularCards",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                cards = response.json;
+                AddCardsToContainer(cards);
+            }
+        },
+        failure: function (response) {
+            alert('Catastropic error');
+        }
+    });
+}
 //Adds cards to selected container if the cards have already been searched
 //Searches cards and adds them otherwise
 function ToggleViewSearch() {
@@ -520,6 +541,9 @@ async function SetValuesFromQueryAndPeformCardSearch() {
     //the search
     if (setId || searchText) {
         SearchCards();
+    }
+    else {
+        PopulateDefaultCards();
     }
 }
 

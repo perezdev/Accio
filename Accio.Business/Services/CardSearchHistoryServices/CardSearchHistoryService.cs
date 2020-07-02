@@ -1,7 +1,10 @@
 ﻿using Accio.Business.Models.CardModels;
 using Accio.Business.Models.CardSearchHistoryModels;
 using Accio.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Accio.Business.Services.CardSearchHistoryServices
 {
@@ -21,6 +24,29 @@ namespace Accio.Business.Services.CardSearchHistoryServices
 
             _context.CardSearchHistory.Add(cardSearchHistory);
             _context.SaveChanges();
+        }
+
+        public List<Guid> GetMostPopularSearchedCardIds()
+        {
+            var guids = new List<Guid>();
+
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "GetPopularCardIds";
+                command.CommandType = CommandType.StoredProcedure;
+
+                _context.Database.OpenConnection();
+                using (var dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        var guid = dataReader.GetGuid(dataReader.GetOrdinal("CardId"));
+                        guids.Add(guid);
+                    }
+                }
+            }
+
+            return guids;
         }
 
         private CardSearchHistoryModel GetCardSearchHistoryModel(CardSearchParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)

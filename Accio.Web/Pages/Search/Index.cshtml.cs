@@ -23,7 +23,7 @@ namespace Accio.Web.Pages.Search
 
         public void OnGet()
         {
-
+            
         }
 
         public JsonResult OnPostGetSetsAsync()
@@ -56,6 +56,18 @@ namespace Accio.Web.Pages.Search
                 };
 
                 var cards = _cardService.SearchCards(cardSearchParameters);
+                return new JsonResult(new { success = true, json = cards });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, json = ex.Message });
+            }
+        }
+        public JsonResult OnPostGetPopularCardsAsync()
+        {
+            try
+            {
+                var cards = _cardService.GetMostPopularCardsFromSearchHistory();
                 return new JsonResult(new { success = true, json = cards });
             }
             catch (Exception ex)

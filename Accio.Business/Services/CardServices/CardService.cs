@@ -12,6 +12,7 @@ using Accio.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace Accio.Business.Services.CardServices
@@ -105,6 +106,40 @@ namespace Accio.Business.Services.CardServices
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
+        /// <summary>
+        /// Gets the top 10 most popular cards based on which ones were clicked after performing a search
+        /// </summary>
+        public List<CardModel> GetMostPopularCardsFromSearchHistory()
+        {
+            var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
+            var popularCardGuids = _cardSearchHistoryService.GetMostPopularSearchedCardIds();
+
+            var cards = (from card in _context.Card
+                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
+                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         from lessonType in lessonTypeDefault.DefaultIfEmpty()
+                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
+                               language.LanguageId == englishLanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
+                               popularCardGuids.Contains(card.CardId)
+                         select new
+                         {
+                             card,
+                             cardDetail,
+                             cardSet,
+                             cardRarity,
+                             cardType,
+                             language,
+                             lessonType
+                         });
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+
+            return cardModels;
+        }
+
         public CardModel SearchSingleCard(CardSearchParameters cardSearchParameters)
         {
             var param = cardSearchParameters;
