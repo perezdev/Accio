@@ -353,7 +353,7 @@ function AddCardsToTable(cards) {
         var costValue = card.lessonCost === null ? '' : card.lessonCost;
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = card.cardNumber;
-        var cardNameColumn = card.detail.name;
+        var cardNameColumn = '<b>' + card.detail.name + '</b>';
 
         var costColumn = null;
         if (card.lessonType === null) {
