@@ -292,11 +292,17 @@ function ToggleViewContainers() {
     //TODO: change this to tachyons display classes
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
-        $(resultsContainerNames.CardContainerId).css('display', 'flex');
-        $(resultsContainerNames.CardTableContainerId).css('display', 'none');
+        $(resultsContainerNames.CardTableContainerId).removeClass('db');
+        $(resultsContainerNames.CardTableContainerId).addClass('dn');
+
+        $(resultsContainerNames.CardContainerId).removeClass('dn');
+        $(resultsContainerNames.CardContainerId).addClass('flex');
     } else if (cardView === 'checklist') {
-        $(resultsContainerNames.CardContainerId).css('display', 'none');
-        $(resultsContainerNames.CardTableContainerId).css('display', 'block');
+        $(resultsContainerNames.CardContainerId).removeClass('flex');
+        $(resultsContainerNames.CardContainerId).addClass('dn');
+
+        $(resultsContainerNames.CardTableContainerId).removeClass('dn');
+        $(resultsContainerNames.CardTableContainerId).addClass('db');
     }
 }
 
@@ -327,7 +333,7 @@ function AddCardsToDeck(cards) {
         //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
         var cardHtml = `
                         <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="ma1 card-image">
-                            <img class="tc" style="cursor: pointer;" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
+                            <img class="tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
 
@@ -416,12 +422,11 @@ function AddCardsToTable(cards) {
         for (var i = 0; i < cards.length; i++) {
             var c = cards[i];
             if (c.cardId === cardId) {
-
                 if (c.lessonType !== null) {
-                    var lessonCssColor = GetLessonCssColorFromLessonType(c.lessonType.name);
+                    var lessonColorClass = GetLessonColorClass(c);
                     //The ID column gets hidden, which screws up the index. So we have to do -1 here so we can
                     //maintain the const usage when changes occur
-                    row.find('td').eq(CardTableColumnIndex.Cost - 1).css('color', lessonCssColor);
+                    row.find('td').eq(CardTableColumnIndex.Cost - 1).addClass(lessonColorClass);
                 }
             }
         }
@@ -459,23 +464,6 @@ function ApplySortToTable() {
     }
 }
 
-function GetLessonCssColorFromLessonType(lessonType) {
-    if (lessonType === LessonTypeName.CareOfMagicalCreatures) {
-        return 'var(--brownPaw)';
-    }
-    else if (lessonType === LessonTypeName.Charms) {
-        return 'var(--blueRaven)';
-    }
-    else if (lessonType === LessonTypeName.Potions) {
-        return 'var(--greenSnake)';
-    }
-    else if (lessonType === LessonTypeName.Quidditch) {
-        return 'var(--yellowBadger)';
-    }
-    else if (lessonType === LessonTypeName.Transfiguration) {
-        return 'var(--redLion)';
-    }
-}
 function GetLessonImageElementFromLessonType(lessonType) {
     if (lessonType === LessonTypeName.CareOfMagicalCreatures) {
         return '<img class="card-table-cell-lesson-image" src="/images/lessons/care-of-magical-creatures.svg" />';
@@ -632,10 +620,10 @@ function RedirectToCardPage(cardID) {
  */
 
 function InitializeModal() {
-    $("#modal-custom").iziModal();
+    //$("#modal-custom").iziModal();
 }
 function ShowCardModal(id) {
-    $('#modal-custom').iziModal('open');
+    //$('#modal-custom').iziModal('open');
 }
 
 /**
@@ -653,19 +641,19 @@ const crestElementNames = {
 };
 
 function InitializeCrestElements() {
-    var crestTooltipHtml = $(crestElementNames.CrestTooltipId).html();
-    tippy(crestElementNames.CrestId, {
-        content: crestTooltipHtml,
-        allowHTML: true,
-        interactive: true,
-        offset: [0, -26], //We have to offset the tooltip by because the main crest is offset
-        trigger: 'click'
-    });
+    //var crestTooltipHtml = $(crestElementNames.CrestTooltipId).html();
+    //tippy(crestElementNames.CrestId, {
+    //    content: crestTooltipHtml,
+    //    allowHTML: true,
+    //    interactive: true,
+    //    offset: [0, -26], //We have to offset the tooltip by because the main crest is offset
+    //    trigger: 'click'
+    //});
 
-    $('#crestButtonGryffindor').on('click', function () {
-        //console.log($(this).html());
-        alert('test');
-    });
+    //$('#crestButtonGryffindor').on('click', function () {
+    //    //console.log($(this).html());
+    //    alert('test');
+    //});
 }
 
 
