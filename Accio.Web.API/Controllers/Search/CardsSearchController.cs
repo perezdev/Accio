@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Accio.Web.API.Controllers.Cards.Search
 {
-    [Route("Cards/Search")]
+    [Route("Search")]
     [ApiController]
     public class CardsSearchController : ControllerBase
     {
