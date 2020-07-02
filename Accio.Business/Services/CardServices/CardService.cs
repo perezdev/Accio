@@ -99,7 +99,7 @@ namespace Accio.Business.Services.CardServices
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
-            if (cardModels?.Count > 1  && !string.IsNullOrEmpty(cardSearchParameters.SortBy) && !string.IsNullOrEmpty(cardSearchParameters.SortOrder))
+            if (cardModels?.Count > 1 && !string.IsNullOrEmpty(cardSearchParameters.SortBy) && !string.IsNullOrEmpty(cardSearchParameters.SortOrder))
             {
                 cardModels = GetCardModelsSorted(cardModels, cardSearchParameters.SortBy, cardSearchParameters.SortOrder);
             }
@@ -389,6 +389,16 @@ namespace Accio.Business.Services.CardServices
                 UpdatedDate = DateTime.UtcNow,
                 Deleted = false,
             };
+        }
+
+        /// <summary>
+        /// The random page will redirect to the single card display page. So we can save sql resources by just grabbing the ID
+        /// </summary>
+        public Guid GetRandomCardId()
+        {
+            //I have no idea how ordering by a random GUID produces a random row, but, it works - https://stackoverflow.com/a/7781899/1339826
+            var randomCard = _context.Card.OrderBy(r => Guid.NewGuid()).Take(1).Single();
+            return randomCard.CardId;
         }
     }
 }

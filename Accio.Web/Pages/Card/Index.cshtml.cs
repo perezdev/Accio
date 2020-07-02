@@ -24,7 +24,6 @@ namespace Accio.Web.Pages.Card
 
         public void OnGet()
         {
-
         }
 
         public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
