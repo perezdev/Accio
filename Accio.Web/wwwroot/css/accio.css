@@ -1,7 +1,4 @@
-﻿@font-face {
-    font-family: "LibreBaskerville-Regular";
-    src: url(/css/webfonts/LibreBaskerville-Regular.ttf) format("truetype");
-}
+﻿@import url('https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
     /* Colors */
@@ -23,12 +20,10 @@
     --serif: "Literata", Georgia, serif;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Literata:400,400i,500,500i,600,600i,700,700i&display=swap");
-
 body {
     background-color: var(--parchmentPaper);
     color: var(--grayGargoyle);
-    font-family: LibreBaskerville-Regular;
+    font-family: var(--serif);
     font-size: 0.875rem;
     line-height: 1.715;
 }
@@ -84,14 +79,14 @@ header {
         font-size: 0.875rem;
         line-height: 1.715;
         margin: 0;
-        padding: 0.5rem 0.5rem 0.5rem 1rem;
-        text-indent: 29px; /* Push the text box cursor to the right so it doesn't overlap with the logo background image */
+        padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+        text-indent: 36px; /* Push the text box cursor to the right so it doesn't overlap with the logo background image */
         background-origin: content-box, padding-box;
-        background-image: url('../images/search.svg');
+        background-image: url('../images/logos/logo_white.svg');
         background-position: left center;
         background-repeat: no-repeat;
         background-size: contain;
-        background-size: 14px 14px;
+        background-size: 24px 24px;
     }
 
         header #search input:focus {
@@ -117,19 +112,6 @@ header {
         top: 56px;
         height: 64px;
     }
-
-.logo-container {
-}
-
-    .logo-container img {
-        margin-top: 4px;
-        padding-right: 15px;
-    }
-
-.search-logo {
-    width: 32px;
-    height: 32px;
-}
 
 form {
     /* The margin classes are specific to Chrome. For some crazy reason, it auto inserts these random ass margins. */
