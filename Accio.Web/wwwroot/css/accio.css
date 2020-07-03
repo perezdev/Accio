@@ -211,6 +211,13 @@ footer {
         cursor: pointer;
     }
 
+.hover-card {
+    height: 325px;
+    width: 239px;
+    z-index: 9999;
+    position: absolute;
+}
+
 .rotate {
     transform: rotate(90deg);
 }
