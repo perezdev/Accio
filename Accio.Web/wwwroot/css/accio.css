@@ -211,6 +211,17 @@ footer {
         cursor: pointer;
     }
 
+.hover-card {
+    height: 325px;
+    width: 239px;
+    z-index: 9999;
+    position: absolute;
+}
+.hover-card-loading {
+    background-image: linear-gradient(45deg, #696969 25%, #D3D3D3 25%, #D3D3D3 50%, #696969 50%, #696969 75%, #D3D3D3 75%, #D3D3D3 100%);
+    background-size: 10px 10px;
+}
+
 .rotate {
     transform: rotate(90deg);
 }

@@ -15,6 +15,12 @@ $(document).ready(function () {
         InitializeCardPage();
     }
 });
+//Shows the card from the grid when hovered over
+//https://stackoverflow.com/a/1678194/1339826
+$(document).mousemove(function (e) {
+    var img = $(singleCardSearchElementIds.HoverImageClassName);
+    img.css({ 'top': e.clientY + 20, 'left': e.clientX + 20 });
+});
 
 function InitializeSearchPage() {
     /* Card set initialization */
@@ -189,14 +195,34 @@ function InitializeCardTable() {
         columnDefs: [
             {
                 //Hide the card ID column
-                targets: [0],
+                targets: [0, 8],
                 visible: false,
             },
             {
                 targets: [2],
                 type: 'natural-nohtml', //This allow DT to sort the column alphanumerically
             }
-        ]
+        ],
+        'createdRow': function (row, data, index) {
+            $('td', row).on("mouseover", function () {
+                var url = data[8];
+                var img = $(singleCardSearchElementIds.HoverImageClassName);
+
+                if (img.attr('src') === url)
+                    return;
+
+                //Removes the image source so the background loading thing appears
+                img.attr('src', '');
+                //Remove the display none class immediately so the loader shows before the image has fully loaded
+                img.removeClass('dn');
+                //The image will load, but won't show until it's fully loaded. The loader CSS will show until the image has fully loaded
+                img.attr('src', url);
+            });
+            $('td', row).on("mouseleave", function () {
+                var img = $(singleCardSearchElementIds.HoverImageClassName);
+                img.addClass('dn');
+            });
+        }
     });
 
     $(resultsContainerNames.CardTableId + ' tbody').on('click', 'tr', function () {
@@ -381,6 +407,7 @@ function AddCardsToTable(cards) {
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = card.cardNumber;
         var cardNameColumn = '<b>' + card.detail.name + '</b>';
+        var cardImageUrlColumn = card.detail.url;
 
         var costColumn = null;
         if (card.lessonType === null) {
@@ -407,7 +434,7 @@ function AddCardsToTable(cards) {
         //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
         //The second column is hidden by the column definitions when the table was instantiated
         var rowNode = cardTable.row.add([
-            cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn
+            cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn, cardImageUrlColumn
         ]);
     }
 
@@ -694,6 +721,8 @@ const singleCardSearchElementIds = {
     CardNumberId: '#cardInfoNumber',
     CardRarityId: '#cardInfoRarity',
     PrintingsEnglishId: '#printingsEnglish',
+    HoverImageClassName: '.hover-card',
+    HoverImageLoadingClassName: '.hover-card-loading',
 };
 
 //The search box will behave differently on the card page. We'll basically just redirect to the search page

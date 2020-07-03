@@ -8,6 +8,8 @@
 @* Required for AJAX async calls *@
 @Html.AntiForgeryToken()
 
+<img class="hover-card hover-card-loading dn" alt="" src="" />
+
 <!-- Begin Details Nav -->
 <div class="w-100 z-index-1">
     <div class="cf mw8 center" style="margin-top: 8px;">
@@ -71,6 +73,7 @@
                         <th>Type</th>
                         <th>Rarity</th>
                         <th>Artist</th>
+                        <th>ImageUrl</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +83,7 @@
 
     </div>
 </main>
+
 
 <!-- Card Modal -->
 @*<div id="modal-custom" data-izimodal-fullscreen="true" data-izimodal-icon="icon-home" aria-hidden="false" aria-labelledby="modal-default" role="dialog" class="iziModal" data-izimodal-group="grupo1" data-izimodal-loop="true" style="z-index: 999; border-radius: 3px; border-bottom: 3px solid rgb(136, 160, 185); overflow: hidden; max-width: 900px; display: block; height: 638px;">
