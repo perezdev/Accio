@@ -19,7 +19,8 @@ $(document).ready(function () {
 //https://stackoverflow.com/a/1678194/1339826
 $(document).mousemove(function (e) {
     var img = $(singleCardSearchElementIds.HoverImageClassName);
-    img.css({ 'top': e.clientY + 20, 'left': e.clientX + 20 });
+    var windowScrollY = window.scrollY;
+    img.css({ 'top': windowScrollY + e.clientY, 'left': e.clientX + 20 });
 });
 
 function InitializeSearchPage() {
