@@ -19,7 +19,7 @@ $(document).ready(function () {
 //https://stackoverflow.com/a/1678194/1339826
 $(document).mousemove(function (e) {
     var img = $(singleCardSearchElementIds.HoverImageClassName);
-    img.css({ 'top': e.clientY + 5, 'left': e.clientX + 20 });
+    img.css({ 'top': e.clientY + 20, 'left': e.clientX + 20 });
 });
 
 function InitializeSearchPage() {
@@ -207,8 +207,16 @@ function InitializeCardTable() {
             $('td', row).on("mouseover", function () {
                 var url = data[8];
                 var img = $(singleCardSearchElementIds.HoverImageClassName);
-                img.attr('src', url);
+
+                if (img.attr('src') === url)
+                    return;
+
+                //Removes the image source so the background loading thing appears
+                img.attr('src', '');
+                //Remove the display none class immediately so the loader shows before the image has fully loaded
                 img.removeClass('dn');
+                //The image will load, but won't show until it's fully loaded. The loader CSS will show until the image has fully loaded
+                img.attr('src', url);
             });
             $('td', row).on("mouseleave", function () {
                 var img = $(singleCardSearchElementIds.HoverImageClassName);
@@ -221,8 +229,6 @@ function InitializeCardTable() {
         var data = cardTable.row(this).data();
         RedirectToCardPage(data[0]);
     });
-
-    
 }
 
 function SearchCards() {
@@ -716,6 +722,7 @@ const singleCardSearchElementIds = {
     CardRarityId: '#cardInfoRarity',
     PrintingsEnglishId: '#printingsEnglish',
     HoverImageClassName: '.hover-card',
+    HoverImageLoadingClassName: '.hover-card-loading',
 };
 
 //The search box will behave differently on the card page. We'll basically just redirect to the search page
