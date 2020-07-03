@@ -450,6 +450,11 @@ table {
     table.dataTable thead .sorting_desc {
         background-image: url("../images/chevron_desc.svg")
     }
+
+    table.dataTable thead .sorting {
+        background-image: url('');
+    }
+
 /* Alternating row styles for the table. These have to be !important because datatable.js sets their own styles */
 tbody tr:nth-child(odd) {
     background-color: var(--whiteWizard) !important;
