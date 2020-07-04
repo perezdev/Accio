@@ -199,6 +199,7 @@ footer {
     z-index: 9999;
     position: absolute;
 }
+
 .hover-card-loading {
     background-image: linear-gradient(45deg, #696969 25%, #D3D3D3 25%, #D3D3D3 50%, #696969 50%, #696969 75%, #D3D3D3 75%, #D3D3D3 100%);
     background-size: 10px 10px;
@@ -527,8 +528,8 @@ td:nth-child(6) {
 }
 
 .single-card-image-horizontal {
-    width: 334px;
-    height: 224px;
+    transform: rotate(90deg);
+    margin-right: 75px;
 }
 
 .single-card-segment {
@@ -652,4 +653,14 @@ td:nth-child(6) {
 
 .set-info {
     display: inline-block !important;
+}
+
+.rule-label {
+    color: var(--grayGargoyle);
+    font-size: 0.875rem;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
 }

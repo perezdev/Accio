@@ -15,11 +15,13 @@ namespace Accio.Web.Pages.Card
     {
         private CardService _cardService { get; set; }
         private SourceService _sourceService { get; set; }
+        private CardRulingService _cardRulingService { get; set; }
 
-        public IndexModel(CardService cardService, SourceService sourceService)
+        public IndexModel(CardService cardService, SourceService sourceService, CardRulingService cardRulingService)
         {
             _cardService = cardService;
             _sourceService = sourceService;
+            _cardRulingService = cardRulingService;
         }
 
         public void OnGet()
@@ -39,6 +41,18 @@ namespace Accio.Web.Pages.Card
 
                 var card = _cardService.SearchSingleCard(cardSearchParameters);
                 return new JsonResult(new { success = true, json = card });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, json = ex.Message });
+            }
+        }
+        public JsonResult OnPostGetCardRulingsAsync(Guid cardId, Guid cardTypeId)
+        {
+            try
+            {
+                var rules = _cardRulingService.GetCardRules(cardId, cardTypeId);
+                return new JsonResult(new { success = true, json = rules });
             }
             catch (Exception ex)
             {
