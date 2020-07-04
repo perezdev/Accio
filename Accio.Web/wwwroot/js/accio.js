@@ -921,12 +921,12 @@ function GetRulingItem(rule) {
     var formattedRuleDate = ruleDate.getFullYear() + '-' + GetTwoDigitMonth(ruleDate) + '-' + GetTwoDigitDay(ruleDate);
 
     var rulingHtml = `
-                       <div>
+                       <div class="rule-item">
                             <p>
                                 ` + rule.ruling + `
                             </p>
                             <p class="rule-date">
-                                ` + formattedRuleDate + `
+                                (` + formattedRuleDate + `)
                             </p>
                        </div>
                      `;

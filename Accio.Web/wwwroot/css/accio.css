@@ -677,3 +677,8 @@ td:nth-child(6) {
     font-style: italic;
     margin-top: 10px;
 }
+
+.rule-item {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
