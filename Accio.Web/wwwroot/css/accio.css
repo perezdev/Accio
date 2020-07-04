@@ -50,11 +50,21 @@ button {
         color: var(--blackBat);
     }
 
-.z-index-0 { z-index: 0 !important; }
-.z-index-1 { z-index: 1 !important; }
-.z-index-2 { z-index: 2 !important; }
+.z-index-0 {
+    z-index: 0 !important;
+}
 
-p { margin: 0; }
+.z-index-1 {
+    z-index: 1 !important;
+}
+
+.z-index-2 {
+    z-index: 2 !important;
+}
+
+p {
+    margin: 0;
+}
 
 /* Header, Navigation, Footer */
 header {
@@ -175,13 +185,15 @@ footer {
     margin-top: 30px;
 }
 
-.card-image { transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); }
+.card-image {
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
 
     .card-image img {
         box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
         cursor: pointer;
         display: block;
-        height:auto;
+        height: auto;
         min-width: 100%;
     }
 
@@ -340,9 +352,9 @@ button.slytherin:hover {
 
 select {
     appearance: none;
-        -ms-appearance: none;
-        -moz-appearance: none;
-        -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     background-color: rgba(255, 255, 255, 0.05);
     border: solid 1px rgba(232, 232, 228, 0.75);
     border-radius: 2px;
@@ -374,11 +386,15 @@ select {
             color: #000000 !important;
         }
 
-.sub-menu-label { font-family: var(--sansSerif); }
+.sub-menu-label {
+    font-family: var(--sansSerif);
+}
 
 /* Card content area */
 
-.main-container { position: relative; }
+.main-container {
+    position: relative;
+}
 
 /* Container used as parent to card container */
 .content-container {
@@ -407,25 +423,34 @@ table {
     line-height: 1.71;
     width: 100% !important;
 }
+
     table.dataTable thead th {
         font-size: 0.875rem;
         line-height: 1.71;
         padding: 0.5rem;
     }
 
-    table tbody tr { cursor: pointer; }
+    table tbody tr {
+        cursor: pointer;
+    }
 
         table tbody tr:hover {
             background-color: var(--lightPurpleFirecracker) !important;
             cursor: pointer;
         }
 
-    table.dataTable tbody td { padding: 0.5rem; }
+    table.dataTable tbody td {
+        padding: 0.5rem;
+    }
 
     /* Datatables.js adds borders to the header and footer of the table, but they aren't part of the design by Tressley */
-    table.dataTable thead th { border: none; }
+    table.dataTable thead th {
+        border: none;
+    }
 
-    table.dataTable.no-footer { border-bottom: none; }
+    table.dataTable.no-footer {
+        border-bottom: none;
+    }
 
     table.dataTable thead .sorting_asc {
         background-image: url("../images/chevron_asc.svg");
@@ -437,7 +462,9 @@ table {
         color: var(--purpleFirecracker);
     }
 
-    table.dataTable thead .sorting { background-image: url(''); }
+    table.dataTable thead .sorting {
+        background-image: url('');
+    }
 
 /* Alternating row styles for the table. These have to be !important because datatable.js sets their own styles */
 tbody tr:nth-child(odd) {
@@ -640,4 +667,13 @@ td:nth-child(6) {
 
 .rule-label {
     font-weight: 700;
+}
+
+.rule-card-name {
+    color: var(--mainColor);
+}
+
+.rule-date {
+    font-style: italic;
+    margin-top: 10px;
 }

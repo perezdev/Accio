@@ -25,10 +25,22 @@ namespace Accio.Business.Services.CardServices
         /// </summary>
         public List<RulingModel> GetCardRules(Guid cardId, Guid? languageId = null)
         {
-            var cardRules = new List<RulingModel>();
+            if (languageId == null || languageId == Guid.Empty)
+            {
+                var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
+                languageId = englishLanguageId;
+            }
 
+            //Grab rules that apply to the card
+            var rules = (from ruling in _context.Ruling
+                          join source in _context.RulingSource on ruling.RulingSourceId equals source.RulingSourceId
+                          join type in _context.RulingType on ruling.RulingTypeId equals type.RulingTypeId
+                          join cardRuling in _context.CardRuling on ruling.RulingId equals cardRuling.RulingId
+                          where !ruling.Deleted && !source.Deleted && !type.Deleted && !cardRuling.Deleted &&
+                                cardRuling.CardId == cardId && ruling.LanguageId == languageId
+                          select RulingService.GetRulingModel(ruling, source, type, null)).ToList();
 
-            return cardRules;
+            return rules;
         }
 
         /// <summary>
@@ -72,7 +84,7 @@ namespace Accio.Business.Services.CardServices
                           where !ruling.Deleted && !source.Deleted && !type.Deleted && !cardType.Deleted &&
                                  cardType.CardTypeId == cardTypeId && ruling.LanguageId == languageId
                           select RulingService.GetRulingModel(ruling, source, type, cardType)).ToList();
-            if (rules1 != null)
+            if (rules2 != null)
             {
                 cardRuleModels.AddRange(rules2);
             }

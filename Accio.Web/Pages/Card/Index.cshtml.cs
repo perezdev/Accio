@@ -47,11 +47,11 @@ namespace Accio.Web.Pages.Card
                 return new JsonResult(new { success = false, json = ex.Message });
             }
         }
-        public JsonResult OnPostGetCardRulingsAsync(Guid cardId, Guid cardTypeId)
+        public JsonResult OnPostGetCardRulingsAsync(Guid cardId)
         {
             try
             {
-                var rules = _cardRulingService.GetCardRules(cardId, cardTypeId);
+                var rules = _cardRulingService.GetCardRules(cardId);
                 return new JsonResult(new { success = true, json = rules });
             }
             catch (Exception ex)
