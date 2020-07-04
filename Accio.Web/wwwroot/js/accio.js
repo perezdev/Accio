@@ -359,7 +359,7 @@ function AddCardsToDeck(cards) {
 
         //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
         var cardHtml = `
-                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="ma1 card-image">
+                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="card-image w-25-ns pa1 w-50">
                             <img class="tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
@@ -867,11 +867,11 @@ function SetSetInfo(card) {
     $(singleCardSearchElementIds.CardRarityId).html(card.rarity.name);
 }
 function GetAdventureCardText(card) {
-    var effect = '<b>Effect:</b> ' + card.detail.effect;
-    var solve = '<b>To Solve:</b> ' + card.detail.toSolve;
-    var reward = '<b>Opponent\'s Reward:</b> ' + card.detail.reward;
+    var effect = '<p><b>Effect:</b> ' + card.detail.effect + '</p>';
+    var solve = '<p><b>To Solve:</b> ' + card.detail.toSolve + '</p>';
+    var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
 
-    return effect + '<br />' + solve + '<br />' + reward;
+    return effect + solve + reward;
 }
 
 function PopulateCardRules(cardId, cardTypeId) {
