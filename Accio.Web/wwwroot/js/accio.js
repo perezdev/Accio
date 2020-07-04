@@ -788,8 +788,13 @@ function AddCardToPage(card) {
     SetLessonDetails(card);
     //Type
     $(singleCardSearchElementIds.CardTypeId).html(card.cardType.name);
-    //Description
-    $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
+    //Description/Effects
+    if (card.cardType.name === 'Adventure') {
+        var adventureCardText = GetAdventureCardText(card);
+        $(singleCardSearchElementIds.DescriptionId).html(adventureCardText);
+    } else {
+        $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
+    }
     //Flavor text
     $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
     //Illustrator
@@ -852,4 +857,11 @@ function SetSetInfo(card) {
     $(singleCardSearchElementIds.SetNameId).html(card.cardSet.name);
     $(singleCardSearchElementIds.CardNumberId).html('#' + card.cardNumber);
     $(singleCardSearchElementIds.CardRarityId).html(card.rarity.name);
+}
+function GetAdventureCardText(card) {
+    var effect = '<b>Effect:</b> ' + card.detail.effect;
+    var solve = '<b>To Solve:</b> ' + card.detail.toSolve;
+    var reward = '<b>Opponent\'s Reward:</b> ' + card.detail.reward;
+
+    return effect + '<br />' + solve + '<br />' + reward;
 }
