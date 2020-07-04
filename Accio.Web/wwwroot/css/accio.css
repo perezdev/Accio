@@ -654,3 +654,13 @@ td:nth-child(6) {
 .set-info {
     display: inline-block !important;
 }
+
+.rule-label {
+    color: var(--grayGargoyle);
+    font-size: 0.875rem;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+}

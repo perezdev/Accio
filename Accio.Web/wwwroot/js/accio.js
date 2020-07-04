@@ -724,6 +724,11 @@ const singleCardSearchElementIds = {
     PrintingsEnglishId: '#printingsEnglish',
     HoverImageClassName: '.hover-card',
     HoverImageLoadingClassName: '.hover-card-loading',
+    NoRulingDataFoundId: '#rulingNoDataFound',
+    RulesContainerId: '#rulesContainer',
+    GeneralInfoId: '#generalInfo',
+    CardRulesId: '#cardRules',
+    FaqId: '#faq'
 };
 
 //The search box will behave differently on the card page. We'll basically just redirect to the search page
@@ -771,6 +776,9 @@ function SetValuesFromQueryAndPeformSingleCardSearch() {
 }
 
 function AddCardToPage(card) {
+    //Populate rules async
+    PopulateCardRules(card.cardId, card.cardType.cardTypeId);
+
     var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
 
@@ -864,4 +872,62 @@ function GetAdventureCardText(card) {
     var reward = '<b>Opponent\'s Reward:</b> ' + card.detail.reward;
 
     return effect + '<br />' + solve + '<br />' + reward;
+}
+
+function PopulateCardRules(cardId, cardTypeId) {
+    var fd = new FormData();
+    fd.append('cardId', cardId);
+    fd.append('cardTypeId', cardTypeId);
+
+    $.ajax({
+        type: "POST",
+        url: "Card?handler=GetCardRulings",
+        data: fd,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                var rulings = response.json;
+                if (rulings.length > 0) {
+                    $(singleCardSearchElementIds.RulesContainerId).removeClass('dn');
+                    AddRulesToContainers(rulings);
+                }
+                else {
+                    $(singleCardSearchElementIds.NoRulingDataFoundId).removeClass('dn');
+                }
+            }
+        },
+        failure: function (response) {
+            alert('Catastropic error');
+        }
+    });
+}
+function AddRulesToContainers(rulings) {
+    var generalRulingTypeId = 'e0e9a9ac-c250-44b9-9e65-e2b6cbeae338';
+    var cardRulingTypeId = '5309b60d-def9-4569-b8e3-00446322c13d';
+    var faqRulingTypeId = 'c22cfbd6-0cec-4b9c-869b-8d3f11c4a431';
+
+    for (var i = 0; i < rulings.length; i++) {
+        var rule = rulings[i];
+
+        //General info
+        if (rule.rulingType.rulingTypeId === generalRulingTypeId) {
+            var generalElement = $(singleCardSearchElementIds.GeneralInfoId);
+            generalElement.html(generalElement.html() + rule.generalInfo);
+        }
+        //Card rules
+        if (rule.rulingType.rulingTypeId === cardRulingTypeId) {
+            var cardRuleElement = $(singleCardSearchElementIds.CardRulesId);
+            cardRuleElement.html(cardRuleElement.html() + '<p>' + rule.ruling + '</p>');
+        }
+        //FAQs
+        if (rule.rulingType.rulingTypeId === faqRulingTypeId) {
+            var faqElement = $(singleCardSearchElementIds.FaqId);
+            faqElement.html(faqElement.html() + '<p>Question: ' + rule.question + '<br />Answer:' + rule.answer + '</p>');
+        }
+    }
 }

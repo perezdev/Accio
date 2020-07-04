@@ -16,11 +16,14 @@ namespace Accio.Data
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
         public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
+        public virtual DbSet<CardRuling> CardRuling { get; set; }
         public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<LessonType> LessonType { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
+        public virtual DbSet<Ruling> Ruling { get; set; }
+        public virtual DbSet<RulingSource> RulingSource { get; set; }
         public virtual DbSet<RulingType> RulingType { get; set; }
         public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<Source> Source { get; set; }
@@ -71,6 +74,15 @@ namespace Accio.Data
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.DateOfRuling).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<CardRuling>(entity =>
+            {
+                entity.Property(e => e.CardRulingId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -138,6 +150,30 @@ namespace Accio.Data
                 entity.Property(e => e.Name).HasMaxLength(150);
 
                 entity.Property(e => e.Symbol).HasMaxLength(2);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Ruling>(entity =>
+            {
+                entity.Property(e => e.RulingId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Ruling1).HasColumnName("Ruling");
+
+                entity.Property(e => e.RulingDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<RulingSource>(entity =>
+            {
+                entity.Property(e => e.RulingSourceId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
