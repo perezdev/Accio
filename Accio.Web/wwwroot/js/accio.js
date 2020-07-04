@@ -776,6 +776,12 @@ function AddCardToPage(card) {
 
     //Image
     $(singleCardSearchElementIds.SingleCardImageId).attr('src', card.detail.url);
+    if (card.orientation === 'Horizontal') {
+        var cardImg = $(singleCardSearchElementIds.SingleCardImageId);
+        cardImg.removeClass('single-card-image-vertical');
+        cardImg.addClass('single-card-image-horizontal');
+    }
+
     //Name
     $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
     //Lesson
