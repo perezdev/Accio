@@ -779,6 +779,9 @@ function AddCardToPage(card) {
     //Populate rules async
     PopulateCardRules(card.cardId);
 
+    //Update page title
+    document.title = card.detail.name + ' • ' + card.cardSet.name + '#' + card.cardNumber + ' • Accio Harry Potter TCG Search';    
+
     var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
 
@@ -792,6 +795,7 @@ function AddCardToPage(card) {
 
     //Name
     $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
+
     //Lesson
     SetLessonDetails(card);
     //Type
