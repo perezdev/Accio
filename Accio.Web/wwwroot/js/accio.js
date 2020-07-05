@@ -942,6 +942,6 @@ function GetTwoDigitMonth(date) {
     return month < 10 ? '0' + month : '' + month;
 }
 function GetTwoDigitDay(date) {
-    var day = date.getDay() + 1;
+    var day = date.getDay();
     return day < 10 ? '0' + day : '' + day;
 }  
