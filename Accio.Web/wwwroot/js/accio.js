@@ -1037,9 +1037,10 @@ function InitializeSetsTable() {
                 visible: false,
             },
             {
-                //Align the name to the left of the column
+                //Align the name to the left of the column. The 100% class is used to extend the text
+                //so row over works correctly
                 targets: [1],
-                className: 'fl'
+                className: 'fl w-100'
             },
             {
                 //Cap the width of the cards and date column

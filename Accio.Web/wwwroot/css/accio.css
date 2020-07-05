@@ -443,7 +443,11 @@ select {
 }
 
 .card-image {
-    /* This is just used for a selector for now */
+    /* I'm considering using the card back as a place holder while the cards load */
+    /*background-image: url("../images/cardBack.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: contain;*/
 }
 
 /* Card list table */
