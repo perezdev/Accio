@@ -780,7 +780,7 @@ function AddCardToPage(card) {
     PopulateCardRules(card.cardId);
 
     //Update page title
-    document.title = card.detail.name + ' • ' + card.cardSet.name + '#' + card.cardNumber + ' • Accio Harry Potter TCG Search';    
+    document.title = card.detail.name + ' • ' + card.cardSet.name + ' #' + card.cardNumber + ' • Accio Harry Potter TCG Search';    
 
     var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
