@@ -13,6 +13,8 @@ $(document).ready(function () {
     }
     else if (currentPage === Page.Card) {
         InitializeCardPage();
+    } else if (currentPage === Page.Sets) {
+        InitializeSetsPage();
     }
 });
 //Shows the card from the grid when hovered over
@@ -45,9 +47,16 @@ function InitializeCardPage() {
     /* Perform card search */
     SetValuesFromQueryAndPeformSingleCardSearch();
 }
+function InitializeSetsPage() {
+    /* Sets table initialization */
+    InitializeSetsTable();
+
+    /* Populate sets table */
+    PopulateSetsTable();
+}
 
 /**
- * Card Sets
+ * Search - Card Sets
  * -----------------------------------------------------------------------------------------------------
  */
 
@@ -110,7 +119,7 @@ const LessonTypeName = {
     Potions: 'Potions',
     Quidditch: 'Quidditch',
     Transfiguration: 'Transfiguration',
-}
+};
 
 /**
  * Card Search
@@ -141,7 +150,12 @@ const resultsContainerNames = {
     ContentContainerId: '#contentContainer',
     CardContainerId: '#cardContainer',
     CardTableId: '#cardTable',
-    CardTableContainerId: '#tableContainer'
+    CardTableContainerId: '#tableContainer',
+    SearchResultsContainerId: '#searchResults',
+    SetInfoContainerId: '#setInfo',
+    SetHeaderIconClassName: '.set-header-title-icon',
+    SetHeaderTitleClassName: '.set-header-title-h1',
+    SetHeaderDataClassName: '.set-header-title-data',
 };
 
 /* Hold cards in global variable so we can swap views with the existing cards without
@@ -233,12 +247,14 @@ function InitializeCardTable() {
 }
 
 function SearchCards() {
-    //SetSearchLoadingState('loading');
     const searchData = GetSearchData();
 
     //Once the user executes a search, we want to set the values from the search to the query string so they can
     //refresh the page and/or share the link without the page needing to be refreshed
     SetQueryFromValues(searchData);
+
+    //Toggle search result/set data
+    ToggleSearchResultData();
 
     var fd = new FormData();
     if (searchData.SetId) {
@@ -316,7 +332,6 @@ function ToggleViewSearch() {
     }
 }
 function ToggleViewContainers() {
-    //TODO: change this to tachyons display classes
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
         $(resultsContainerNames.CardTableContainerId).removeClass('db');
@@ -330,6 +345,50 @@ function ToggleViewContainers() {
 
         $(resultsContainerNames.CardTableContainerId).removeClass('dn');
         $(resultsContainerNames.CardTableContainerId).addClass('db');
+    }
+}
+//Toggles between the search results and set data based on query params
+function ToggleSearchResultData() {
+    var setId = getParameterByName(queryParameterNames.SetId);
+    var searchText = getParameterByName(queryParameterNames.SearchText);
+    $(resultsContainerNames.SearchResultsContainerId).removeClass('dn');
+    $(resultsContainerNames.SetInfoContainerId).removeClass('dn');
+
+    //Only display the set data when only the set has been chosen. This will apply for when the user chooses a set
+    //on the search page or if they choose a set from the set page
+    if (setId && !searchText) {
+        $(resultsContainerNames.SearchResultsContainerId).addClass('dn');
+
+        var fd = new FormData();
+        fd.append('setId', setId);
+
+        $.ajax({
+            type: "POST",
+            url: "Search?handler=GetSetBySetId",
+            data: fd,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.success) {
+                    var set = response.json;
+
+                    $(resultsContainerNames.SetHeaderIconClassName).attr('data', '/images/seticons/' + set.iconFileName);
+                    $(resultsContainerNames.SetHeaderTitleClassName).html(set.name);
+                    var setData = set.totalCards + ' cards • Released ' + set.releaseDate;
+                    $(resultsContainerNames.SetHeaderDataClassName).html(setData);
+                }
+            },
+            failure: function (response) {
+                alert('Catastropic error');
+            }
+        });
+    }
+    else {
+        $(resultsContainerNames.SetInfoContainerId).addClass('dn');
     }
 }
 
@@ -360,7 +419,7 @@ function AddCardsToDeck(cards) {
         //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
         var cardHtml = `
                         <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="card-image w-25-ns pa1 w-50">
-                            <img class="tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
+                            <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
 
@@ -373,7 +432,7 @@ function AddCardsToDeck(cards) {
         //for all the cards to load. But I wanted to animate it to look nicer. I do this by hiding the image element as it's created. That allows the image to load before
         //it's shown. Then this will remove that class that hides it and animate a fade in from animate.css. The 'each' part is required and forces the load event to
         //fire when the image is loaded from cache. Which happens automatically by the browser.
-        $('img').on('load', function () {
+        $('.card-image').on('load', function () {
             $(this).removeClass('d-none');
             $(this).addClass('animated fadeIn');
         }).on('error', function () {
@@ -439,7 +498,7 @@ function AddCardsToTable(cards) {
         ]);
     }
 
-    ApplySortToTable();
+    ApplySortToCardTable();
 
     //The design calls for changing the color of the font and can really only be done after the fact. DT.js
     //overwrites style changes when made as part of the column html.
@@ -473,7 +532,7 @@ const SortOrder = {
     Descending: 'desc',
 };
 //Sort values come from the server, but datatables overrides that.
-function ApplySortToTable() {
+function ApplySortToCardTable() {
     var sortBy = $(searchElementNames.SortCardsById).val();
     var sortOrder = $(searchElementNames.SortCardsOrderId).val();
 
@@ -696,7 +755,8 @@ function InitializeCrestElements() {
  */
 const Page = {
     Search: '/Search',
-    Card: '/Card'
+    Card: '/Card',
+    Sets: '/Sets',
 };
 function GetCurrentPage() {
     return window.location.pathname;
@@ -780,7 +840,7 @@ function AddCardToPage(card) {
     PopulateCardRules(card.cardId);
 
     //Update page title
-    document.title = card.detail.name + ' • ' + card.cardSet.name + ' #' + card.cardNumber + ' • Accio Harry Potter TCG Search';    
+    document.title = card.detail.name + ' • ' + card.cardSet.name + ' #' + card.cardNumber + ' • Accio Harry Potter TCG Search';
 
     var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
@@ -944,4 +1004,115 @@ function GetTwoDigitMonth(date) {
 function GetTwoDigitDay(date) {
     var day = date.getDay();
     return day < 10 ? '0' + day : '' + day;
-}  
+}
+
+/*
+ * Sets Page
+ * ------------------------------------------------------------------------------------------------------------------------------
+ */
+
+const setsPageElements = {
+    SetsTableId: '#setsTable',
+};
+const SetsTableColumnIndex = {
+    SetId: 0,
+    Name: 1,
+    TotalCards: 2,
+    ReleaseDate: 3,
+    Languages: 4,
+};
+
+var setsTable = null;
+function InitializeSetsTable() {
+    console.log(setsPageElements.SetsTableId);
+    setsTable = $(setsPageElements.SetsTableId).DataTable({
+        lengthChange: false,
+        searching: false,
+        paging: false,
+        bInfo: false,
+        columnDefs: [
+            {
+                //Hide the card ID column
+                targets: [0],
+                visible: false,
+            },
+            {
+                //Align the name to the left of the column
+                targets: [1],
+                className: 'fl'
+            },
+            {
+                //Cap the width of the cards and date column
+                targets: [2, 3],
+                width: '10%'
+            },
+            {
+                //Align the content of the language column vertically centered
+                targets: [4],
+                className: 'v-mid',
+            }
+        ]
+    });
+
+    $(setsPageElements.SetsTableId + ' tbody').on('click', 'tr', function () {
+        var data = setsTable.row(this).data();
+        window.location.href = '/Search?setId=' + data[0] + '&sortBy=sn&cardView=images';
+    });
+}
+
+function PopulateSetsTable() {
+    $.ajax({
+        type: "POST",
+        url: "Sets?handler=GetSets",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                var sets = response.json;
+                AddSetsToSetsTable(sets);
+            }
+        },
+        failure: function (response) {
+            alert('Catastropic error');
+        }
+    });
+}
+function AddSetsToSetsTable(sets) {
+    for (var i = 0; i < sets.length; i++) {
+        var set = sets[i];
+
+        var setIdColumn = set.setId;
+        var nameColumn = '<div class="flex items-center"><img class="sets-set-table-set-icon" src="/images/seticons/' + set.iconFileName + '" /><div>' + set.name + '</div></div>';
+        var totalCardsColumn = set.totalCards;
+        var releaseDateColumn = set.releaseDate;
+
+        var languages = '<div class="flex items-center">';
+        for (var n = 0; n < set.languages.length; n++) {
+            var language = set.languages[n];
+            var className = '';
+            if (language.enabled) {
+                className = 'set-language-enabled';
+            }
+            else {
+                className = 'set-language-disabled';
+            }
+
+            languages += '<div class="' + className + '">' + language.code + '</div>';
+        }
+        languages += '</div>';
+
+        var languageColumn = languages;
+
+        //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
+        //The second column is hidden by the column definitions when the table was instantiated
+        var rowNode = setsTable.row.add([
+            setIdColumn, nameColumn, totalCardsColumn, releaseDateColumn, languageColumn
+        ]);
+
+        setsTable.order([SetsTableColumnIndex.ReleaseDate, 'desc']).draw();
+    }
+}

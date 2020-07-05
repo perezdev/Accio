@@ -42,6 +42,8 @@ namespace Accio.Business.Services.LanguageServices
             {
                 LanguageId = language.LanguageId,
                 Name = language.Name,
+                Code = language.Code,
+                FlagImagePath = language.FlagImagePath,
                 CreatedById = language.CreatedById,
                 CreatedDate = language.CreatedDate,
                 UpdatedById = language.UpdatedById,

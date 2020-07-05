@@ -38,6 +38,18 @@ namespace Accio.Web.Pages.Search
                 return new JsonResult(new { success = false, json = ex.Message });
             }
         }
+        public JsonResult OnPostGetSetBySetIdAsync(Guid setId)
+        {
+            try
+            {
+                var set = _setService.GetSet(setId);
+                return new JsonResult(new { success = true, json = set });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, json = ex.Message });
+            }
+        }
         public JsonResult OnPostSearchCardsAsync(Guid setId, string searchText, string sortBy, string sortOrder)
         {
             try
