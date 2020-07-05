@@ -62,16 +62,26 @@ button {
     z-index: 2 !important;
 }
 
+p {
+    margin: 0;
+}
+
 /* Header, Navigation, Footer */
 header {
     background-color: var(--mainColor);
-    transition: background-color 0.125s ease-in;
     position: fixed;
-    top: 0px;
+    top: 0;
+    transition: background-color 0.125s ease-in;
 }
 
     header #search input {
         background-color: rgba(0, 0, 0, 0.25);
+        background-image: url('../images/logos/logo_white.svg');
+        background-origin: content-box, padding-box;
+        background-position: left center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-size: 24px 24px;
         border: none;
         border-radius: 2px;
         color: var(--whiteWizard);
@@ -81,12 +91,6 @@ header {
         margin: 0;
         padding: 0.5rem 0.5rem 0.5rem 0.75rem;
         text-indent: 36px; /* Push the text box cursor to the right so it doesn't overlap with the logo background image */
-        background-origin: content-box, padding-box;
-        background-image: url('../images/logos/logo_white.svg');
-        background-position: left center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-size: 24px 24px;
     }
 
         header #search input:focus {
@@ -110,7 +114,6 @@ header {
         background-color: var(--grayGargoyle);
         position: fixed;
         top: 56px;
-        height: 64px;
     }
 
 form {
@@ -188,9 +191,10 @@ footer {
 
     .card-image img {
         box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
-        height: 325px;
-        width: 239px;
         cursor: pointer;
+        display: block;
+        height: auto;
+        min-width: 100%;
     }
 
 .hover-card {
@@ -222,7 +226,7 @@ footer {
 }
 
 .card-types {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .rulings-container {
@@ -347,24 +351,25 @@ button.slytherin:hover {
 /* Search sub-menu */
 
 select {
-    padding: 6px;
-    border-radius: 2px;
-    border: solid 1px rgba(232, 232, 228, 0.75);
+    appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     background-color: rgba(255, 255, 255, 0.05);
-    font-family: Arial;
-    font-size: 14px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.71;
-    letter-spacing: normal;
+    border: solid 1px rgba(232, 232, 228, 0.75);
+    border-radius: 2px;
     color: var(--parchmentPaper);
+    font-family: var(--sansSerif);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.71;
+    padding: 0.25rem 0.75rem;
 }
 
     select option {
         background: #FFFFFF;
         color: var(--grayGargoyle);
-        font-family: Arial;
+        font-family: var(--sansSerif);
     }
 
         select option:hover,
@@ -381,12 +386,8 @@ select {
             color: #000000 !important;
         }
 
-#setLabel {
-    font-family: LibreBaskerville-Regular;
-}
-
 .sub-menu-label {
-    font-family: Arial;
+    font-family: var(--sansSerif);
 }
 
 /* Card content area */
@@ -397,11 +398,11 @@ select {
 
 /* Container used as parent to card container */
 .content-container {
-    margin-top: 125px;
-    min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
-    overflow: visible;
     display: flex;
     flex-direction: column;
+    margin-top: 124px;
+    min-height: 60vh; /* Default height for the card area so it isn't smushed when there are no cards */
+    overflow: visible;
 }
 
 /* The card-size classes are set from the database */
@@ -412,15 +413,22 @@ select {
 
 .card-orientation-horizontal {
     height: 350px !important;
-    width: 250px !important;
     transform: rotate(-90deg);
+    width: 250px !important;
 }
 /* Card list table */
 
 table {
-    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 1.71;
     width: 100% !important;
 }
+
+    table.dataTable thead th {
+        font-size: 0.875rem;
+        line-height: 1.71;
+        padding: 0.5rem;
+    }
 
     table tbody tr {
         cursor: pointer;
@@ -431,8 +439,8 @@ table {
             cursor: pointer;
         }
 
-    table tr:hover td:first-child {
-        border-left: 2px solid var(--mainColor) !important;
+    table.dataTable tbody td {
+        padding: 0.5rem;
     }
 
     /* Datatables.js adds borders to the header and footer of the table, but they aren't part of the design by Tressley */
@@ -445,11 +453,13 @@ table {
     }
 
     table.dataTable thead .sorting_asc {
-        background-image: url("../images/chevron_asc.svg")
+        background-image: url("../images/chevron_asc.svg");
+        color: var(--purpleFirecracker);
     }
 
     table.dataTable thead .sorting_desc {
-        background-image: url("../images/chevron_desc.svg")
+        background-image: url("../images/chevron_desc.svg");
+        color: var(--purpleFirecracker);
     }
 
     table.dataTable thead .sorting {
@@ -480,14 +490,14 @@ td:nth-child(6) {
 
 /* Class for lesson image that is set in accio.js */
 .card-table-cell-lesson-image {
-    margin-left: 7px;
+    margin-left: 4px;
     vertical-align: middle;
     width: 20px;
     height: 20px;
 }
 
 .card-table-cell-icon-image {
-    margin-left: 7px;
+    margin-left: 4px;
     vertical-align: middle;
     width: 20px;
     height: 20px;
@@ -495,11 +505,11 @@ td:nth-child(6) {
 
 .card-table-cell-lesson-label {
     vertical-align: middle;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .card-table-cell-rarity-image {
-    padding-left: 5px;
+    padding-left: 4px;
 }
 
 .set-name-date-separator {
@@ -539,27 +549,27 @@ td:nth-child(6) {
 }
 
 .segment-header-border-default {
-    border-top: 3px solid var(--mainColor);
+    border-top: 4px solid var(--mainColor);
 }
 
 .segment-header-border-comc {
-    border-top: 3px solid var(--brownPaw);
+    border-top: 4px solid var(--brownPaw);
 }
 
 .segment-header-border-charms {
-    border-top: 3px solid var(--blueRaven);
+    border-top: 4px solid var(--blueRaven);
 }
 
 .segment-header-border-potions {
-    border-top: 3px solid var(--greenSnake);
+    border-top: 4px solid var(--greenSnake);
 }
 
 .segment-header-border-quidditch {
-    border-top: 3px solid var(--yellowBadger);
+    border-top: 4px solid var(--yellowBadger);
 }
 
 .segment-header-border-transfig {
-    border-top: 3px solid var(--redLion);
+    border-top: 4px solid var(--redLion);
 }
 
 .segment-divider {
@@ -568,12 +578,12 @@ td:nth-child(6) {
 /* Card Page - Card Info */
 .card-row-item-content {
     color: var(--grayGargoyle);
-    margin-left: 15px;
-    margin-right: 5px;
+    margin-left: 16px;
+    margin-right: 4px;
 }
 
 .card-row-item-content-right {
-    margin-left: 15px;
+    margin-left: 16px;
     margin-right: 20px;
 }
 
@@ -585,7 +595,7 @@ td:nth-child(6) {
 
 .card-printings-text {
     font-size: 0.75rem;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .card-illustrator {
@@ -622,12 +632,12 @@ td:nth-child(6) {
 }
 
 .printings-selected {
-    width: 25px;
+    width: 24px;
     height: 24px;
     background-color: var(--mainColor);
     color: white;
-    margin-left: 15px;
-    margin-bottom: 15px;
+    margin-left: 16px;
+    margin-bottom: 16px;
     border-radius: 2px;
 }
 
@@ -641,12 +651,12 @@ td:nth-child(6) {
 
 .set-info-item {
     float: left;
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .set-info-icon {
-    margin-top: 3px;
+    margin-top: 4px;
     width: 18px;
     height: 18px;
 }
@@ -656,11 +666,19 @@ td:nth-child(6) {
 }
 
 .rule-label {
-    color: var(--grayGargoyle);
-    font-size: 0.875rem;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.71;
-    letter-spacing: normal;
+    font-weight: 700;
+}
+
+.rule-card-name {
+    color: var(--mainColor);
+}
+
+.rule-date {
+    font-style: italic;
+    margin-top: 0px;
+}
+
+.rule-item {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

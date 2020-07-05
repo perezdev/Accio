@@ -359,7 +359,7 @@ function AddCardsToDeck(cards) {
 
         //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
         var cardHtml = `
-                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="ma1 card-image">
+                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="card-image w-25-ns pa1 w-50">
                             <img class="tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
                         </div>
                     `;
@@ -726,9 +726,9 @@ const singleCardSearchElementIds = {
     HoverImageLoadingClassName: '.hover-card-loading',
     NoRulingDataFoundId: '#rulingNoDataFound',
     RulesContainerId: '#rulesContainer',
-    GeneralInfoId: '#generalInfo',
     CardRulesId: '#cardRules',
-    FaqId: '#faq'
+    RulingCardNameId: '#rulingCardName',
+    CardRulingItemsId: '#cardRulingItems',
 };
 
 //The search box will behave differently on the card page. We'll basically just redirect to the search page
@@ -777,7 +777,10 @@ function SetValuesFromQueryAndPeformSingleCardSearch() {
 
 function AddCardToPage(card) {
     //Populate rules async
-    PopulateCardRules(card.cardId, card.cardType.cardTypeId);
+    PopulateCardRules(card.cardId);
+
+    //Update page title
+    document.title = card.detail.name + ' • ' + card.cardSet.name + ' #' + card.cardNumber + ' • Accio Harry Potter TCG Search';    
 
     var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
@@ -792,6 +795,7 @@ function AddCardToPage(card) {
 
     //Name
     $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
+
     //Lesson
     SetLessonDetails(card);
     //Type
@@ -867,17 +871,16 @@ function SetSetInfo(card) {
     $(singleCardSearchElementIds.CardRarityId).html(card.rarity.name);
 }
 function GetAdventureCardText(card) {
-    var effect = '<b>Effect:</b> ' + card.detail.effect;
-    var solve = '<b>To Solve:</b> ' + card.detail.toSolve;
-    var reward = '<b>Opponent\'s Reward:</b> ' + card.detail.reward;
+    var effect = '<p><b>Effect:</b> ' + card.detail.effect + '</p>';
+    var solve = '<p><b>To Solve:</b> ' + card.detail.toSolve + '</p>';
+    var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
 
-    return effect + '<br />' + solve + '<br />' + reward;
+    return effect + solve + reward;
 }
 
-function PopulateCardRules(cardId, cardTypeId) {
+function PopulateCardRules(cardId) {
     var fd = new FormData();
     fd.append('cardId', cardId);
-    fd.append('cardTypeId', cardTypeId);
 
     $.ajax({
         type: "POST",
@@ -907,27 +910,38 @@ function PopulateCardRules(cardId, cardTypeId) {
     });
 }
 function AddRulesToContainers(rulings) {
-    var generalRulingTypeId = 'e0e9a9ac-c250-44b9-9e65-e2b6cbeae338';
-    var cardRulingTypeId = '5309b60d-def9-4569-b8e3-00446322c13d';
-    var faqRulingTypeId = 'c22cfbd6-0cec-4b9c-869b-8d3f11c4a431';
+    $(singleCardSearchElementIds.RulingCardNameId).html($(singleCardSearchElementIds.CardTitleId).html());
 
     for (var i = 0; i < rulings.length; i++) {
         var rule = rulings[i];
 
-        //General info
-        if (rule.rulingType.rulingTypeId === generalRulingTypeId) {
-            var generalElement = $(singleCardSearchElementIds.GeneralInfoId);
-            generalElement.html(generalElement.html() + rule.generalInfo);
-        }
-        //Card rules
-        if (rule.rulingType.rulingTypeId === cardRulingTypeId) {
-            var cardRuleElement = $(singleCardSearchElementIds.CardRulesId);
-            cardRuleElement.html(cardRuleElement.html() + '<p>' + rule.ruling + '</p>');
-        }
-        //FAQs
-        if (rule.rulingType.rulingTypeId === faqRulingTypeId) {
-            var faqElement = $(singleCardSearchElementIds.FaqId);
-            faqElement.html(faqElement.html() + '<p>Question: ' + rule.question + '<br />Answer:' + rule.answer + '</p>');
-        }
+        var cardRuleElement = $(singleCardSearchElementIds.CardRulesId);
+        cardRuleElement.html(cardRuleElement.html() + GetRulingItem(rule));
     }
 }
+function GetRulingItem(rule) {
+    //We format the date to remove the time.
+    var ruleDate = new Date(rule.rulingDate);
+    var formattedRuleDate = ruleDate.getFullYear() + '-' + GetTwoDigitMonth(ruleDate) + '-' + GetTwoDigitDay(ruleDate);
+
+    var rulingHtml = `
+                       <div class="rule-item">
+                            <p>
+                                ` + rule.ruling + `
+                            </p>
+                            <p class="rule-date">
+                                (` + formattedRuleDate + `)
+                            </p>
+                       </div>
+                     `;
+
+    return rulingHtml;
+}
+function GetTwoDigitMonth(date) {
+    var month = date.getMonth() + 1;
+    return month < 10 ? '0' + month : '' + month;
+}
+function GetTwoDigitDay(date) {
+    var day = date.getDay();
+    return day < 10 ? '0' + day : '' + day;
+}  
