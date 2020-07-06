@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Accio.Business.Models.LanguageModels
+namespace Accio.Data
 {
-    public class LanguageModel
+    public partial class SetLanguage
     {
+        public Guid SetLanguageId { get; set; }
+        public Guid SetId { get; set; }
         public Guid LanguageId { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public string FlagImagePath { get; set; }
-        public bool Enabled { get; set; } = false;
+        public bool Enabled { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Accio.Business.Models.SetModels;
+using Accio.Business.Services.LanguageServices;
 using Accio.Data;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,29 @@ namespace Accio.Business.Services.CardServices
                         where !set.Deleted
                         orderby set.Order
                         select GetSetModel(set)).ToList();
+
+            var setLanguages = (from setLang in _context.SetLanguage
+                                join lang in _context.Language on setLang.LanguageId equals lang.LanguageId
+                                where !setLang.Deleted && !lang.Deleted && sets.Select(x => x.SetId).ToList().Contains(setLang.SetId)
+                                select new { setLang, lang }).ToList();
+
+            foreach (var set in sets)
+            {
+                var sls = setLanguages.Where(x => x.setLang.SetId == set.SetId);
+                if (sls == null)
+                    continue;
+
+                foreach (var sl in sls)
+                {
+                    var language = LanguageService.GetLanguageModel(sl.lang);
+                    language.Enabled = sl.setLang.Enabled;
+                    set.Languages.Add(language);
+
+                    //Order the languages so they appear as the enabled languages first and then ordered by name
+                    set.Languages = set.Languages.OrderByDescending(x => x.Enabled).ThenBy(x => x.Code).ToList();
+                }
+            }
+
             SetsCache = sets;
 
             return SetsCache;
@@ -34,11 +58,12 @@ namespace Accio.Business.Services.CardServices
             if (SetsCache.Count > 0)
                 return SetsCache.Single(x => x.SetId == setId);
 
-            var set = (from s in _context.Set
-                        where !s.Deleted where s.SetId == setId
-                        select GetSetModel(s)).Single();
+            var setModel = (from set in _context.Set
+                            where !set.Deleted && set.SetId == setId
+                            orderby set.Order
+                            select GetSetModel(set)).Single();
 
-            return set;
+            return setModel;
         }
 
         public static SetModel GetSetModel(Set set)

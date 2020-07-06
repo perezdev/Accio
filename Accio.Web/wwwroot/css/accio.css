@@ -199,14 +199,16 @@ footer {
 
 .hover-card {
     height: 325px;
+    position: absolute;
     width: 239px;
     z-index: 9999;
-    position: absolute;
 }
 
 .hover-card-loading {
-    background-image: linear-gradient(45deg, #696969 25%, #D3D3D3 25%, #D3D3D3 50%, #696969 50%, #696969 75%, #D3D3D3 75%, #D3D3D3 100%);
-    background-size: 10px 10px;
+    background-image: url("../images/cardBack.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .rotate {
@@ -390,8 +392,31 @@ select {
     font-family: var(--sansSerif);
 }
 
-/* Card content area */
+.set-header-title-icon {
+    width: 19px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
 
+.set-header-title-container {
+}
+
+.set-header-title-h1 {
+    /* I don't even know here. For some reason, the margin property wouldn't set the margin, so I had to explictly set it for each side */
+    margin-left: 8px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.set-header-title-data {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+}
+
+/* Card content area */
 .main-container {
     position: relative;
 }
@@ -416,6 +441,15 @@ select {
     transform: rotate(-90deg);
     width: 250px !important;
 }
+
+.card-image {
+    /* I'm considering using the card back as a place holder while the cards load */
+    /*background-image: url("../images/cardBack.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: contain;*/
+}
+
 /* Card list table */
 
 table {
@@ -631,10 +665,20 @@ td:nth-child(6) {
     width: 16px;
 }
 
-.printings-selected {
+.printings-enabled {
     width: 24px;
     height: 24px;
     background-color: var(--mainColor);
+    color: white;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    border-radius: 2px;
+}
+
+.printings-disabled {
+    width: 24px;
+    height: 24px;
+    background-color: var(--lightPurpleFirecracker);
     color: white;
     margin-left: 16px;
     margin-bottom: 16px;
@@ -681,4 +725,39 @@ td:nth-child(6) {
 .rule-item {
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+/* Sets */
+
+.sets-content-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    min-height: 60vh; /* Default height for the area so it isn't smushed when there are no cards */
+    overflow: visible;
+}
+
+.sets-set-table-set-icon {
+    margin-right: 7px;
+    width: 18px;
+    height: 18px;
+}
+
+.set-language-enabled {
+    width: 24px;
+    height: 24px;
+    background-color: var(--mainColor);
+    color: white;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.set-language-disabled {
+    width: 24px;
+    height: 24px;
+    background-color: var(--whiteWizard);
+    color: var(--mainColor);
+    border-radius: 2px;
+    margin-right: 10px;
+    border: 1px solid var(--mainColor);
 }

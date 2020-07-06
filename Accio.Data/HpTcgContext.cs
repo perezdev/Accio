@@ -26,6 +26,7 @@ namespace Accio.Data
         public virtual DbSet<RulingSource> RulingSource { get; set; }
         public virtual DbSet<RulingType> RulingType { get; set; }
         public virtual DbSet<Set> Set { get; set; }
+        public virtual DbSet<SetLanguage> SetLanguage { get; set; }
         public virtual DbSet<Source> Source { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -206,6 +207,15 @@ namespace Accio.Data
                 entity.Property(e => e.ReleaseDate).HasMaxLength(50);
 
                 entity.Property(e => e.ShortName).HasMaxLength(10);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<SetLanguage>(entity =>
+            {
+                entity.Property(e => e.SetLanguageId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });

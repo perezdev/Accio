@@ -1,0 +1,30 @@
+﻿@page
+@model Accio.Web.Pages.Sets.IndexModel
+@{
+    ViewData["Title"] = "Accio Harry Potter TCG Search";
+    Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+}
+
+@* Required for AJAX async calls *@
+@Html.AntiForgeryToken()
+
+<main class="w-100 main-container">
+    <div id="contentContainer" class="mw8 center sets-content-container pv3">
+        <div id="tableContainer">
+            <table id="setsTable">
+                <thead>
+                    <tr>
+                        <!-- Card ID is hiden on initialization -->
+                        <th>SetId</th>
+                        <th class="tl">Name</th>
+                        <th class="tc">Cards</th>
+                        <th class="tl">Date</th>
+                        <th class="tl">Languages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
