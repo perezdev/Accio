@@ -116,6 +116,30 @@ header {
         top: 56px;
     }
 
+.clear-search {
+    margin-left: -29px;
+    height: 14px;
+    width: 14px;
+    background-image: url(../images/clear.svg);
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+    .clear-search:hover {
+        opacity: 1.0;
+    }
+
+#searchInput::-webkit-search-cancel-button {
+    position: relative;
+    right: 20px;
+    /*-webkit-appearance: none;*/
+    height: 20px;
+    width: 20px;
+    color: rgb(117, 117, 117);
+    background-color: rgb(117, 117, 117);
+    ;
+}
+
 form {
     /* The margin classes are specific to Chrome. For some crazy reason, it auto inserts these random ass margins. */
     margin-block-start: 0;

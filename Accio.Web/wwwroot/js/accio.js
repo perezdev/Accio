@@ -144,6 +144,7 @@ const searchElementNames = {
     CardViewId: '#cardView',
     CardCountId: '#cardCount',
     SetDateClassName: '.set-date',
+    ClearSearchClassName: '.clear-search',
 };
 
 const resultsContainerNames = {
@@ -198,6 +199,27 @@ function InitializeCardSearchElements() {
         if ((searchData.SetId || searchData.LessonCost || searchData.SearchText)) {
             SearchCards();
         }
+    });
+
+    //Clear search
+    $(searchElementNames.SearchInputId).on('keyup', function () {
+        var clear = $(searchElementNames.ClearSearchClassName);
+        if ($(this).val() === '') {
+            if (!clear.hasClass('dn')) {
+                clear.addClass('dn');
+            }
+        }
+        else {
+            if (clear.hasClass('dn')) {
+                clear.removeClass('dn');
+            }
+        }
+    });
+    $(searchElementNames.ClearSearchClassName).on('click', function () {
+        var search = $(searchElementNames.SearchInputId);
+        search.val('');
+
+        $(this).addClass('dn');
     });
 }
 var cardTable = null;
