@@ -146,6 +146,8 @@ header {
 }
 
 .no-cards-image {
+    color: var(--grayGargoyle);
+    filter: invert(66%) sepia(0%) saturate(631%) hue-rotate(144deg) brightness(86%) contrast(87%);
 }
 
 .no-cards-h3 {
