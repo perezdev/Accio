@@ -978,7 +978,7 @@ function PopulateCardRules(cardId) {
             if (response.success) {
                 var rulings = response.json;
                 if (rulings.length > 0) {
-                    $(singleCardSearchElementIds.RulesContainerId).removeClass('dn');
+                    $(singleCardSearchElementIds.CardRulesId).removeClass('dn');
                     AddRulesToContainers(rulings);
                 }
                 else {
