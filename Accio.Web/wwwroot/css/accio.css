@@ -140,9 +140,11 @@ header {
 
 .no-cards-container {
 }
+
 .no-cards-items {
     margin-top: 50%;
 }
+
 .no-cards-image {
 }
 
@@ -785,4 +787,11 @@ td:nth-child(6) {
     border-radius: 2px;
     margin-right: 10px;
     border: 1px solid var(--mainColor);
+}
+
+.vh {
+    visibility: hidden;
+}
+.vv {
+    visibility: visible;
 }

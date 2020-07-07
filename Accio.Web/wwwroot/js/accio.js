@@ -69,13 +69,13 @@ function InitializeLayouElements() {
     $(searchElementNames.SearchInputId).on('keyup', function () {
         var clear = $(searchElementNames.ClearSearchClassName);
         if ($(this).val() === '') {
-            if (!clear.hasClass('dn')) {
-                clear.addClass('dn');
+            if (!clear.hasClass('vh')) {
+                clear.addClass('vh');
             }
         }
         else {
-            if (clear.hasClass('dn')) {
-                clear.removeClass('dn');
+            if (clear.hasClass('vh')) {
+                clear.removeClass('vh');
             }
         }
     });
@@ -83,7 +83,7 @@ function InitializeLayouElements() {
         var search = $(searchElementNames.SearchInputId);
         search.val('');
 
-        $(this).addClass('dn');
+        $(this).addClass('vh');
     });
 }
 
