@@ -380,6 +380,10 @@ select {
     -moz-appearance: none;
     -webkit-appearance: none;
     background-color: rgba(255, 255, 255, 0.05);
+    background-image: url("../images/chevron_select.svg");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 0.5rem 0.875rem;
     border: solid 1px rgba(232, 232, 228, 0.75);
     border-radius: 2px;
     color: var(--parchmentPaper);
@@ -387,7 +391,7 @@ select {
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.71;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 2rem 0.25rem 0.75rem;
 }
 
     select option {
@@ -415,7 +419,7 @@ select {
 }
 
 .set-header-title-icon {
-    width: 19px;
+    width: 20px;
     height: 16px;
     filter: brightness(0) invert(1);
 }
@@ -424,19 +428,12 @@ select {
 }
 
 .set-header-title-h1 {
-    /* I don't even know here. For some reason, the margin property wouldn't set the margin, so I had to explictly set it for each side */
-    margin-left: 8px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
     font-size: 0.875rem;
     font-weight: bold;
+    margin: 0 0 0 0.5rem;
 }
 
-.set-header-title-data {
-    font-size: 13px;
-    color: rgba(255,255,255,0.8);
-}
+.set-header-title-data { color: rgba(255, 255, 255, 0.8); }
 
 /* Card content area */
 .main-container {
