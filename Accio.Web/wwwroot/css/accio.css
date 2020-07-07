@@ -62,9 +62,7 @@ button {
     z-index: 2 !important;
 }
 
-p {
-    margin: 0;
-}
+p { margin-bottom: 1rem; }
 
 /* Header, Navigation, Footer */
 header {
@@ -590,8 +588,6 @@ td:nth-child(6) {
 }
 
 .single-card-image-vertical {
-    width: 224px;
-    height: 334px;
     margin-right: 45px;
 }
 
@@ -603,7 +599,6 @@ td:nth-child(6) {
 .single-card-segment {
     background-color: var(--whiteWizard);
     min-height: 364px;
-    width: 306px;
 }
 
 .segment-header-border-default {
