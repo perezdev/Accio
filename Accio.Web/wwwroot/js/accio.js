@@ -4,6 +4,8 @@
  * On page load
  */
 $(document).ready(function () {
+    InitializeLayout();
+
     //The Search and Card page both derive from the same layout page
     //So they share the same JS. This ensures we only load the stuff for the appropriate page,
     //regardless of the domain.
@@ -25,6 +27,9 @@ $(document).mousemove(function (e) {
     img.css({ 'top': windowScrollY + e.clientY, 'left': e.clientX + 20 });
 });
 
+function InitializeLayout() {
+    InitializeLayouElements();
+}
 function InitializeSearchPage() {
     /* Card set initialization */
     SetCardSets();
@@ -54,6 +59,34 @@ function InitializeSetsPage() {
     /* Populate sets table */
     PopulateSetsTable();
 }
+
+/**
+ * Layout
+ * -----------------------------------------------------------------------------------------------------
+ */
+function InitializeLayouElements() {
+    //Clear search
+    $(searchElementNames.SearchInputId).on('keyup', function () {
+        var clear = $(searchElementNames.ClearSearchClassName);
+        if ($(this).val() === '') {
+            if (!clear.hasClass('dn')) {
+                clear.addClass('dn');
+            }
+        }
+        else {
+            if (clear.hasClass('dn')) {
+                clear.removeClass('dn');
+            }
+        }
+    });
+    $(searchElementNames.ClearSearchClassName).on('click', function () {
+        var search = $(searchElementNames.SearchInputId);
+        search.val('');
+
+        $(this).addClass('dn');
+    });
+}
+
 
 /**
  * Search - Card Sets
@@ -199,27 +232,6 @@ function InitializeCardSearchElements() {
         if ((searchData.SetId || searchData.LessonCost || searchData.SearchText)) {
             SearchCards();
         }
-    });
-
-    //Clear search
-    $(searchElementNames.SearchInputId).on('keyup', function () {
-        var clear = $(searchElementNames.ClearSearchClassName);
-        if ($(this).val() === '') {
-            if (!clear.hasClass('dn')) {
-                clear.addClass('dn');
-            }
-        }
-        else {
-            if (clear.hasClass('dn')) {
-                clear.removeClass('dn');
-            }
-        }
-    });
-    $(searchElementNames.ClearSearchClassName).on('click', function () {
-        var search = $(searchElementNames.SearchInputId);
-        search.val('');
-
-        $(this).addClass('dn');
     });
 }
 var cardTable = null;
