@@ -10,6 +10,7 @@ using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Data;
 using Microsoft.EntityFrameworkCore;
+using NaturalSort.Extension;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -186,7 +187,7 @@ namespace Accio.Business.Services.CardServices
             if (sortBy == SortType.SetNumber)
             {
                 if (sortOrder == SortOrder.Ascending)
-                    return cards.OrderBy(x => x.CardSet.Name).ThenBy(x => x.CardNumber).ToList();
+                    return cards.OrderBy(x => x.CardSet.Name).ThenBy(x => x.CardNumber.PadLeft(3, '0'), StringComparison.OrdinalIgnoreCase.WithNaturalSort()).ToList();
                 else if (sortOrder == SortOrder.Descending)
                     return cards.OrderByDescending(x => x.CardSet.Name).ThenByDescending(x => x.CardNumber).ToList();
                 else
