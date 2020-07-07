@@ -258,6 +258,24 @@ footer {
     margin-top: 60px;
 }
 
+.rulings-container-no-data {
+    min-height: 248px;
+    margin-top: 60px;
+    position: relative;
+}
+
+.rulings-no-data-found {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+    .rulings-no-data-found h3 {
+        margin-top: 0px;
+    }
+
 #rulings {
     background-color: var(--whiteWizard);
     border-top: .0625rem inset rgba(29, 29, 29, 0.30);
