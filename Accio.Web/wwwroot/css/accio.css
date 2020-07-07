@@ -603,7 +603,6 @@ td:nth-child(6) {
 
 .single-card-segment {
     background-color: var(--whiteWizard);
-    min-height: 364px;
 }
 
 .segment-header-border-default {
