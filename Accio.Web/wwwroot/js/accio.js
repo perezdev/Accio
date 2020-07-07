@@ -190,6 +190,7 @@ const resultsContainerNames = {
     SetHeaderIconClassName: '.set-header-title-icon',
     SetHeaderTitleClassName: '.set-header-title-h1',
     SetHeaderDataClassName: '.set-header-title-data',
+    NoCardsContainerId: '#noCardsContainer',
 };
 
 /* Hold cards in global variable so we can swap views with the existing cards without
@@ -366,6 +367,12 @@ function ToggleViewSearch() {
     }
 }
 function ToggleViewContainers() {
+    //Hide the no cards message
+    var noCards = $(resultsContainerNames.NoCardsContainerId);
+    if (!noCards.hasClass('dn')) {
+        noCards.addClass('dn');
+    }
+
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
         $(resultsContainerNames.CardTableContainerId).removeClass('db');
@@ -428,7 +435,15 @@ function ToggleSearchResultData() {
 
 //Makes the current selected container visible and then adds the cards to that container
 function AddCardsToContainer(cards) {
-    ToggleViewContainers();
+    if (cards.length <= 0) {
+        $(resultsContainerNames.NoCardsContainerId).removeClass('dn');
+    }
+    else {
+        ToggleViewContainers();
+    }
+
+
+
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
         AddCardsToDeck(cards);
