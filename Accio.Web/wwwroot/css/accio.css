@@ -597,18 +597,12 @@ td:nth-child(6) {
     overflow: auto;
 }
 
-.single-card-image-vertical {
-    margin-right: 45px;
-}
-
 .single-card-image-horizontal {
     transform: rotate(90deg);
-    margin-right: 75px;
 }
 
 .single-card-segment {
     background-color: var(--whiteWizard);
-    min-height: 364px;
 }
 
 .segment-header-border-default {
@@ -637,6 +631,7 @@ td:nth-child(6) {
 
 .segment-divider {
     border: 1px solid var(--parchmentPaper);
+    margin: 0.5rem 0 0 0;
 }
 /* Card Page - Card Info */
 .card-row-item-content {
@@ -791,9 +786,9 @@ td:nth-child(6) {
     border: 1px solid var(--mainColor);
 }
 
-.vh {
-    visibility: hidden;
-}
-.vv {
-    visibility: visible;
-}
+/* Utility */
+
+.vh { visibility: hidden; }
+.vv { visibility: visible; }
+
+.bs1 { box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26); }
