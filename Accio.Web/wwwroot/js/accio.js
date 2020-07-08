@@ -285,6 +285,9 @@ function InitializeCardTable() {
 }
 
 function SearchCards() {
+    HideAllContainers();
+    ToggleLoading();
+
     const searchData = GetSearchData();
 
     //Once the user executes a search, we want to set the values from the search to the query string so they can
@@ -320,6 +323,9 @@ function SearchCards() {
         processData: false,
         success: function (response) {
             if (response.success) {
+                ToggleLoading();
+                UnHideAllContainers();
+
                 cards = response.json;
                 $(searchElementNames.CardCountId).html(cards.length + ' cards');
                 AddCardsToContainer(cards);
@@ -333,6 +339,9 @@ function SearchCards() {
     });
 }
 function PopulateDefaultCards() {
+    HideAllContainers();
+    ToggleLoading();
+
     $.ajax({
         type: "POST",
         url: "Search?handler=GetPopularCards",
@@ -344,6 +353,9 @@ function PopulateDefaultCards() {
         processData: false,
         success: function (response) {
             if (response.success) {
+                ToggleLoading();
+                UnHideAllContainers();
+
                 cards = response.json;
                 AddCardsToContainer(cards);
             }
@@ -444,8 +456,6 @@ function AddCardsToContainer(cards) {
     else {
         ToggleViewContainers();
     }
-
-
 
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
@@ -1167,5 +1177,45 @@ function AddSetsToSetsTable(sets) {
         ]);
 
         setsTable.order([SetsTableColumnIndex.ReleaseDate, 'desc']).draw();
+    }
+}
+
+function ToggleLoading() {
+    var loading = $('#loading');
+    if (loading.hasClass('dn')) {
+        loading.removeClass('dn');
+    }
+    else {
+        loading.addClass('dn');
+    }
+}
+function HideAllContainers() {
+    var tableContainer = $(resultsContainerNames.CardTableContainerId);
+    var cardContainer = $(resultsContainerNames.CardContainerId);
+    var noCards = $(resultsContainerNames.NoCardsContainerId);
+
+    if (!tableContainer.hasClass('vh')) {
+        tableContainer.addClass('vh');
+    }
+    if (!cardContainer.hasClass('vh')) {
+        cardContainer.addClass('vh');
+    }
+    if (!noCards.hasClass('vh')) {
+        noCards.addClass('vh');
+    }
+}
+function UnHideAllContainers() {
+    var tableContainer = $(resultsContainerNames.CardTableContainerId);
+    var cardContainer = $(resultsContainerNames.CardContainerId);
+    var noCards = $(resultsContainerNames.NoCardsContainerId);
+
+    if (tableContainer.hasClass('vh')) {
+        tableContainer.removeClass('vh');
+    }
+    if (cardContainer.hasClass('vh')) {
+        cardContainer.removeClass('vh');
+    }
+    if (noCards.hasClass('vh')) {
+        noCards.removeClass('vh');
     }
 }
