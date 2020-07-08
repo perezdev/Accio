@@ -46,6 +46,12 @@ namespace Accio.Business.Services.CardServices
             var param = cardSearchParameters;
             var utcNow = DateTime.UtcNow;
 
+            //We don't want them to pull all cards, so this will force them to search for a set and/or card text to prevent that
+            if (string.IsNullOrEmpty(cardSearchParameters.SearchText) && (cardSearchParameters.SetId == null ||cardSearchParameters.SetId == Guid.Empty))
+            {
+                return new List<CardModel>();
+            }
+
             if (param.LanguageId == null || param.LanguageId == Guid.Empty)
             {
                 var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);

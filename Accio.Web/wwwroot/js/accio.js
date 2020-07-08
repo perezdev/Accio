@@ -47,7 +47,7 @@ function InitializeSearchPage() {
 }
 function InitializeCardPage() {
     /* Card search initialization */
-    InitializeSearchBoxOnCardPage();
+    InitializeSearchBoxOnNonSearchPage();
 
     /* Perform card search */
     SetValuesFromQueryAndPeformSingleCardSearch();
@@ -58,6 +58,9 @@ function InitializeSetsPage() {
 
     /* Populate sets table */
     PopulateSetsTable();
+
+    /* Card search initialization */
+    InitializeSearchBoxOnNonSearchPage();
 }
 
 /**
@@ -840,9 +843,9 @@ const singleCardSearchElementIds = {
     CardRulingItemsId: '#cardRulingItems',
 };
 
-//The search box will behave differently on the card page. We'll basically just redirect to the search page
+//The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
 //so that'll seem like a seamless integration
-function InitializeSearchBoxOnCardPage() {
+function InitializeSearchBoxOnNonSearchPage() {
     //Search text press enter
     $(searchElementNames.SearchInputId).on('keypress', function (e) {
         if (e.which === 13) {
