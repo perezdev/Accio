@@ -25,7 +25,7 @@
                 <h1 class="set-header-title-h1 mb0">Set Name</h1>
             </div>
             <p class="set-header-title-data ma0">
-                
+
             </p>
         </div>
         <div class="fl w-100 w-70-ns tr-ns tc pv2">
@@ -66,9 +66,21 @@
 <!-- Begin Content -->
 <main class="w-100 main-container">
     <div id="contentContainer" class="mw8 center content-container pv3">
+        @* Loading *@
+        <div id="loading" class="dn" style="margin-top: 25%">
+            <svg width="49px" height="79px" viewBox="0 0 49 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="hptcgDB-—-Site" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Assets" transform="translate(-604.000000, -345.000000)" fill="#6B63B5">
+                        <path d="M652.044663,378.479362 L639.491452,378.479362 C638.856488,378.479362 638.397406,378.014155 638.573288,377.546667 L650.542213,345.935362 C650.837337,345.164577 649.516731,344.651481 648.875804,345.28544 L604.201756,389.372971 C603.715845,389.851861 604.163003,390.549672 604.952981,390.549672 L617.506192,390.549672 C618.147118,390.549672 618.603219,391.021721 618.421375,391.489209 L606.047028,423.057185 C605.745941,423.830251 607.060585,424.350188 607.710455,423.716229 L652.795888,379.658344 C653.284781,379.179454 652.840604,378.479362 652.044663,378.479362" id="Base-Set"></path>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        @* Card container *@
         <div id="cardContainer" class="flex flex-wrap">
 
         </div>
+        @* Table container  *@
         <div id="tableContainer" class="dn">
             <table id="cardTable">
                 <thead>
@@ -89,6 +101,7 @@
                 </tbody>
             </table>
         </div>
+        @* No cards container *@
         <div id="noCardsContainer" class="center tc no-cards-container dn">
             <div class="no-cards-items">
                 <object data="/images/mask.svg" class="no-cards-image" type="image/svg+xml"></object>

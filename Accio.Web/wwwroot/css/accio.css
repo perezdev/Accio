@@ -789,7 +789,86 @@ td:nth-child(6) {
 
 /* Utility */
 
-.vh { visibility: hidden; }
-.vv { visibility: visible; }
+.vh {
+    visibility: hidden;
+}
 
-.bs1 { box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26); }
+.vv {
+    visibility: visible;
+}
+
+.bs1 {
+    box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
+}
+
+
+/* Loading */
+
+#loading {
+    margin: 0 auto;
+    text-align: center;
+    vertical-align: middle;
+    width: 60%;
+}
+
+@-webkit-keyframes fadeColor {
+    0% {
+        opacity: 0.48;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.48;
+    }
+}
+
+@-moz-keyframes fadeColor {
+    0% {
+        opacity: 0.48;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.48;
+    }
+}
+
+@-ms-keyframes fadeColor {
+    0% {
+        opacity: 0.48;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.48;
+    }
+}
+
+@keyframes fadeColor {
+    0% {
+        opacity: 0.48;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.48;
+    }
+}
+
+#Base-Set {
+    animation: fadeColor 2.4s infinite;
+    height: 4rem;
+    margin-left: -1rem;
+}
