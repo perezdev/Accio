@@ -38,7 +38,7 @@ namespace Accio.SetUpload
 
             var services = new ServiceCollection();
 
-            services.AddDbContext<HpTcgContext>(options => options.UseSqlServer(_configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
+            services.AddDbContext<AccioContext>(options => options.UseSqlServer(_configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
             services.AddSingleton(_configuration);
             services.AddTransient<CardService>();
             services.AddTransient<SetService>();

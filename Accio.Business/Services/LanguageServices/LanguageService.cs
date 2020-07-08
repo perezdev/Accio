@@ -8,9 +8,9 @@ namespace Accio.Business.Services.LanguageServices
 {
     public class LanguageService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public LanguageService(HpTcgContext context)
+        public LanguageService(AccioContext context)
         {
             _context = context;
         }

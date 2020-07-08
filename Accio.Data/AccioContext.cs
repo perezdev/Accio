@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Accio.Data
 {
-    public partial class HpTcgContext : DbContext
+    public partial class AccioContext : DbContext
     {
-        public HpTcgContext()
+        public AccioContext()
         {
         }
 
-        public HpTcgContext(DbContextOptions<HpTcgContext> options)
+        public AccioContext(DbContextOptions<AccioContext> options)
             : base(options)
         {
         }

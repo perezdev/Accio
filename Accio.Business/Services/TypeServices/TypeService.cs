@@ -8,9 +8,9 @@ namespace Accio.Business.Services.CardServices
 {
     public class TypeService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public TypeService(HpTcgContext context)
+        public TypeService(AccioContext context)
         {
             _context = context;
         }

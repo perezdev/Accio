@@ -10,9 +10,9 @@ namespace Accio.Business.Services.CardSearchHistoryServices
 {
     public class CardSearchHistoryService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public CardSearchHistoryService(HpTcgContext context)
+        public CardSearchHistoryService(AccioContext context)
         {
             _context = context;
         }

@@ -8,9 +8,9 @@ namespace Accio.Business.Services.CardServices
 {
     public class RarityService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public RarityService(HpTcgContext context)
+        public RarityService(AccioContext context)
         {
             _context = context;
         }

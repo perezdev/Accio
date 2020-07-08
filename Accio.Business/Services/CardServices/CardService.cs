@@ -20,7 +20,7 @@ namespace Accio.Business.Services.CardServices
 {
     public class CardService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
         private SetService _cardSetService { get; set; }
         private TypeService _cardTypeService { get; set; }
         private RarityService _cardRarityService { get; set; }
@@ -28,7 +28,7 @@ namespace Accio.Business.Services.CardServices
         private LessonService _lessonService { get; set; }
         private CardSearchHistoryService _cardSearchHistoryService { get; set; }
 
-        public CardService(HpTcgContext context, SetService cardSetService, TypeService cardTypeService,
+        public CardService(AccioContext context, SetService cardSetService, TypeService cardTypeService,
                            RarityService cardRarityService, LanguageService languageService, LessonService lessonService,
                            CardSearchHistoryService cardSearchHistoryService)
         {

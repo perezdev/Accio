@@ -11,10 +11,10 @@ namespace Accio.Business.Services.CardServices
 {
     public class CardRulingService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
         private LanguageService _languageService { get; set; }
 
-        public CardRulingService(HpTcgContext context, LanguageService languageService)
+        public CardRulingService(AccioContext context, LanguageService languageService)
         {
             _context = context;
             _languageService = languageService;

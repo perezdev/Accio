@@ -6,9 +6,9 @@ namespace Accio.Business.Services.CardServices
 {
     public class CardDetailService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public CardDetailService(HpTcgContext context)
+        public CardDetailService(AccioContext context)
         {
             _context = context;
         }
