@@ -117,12 +117,13 @@ header {
     }
 
 .clear-search {
-    margin-left: -29px;
-    height: 14px;
-    width: 14px;
     background-image: url(../images/clear.svg);
     cursor: pointer;
+    height: 0.875rem;
+    margin-left: -1.75rem;
+    margin-top: 0.8125rem;
     opacity: 0.75;
+    width: 0.875rem;
 }
 
     .clear-search:hover {
