@@ -27,7 +27,7 @@ namespace Accio.Web.API
         {
             services.AddControllers();
 
-            services.AddDbContext<HpTcgContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
+            services.AddDbContext<AccioContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AccioConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
 
             services.AddTransient<CardService>();
             services.AddTransient<SetService>();

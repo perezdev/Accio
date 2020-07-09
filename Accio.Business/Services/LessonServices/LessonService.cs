@@ -7,9 +7,9 @@ namespace Accio.Business.Services.LessonServices
 {
     public class LessonService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
 
-        public LessonService(HpTcgContext context)
+        public LessonService(AccioContext context)
         {
             _context = context;
         }

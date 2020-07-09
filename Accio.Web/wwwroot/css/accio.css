@@ -592,6 +592,7 @@ td:nth-child(6) {
 /* Card Page - Card Content */
 .single-card-main-container {
     margin-top: 90px;
+    min-height: 63vh;
 }
 
 .card-content-container {
@@ -758,7 +759,7 @@ td:nth-child(6) {
     display: flex;
     flex-direction: column;
     margin-top: 60px;
-    min-height: 60vh; /* Default height for the area so it isn't smushed when there are no cards */
+    min-height: 68vh; /* Default height for the area so it isn't smushed when there are no cards */
     overflow: visible;
 }
 

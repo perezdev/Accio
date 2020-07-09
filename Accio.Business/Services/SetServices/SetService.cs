@@ -9,10 +9,10 @@ namespace Accio.Business.Services.CardServices
 {
     public class SetService
     {
-        private HpTcgContext _context { get; set; }
+        private AccioContext _context { get; set; }
         private static List<SetModel> SetsCache { get; set; } = new List<SetModel>();
 
-        public SetService(HpTcgContext context)
+        public SetService(AccioContext context)
         {
             _context = context;
         }
