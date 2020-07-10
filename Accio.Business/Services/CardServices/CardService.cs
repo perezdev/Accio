@@ -98,7 +98,12 @@ namespace Accio.Business.Services.CardServices
             if (!string.IsNullOrEmpty(param.SearchText))
             {
                 cards = from card in cards
-                        where EF.Functions.Like(card.cardDetail.Name, $"%{param.SearchText}%") || EF.Functions.Like(card.cardDetail.Text, $"%{param.SearchText}%")
+                        where EF.Functions.Like(card.cardDetail.Name, $"%{param.SearchText}%") || 
+                              EF.Functions.Like(card.cardDetail.Text, $"%{param.SearchText}%") ||
+                              //We have to include these 3 fields for adventure cards since they don't have card text
+                              EF.Functions.Like(card.cardDetail.Effect, $"%{param.SearchText}%") ||
+                              EF.Functions.Like(card.cardDetail.ToSolve, $"%{param.SearchText}%") ||
+                              EF.Functions.Like(card.cardDetail.Reward, $"%{param.SearchText}%")
                         select card;
             }
 
