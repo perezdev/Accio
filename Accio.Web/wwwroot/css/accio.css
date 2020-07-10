@@ -63,7 +63,7 @@ button {
 }
 
 p {
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
 }
 
 /* Header, Navigation, Footer */
@@ -745,12 +745,7 @@ td:nth-child(6) {
 
 .rule-date {
     font-style: italic;
-    margin-top: 0px;
-}
-
-.rule-item {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    opacity: 0.5;
 }
 
 /* Sets */

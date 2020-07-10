@@ -1048,7 +1048,7 @@ function GetRulingItem(rule) {
 
     var rulingHtml = `
                        <div class="rule-item">
-                            <p>
+                            <p class="mb0">
                                 ` + rule.ruling + `
                             </p>
                             <p class="rule-date">
