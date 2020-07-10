@@ -868,3 +868,14 @@ td:nth-child(6) {
     height: 4rem;
     margin-left: -1rem;
 }
+
+/* Environment Display */
+
+.environment-display {
+    margin-left: 5px;
+    padding: 4px;
+    border: 2px solid white;
+    font-family: monospace;
+    background-color: var(--blueRaven);
+    color: white;
+}

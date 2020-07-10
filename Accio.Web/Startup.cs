@@ -1,5 +1,6 @@
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
+using Accio.Business.Services.ConfigurationServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.RulingServices;
@@ -44,6 +45,7 @@ namespace Accio.Web
             services.AddTransient<RulingService>();
             services.AddTransient<RulingSourceService>();
             services.AddTransient<RulingTypeService>();
+            services.AddTransient<ConfigurationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
