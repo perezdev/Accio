@@ -872,6 +872,7 @@ td:nth-child(6) {
 /* Environment Display */
 
 .environment-display {
+    margin-top: 4px;
     margin-left: 5px;
     padding: 4px;
     border: 2px solid white;

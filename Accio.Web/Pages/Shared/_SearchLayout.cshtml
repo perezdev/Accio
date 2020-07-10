@@ -19,11 +19,10 @@
         <div class="mw8 center">
             <div class="cf">
                 <div class="fl w-100 w-40-ns">
-                    <form id="search" accept-charset="UTF-8" method="get" class="flex items-center">
+                    <form id="search" accept-charset="UTF-8" method="get">
                         <input id="searchInput" class="dib w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="Search for a card">
                         <span class="dib clear-search absolute vh"></span>
 
-                        @*<vc:environment></vc:environment>*@
                         @(await Component.InvokeAsync("Environment"))
                     </form>
                 </div>
