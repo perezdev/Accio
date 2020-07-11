@@ -240,6 +240,12 @@ function InitializeCardSearchElements() {
 }
 var cardTable = null;
 function InitializeCardTable() {
+    //This uses the DTJS absolute sorting algo to force empty values to the bottom of the list when
+    //sorting by asc value
+    var emptyAbsoluteOrderType = $.fn.dataTable.absoluteOrder({
+        value: '', position: 'bottom'
+    });
+
     cardTable = $(resultsContainerNames.CardTableId).DataTable({
         lengthChange: false,
         searching: false,
@@ -248,12 +254,16 @@ function InitializeCardTable() {
         columnDefs: [
             {
                 //Hide the card ID column
-                targets: [0, 8, 9],
+                targets: [CardTableColumnIndex.CardId, CardTableColumnIndex.ImageUrl, CardTableColumnIndex.Lesson],
                 visible: false,
             },
             {
-                targets: [2],
+                targets: [CardTableColumnIndex.Number],
                 type: 'natural-nohtml', //This allow DT to sort the column alphanumerically
+            },
+            {
+                targets: [CardTableColumnIndex.Lesson],
+                type: emptyAbsoluteOrderType,
             }
         ],
         'createdRow': function (row, data, index) {
