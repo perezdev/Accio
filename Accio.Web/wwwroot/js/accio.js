@@ -629,7 +629,7 @@ function ApplySortToCardTable() {
     } else if (sortBy === SortBy.Artist) {
         cardTable.order([CardTableColumnIndex.Artist, sortOrder]).draw();
     } else if (sortBy === SortBy.Lesson) {
-        cardTable.order([CardTableColumnIndex.Lesson, sortOrder]).draw();
+        cardTable.order([CardTableColumnIndex.Lesson, sortOrder], [CardTableColumnIndex.Name, sortOrder]).draw();
     }
 }
 
