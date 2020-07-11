@@ -13,6 +13,8 @@ namespace Accio.Web.Pages.Card
 {
     public class IndexModel : PageModel
     {
+        public bool ShowCardData { get; set; } = false;
+
         private CardService _cardService { get; set; }
         private SourceService _sourceService { get; set; }
         private CardRulingService _cardRulingService { get; set; }
@@ -24,8 +26,12 @@ namespace Accio.Web.Pages.Card
             _cardRulingService = cardRulingService;
         }
 
-        public void OnGet()
+        public void OnGet(Guid? cardId)
         {
+            //We'll set this value here so we can check it server side, via razor. Otherwise, it would be an AJAX call
+            //which would look weird because the page would load and then the elements would swap. This way, only the elements
+            //we need will load
+            ShowCardData = cardId != null && cardId != Guid.Empty;
         }
 
         public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
