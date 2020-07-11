@@ -8,5 +8,6 @@
         public static string Type { get; set; } = "type";
         public static string Rarity { get; set; } = "rarity";
         public static string Artist { get; set; } = "artist";
+        public static string Lesson { get; set; } = "lesson";
     }
 }
