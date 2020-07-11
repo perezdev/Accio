@@ -240,6 +240,12 @@ function InitializeCardSearchElements() {
 }
 var cardTable = null;
 function InitializeCardTable() {
+    //This uses the DTJS absolute sorting algo to force empty values to the bottom of the list when
+    //sorting by asc value
+    var emptyAbsoluteOrderType = $.fn.dataTable.absoluteOrder({
+        value: '', position: 'bottom'
+    });
+
     cardTable = $(resultsContainerNames.CardTableId).DataTable({
         lengthChange: false,
         searching: false,
@@ -248,12 +254,16 @@ function InitializeCardTable() {
         columnDefs: [
             {
                 //Hide the card ID column
-                targets: [0, 8],
+                targets: [CardTableColumnIndex.CardId, CardTableColumnIndex.ImageUrl, CardTableColumnIndex.Lesson],
                 visible: false,
             },
             {
-                targets: [2],
+                targets: [CardTableColumnIndex.Number],
                 type: 'natural-nohtml', //This allow DT to sort the column alphanumerically
+            },
+            {
+                targets: [CardTableColumnIndex.Lesson],
+                type: emptyAbsoluteOrderType,
             }
         ],
         'createdRow': function (row, data, index) {
@@ -516,6 +526,8 @@ const CardTableColumnIndex = {
     Type: 5,
     Rarity: 6,
     Artist: 7,
+    ImageUrl: 8,
+    Lesson: 9,
 };
 function AddCardsToTable(cards) {
     //Remove all cards prior to adding any new ones from search
@@ -530,14 +542,19 @@ function AddCardsToTable(cards) {
         var cardNumberColumn = card.cardNumber;
         var cardNameColumn = '<b>' + card.detail.name + '</b>';
         var cardImageUrlColumn = card.detail.url;
+        var lessonTypeColumn = '';
 
         var costColumn = null;
         if (card.lessonType === null) {
             costColumn = costValue;
         }
         else if (card.lessonType !== null && costValue !== '') {
+            //Set lesson type image if the card has a lesson type
             var imgElement = GetLessonImageElementFromLessonType(card.lessonType.name);
             costColumn = '<label class="card-table-cell-lesson-label">' + costValue + '</label>' + imgElement;
+
+            //Set lesson type value here so we don't have to do double condition checks
+            lessonTypeColumn = card.lessonType.name;
         }
 
         var typeColumn = card.cardType.name;
@@ -556,7 +573,7 @@ function AddCardsToTable(cards) {
         //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
         //The second column is hidden by the column definitions when the table was instantiated
         var rowNode = cardTable.row.add([
-            cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn, cardImageUrlColumn
+            cardIdColumn, setColumn, cardNumberColumn, cardNameColumn, costColumn, typeColumn, rarityColumn, artistColumn, cardImageUrlColumn, lessonTypeColumn
         ]);
     }
 
@@ -588,6 +605,7 @@ const SortBy = {
     Type: 'type',
     Rarity: 'rarity',
     Artist: 'artist',
+    Lesson: 'lesson',
 };
 const SortOrder = {
     Ascending: 'asc',
@@ -610,6 +628,8 @@ function ApplySortToCardTable() {
         cardTable.order([CardTableColumnIndex.Rarity, sortOrder]).draw();
     } else if (sortBy === SortBy.Artist) {
         cardTable.order([CardTableColumnIndex.Artist, sortOrder]).draw();
+    } else if (sortBy === SortBy.Lesson) {
+        cardTable.order([CardTableColumnIndex.Lesson, sortOrder], [CardTableColumnIndex.Name, sortOrder]).draw();
     }
 }
 

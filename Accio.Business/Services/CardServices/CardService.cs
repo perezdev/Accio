@@ -249,6 +249,15 @@ namespace Accio.Business.Services.CardServices
                 else
                     throw new Exception("Artist was sorted by, but no valid sort order was passed in.");
             }
+            else if (sortBy == SortType.Lesson)
+            {
+                if (sortOrder == SortOrder.Ascending)
+                    return cards.OrderBy(x => x.LessonType?.Name).ToList();
+                else if (sortOrder == SortOrder.Descending)
+                    return cards.OrderByDescending(x => x.LessonType?.Name).ToList();
+                else
+                    throw new Exception("Lesson type was sorted by, but no valid sort order was passed in.");
+            }
             else
             {
                 throw new Exception("Sort by option was passed into the method, but was invalid.");
