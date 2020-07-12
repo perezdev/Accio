@@ -892,6 +892,8 @@ const singleCardSearchElementIds = {
     RulingCardNameId: '#rulingCardName',
     CardRulingItemsId: '#cardRulingItems',
     CardTypeContainerId: '#cardTypeContainer',
+    FlavorTextRowId: '#flavorTextRow',
+    IllustratorContainerId: '#illustratorContainer',
 };
 
 //The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
@@ -981,7 +983,16 @@ function AddCardToPage(card) {
         $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
     }
     //Flavor text 
-    $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    console.log(card.detail.flavorText);
+    if (card.detail.flavorText === null) {
+        //Hide the the flavor text row when there is no flavor text
+        $(singleCardSearchElementIds.FlavorTextRowId).addClass('vh');
+        //Remove extra space above the illustrator row becasue it's not auto removed when the flavor text is hidden
+        $(singleCardSearchElementIds.IllustratorContainerId).addClass('negmt10');
+    }
+    else {
+        $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    }
     
     //Illustrator
     $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));

@@ -837,6 +837,10 @@ td:nth-child(6) {
     display: none !important;
 }
 
+.negmt10 {
+    margin-top: -10px;
+}
+
 .bs1 {
     box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
 }
