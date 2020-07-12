@@ -670,6 +670,7 @@ td:nth-child(6) {
 }
 
 .card-row-item-content-flavor {
+    margin-top: 1rem;
     color: var(--blackBat);
     font-size: 0.75rem;
     font-style: italic;
