@@ -252,6 +252,23 @@ footer {
 
 .rotate {
     transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -moz-transform: rotate(90deg); /* Firefox */
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+    -o-transform: rotate(90deg); /* Opera */
+}
+
+/* This is to rotate the card when you hover over it in the list view
+   It's really just for pushing the card to the right
+*/
+.hover-card-rotate {
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -moz-transform: rotate(90deg); /* Firefox */
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+    -o-transform: rotate(90deg); /* Opera */
+    margin-left: 50px;
+    margin-top: -40px;
 }
 
 .card-info {
@@ -590,6 +607,11 @@ td:nth-child(6) {
 /* Card Modal */
 
 /* Card Page - Card Content */
+.single-no-card-container {
+    padding-top: 265px !important;
+    min-height: 75vh;
+}
+
 .single-card-main-container {
     margin-top: 90px;
     min-height: 63vh;

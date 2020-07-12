@@ -268,11 +268,17 @@ function InitializeCardTable() {
         ],
         'createdRow': function (row, data, index) {
             $('td', row).on("mouseover", function () {
-                var url = data[8];
+                var url = data[CardTableColumnIndex.ImageUrl];
+                var cardId = data[CardTableColumnIndex.CardId];
                 var img = $(singleCardSearchElementIds.HoverImageClassName);
 
                 if (img.attr('src') === url)
                     return;
+
+                var card = GetCardFromCardId(cardId); //We don't store the card orientation in the row data. So we have to loop through the cards list
+                if (card.orientation === 'Horizontal') {
+                    img.addClass('hover-card-rotate');
+                }
 
                 //Removes the image source so the background loading thing appears
                 img.attr('src', '');
@@ -284,6 +290,9 @@ function InitializeCardTable() {
             $('td', row).on("mouseleave", function () {
                 var img = $(singleCardSearchElementIds.HoverImageClassName);
                 img.addClass('dn');
+
+                //This class is only added on horizontal cards. But it's easier to just always remove it
+                img.removeClass('hover-card-rotate');
             });
         }
     });
@@ -843,7 +852,18 @@ const Page = {
 function GetCurrentPage() {
     return window.location.pathname;
 }
+function GetCardFromCardId(cardId) {
+    var cardVal = null;
 
+    for (var i = 0; i < this.cards.length; i++) {
+        var card = cards[i];
+        if (card.cardId === cardId) {
+            cardVal = card;
+        }
+    }
+
+    return cardVal;
+}
 /*
  * Card Page Search
  * ----------------------------------------------------------------------------------------------------
