@@ -777,6 +777,15 @@ td:nth-child(6) {
     opacity: 0.5;
 }
 
+.rule-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+
+    .rule-anchor:hover {
+        text-decoration: underline;
+    }
+
 .sub-type-item {
     float: left;
     margin-left: 4px;
