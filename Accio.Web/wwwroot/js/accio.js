@@ -972,11 +972,17 @@ function AddCardToPage(card) {
     if (card.cardType.name === 'Adventure') {
         var adventureCardText = GetAdventureCardText(card);
         $(singleCardSearchElementIds.DescriptionId).html(adventureCardText);
-    } else {
+    }
+    else if (card.cardType.name === 'Match') {
+        var matchCardText = GetMatchCardText(card);
+        $(singleCardSearchElementIds.DescriptionId).html(matchCardText);
+    }
+    else {
         $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
     }
-    //Flavor text
+    //Flavor text 
     $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    
     //Illustrator
     $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));
     //Set
@@ -1044,6 +1050,12 @@ function GetAdventureCardText(card) {
     var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
 
     return effect + solve + reward;
+}
+function GetMatchCardText(card) {
+    var toWin = '<p><b>To Win:</b> ' + card.detail.toSolve + '</p>';
+    var prize = '<p><b>Prize:</b> ' + card.detail.reward + '</p>';
+
+    return toWin + prize;
 }
 function PopulateSubTypes(subtypes) {
     var cardTypeContainer = $(singleCardSearchElementIds.CardTypeContainerId);
