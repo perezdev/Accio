@@ -675,6 +675,12 @@ td:nth-child(6) {
     font-style: italic;
 }
 
+.card-type {
+    color: var(--grayGargoyle);
+    margin-left: 1rem;
+    margin-right: 0.35rem;
+}
+
 .card-printings-text {
     font-size: 0.75rem;
     font-weight: 700;
@@ -775,6 +781,7 @@ td:nth-child(6) {
     margin-left: 4px;
     margin-right: 4px;
     opacity: 0.75;
+    color: var(--grayGargoyle);
 }
 
 /* Sets */
