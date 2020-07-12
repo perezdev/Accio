@@ -27,10 +27,11 @@ namespace Accio.Business.Services.CardServices
         private LanguageService _languageService { get; set; }
         private LessonService _lessonService { get; set; }
         private CardSearchHistoryService _cardSearchHistoryService { get; set; }
+        private CardSubTypeService _cardSubTypeService { get; set; }
 
         public CardService(AccioContext context, SetService cardSetService, TypeService cardTypeService,
                            RarityService cardRarityService, LanguageService languageService, LessonService lessonService,
-                           CardSearchHistoryService cardSearchHistoryService)
+                           CardSearchHistoryService cardSearchHistoryService, CardSubTypeService cardSubTypeService)
         {
             _context = context;
             _cardSetService = cardSetService;
@@ -39,6 +40,7 @@ namespace Accio.Business.Services.CardServices
             _languageService = languageService;
             _lessonService = lessonService;
             _cardSearchHistoryService = cardSearchHistoryService;
+            _cardSubTypeService = cardSubTypeService;
         }
 
         public List<CardModel> SearchCards(CardSearchParameters cardSearchParameters)
@@ -108,6 +110,17 @@ namespace Accio.Business.Services.CardServices
             }
 
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+
+            //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
+            var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
+            foreach (var cardModel in cardModels)
+            {
+                var cardSubTypes = cardSubTypeModels.Where(x => x.CardId == cardModel.CardId).ToList();
+                if (cardSubTypes != null && cardSubTypes.Count > 0)
+                {
+                    cardModel.SubTypes = cardSubTypes;
+                }
+            }
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
@@ -187,6 +200,7 @@ namespace Accio.Business.Services.CardServices
                          });
 
             var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).Single();
+            cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes((Guid)cardSearchParameters.CardId);
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 

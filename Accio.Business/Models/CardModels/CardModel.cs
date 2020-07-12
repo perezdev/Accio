@@ -3,6 +3,7 @@ using Accio.Business.Models.RarityModels;
 using Accio.Business.Models.SetModels;
 using Accio.Business.Models.TypeModels;
 using System;
+using System.Collections.Generic;
 
 namespace Accio.Business.Models.CardModels
 {
@@ -12,6 +13,7 @@ namespace Accio.Business.Models.CardModels
         public CardDetailModel Detail { get; set; } = new CardDetailModel();
         public SetModel CardSet { get; set; } = new SetModel();
         public CardTypeModel CardType { get; set; } = new CardTypeModel();
+        public List<CardSubTypeModel> SubTypes { get; set; } = new List<CardSubTypeModel>();
         public RarityModel Rarity { get; set; } = new RarityModel();
         public LessonTypeModel LessonType { get; set; } = new LessonTypeModel();
         public int? LessonCost { get; set; }

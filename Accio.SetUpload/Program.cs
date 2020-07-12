@@ -1,7 +1,9 @@
 ﻿using Accio.Business.Models.ImportModels;
+using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
+using Accio.Business.Services.TypeServices;
 using Accio.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Accio.SetUpload
 {
@@ -24,6 +27,10 @@ namespace Accio.SetUpload
         private static CardDetailService _cardDetailService { get; set; }
         private static LanguageService _languageService { get; set; }
         private static LessonService _lessonService { get; set; }
+        private static CardSearchHistoryService _cardSearchHistoryService { get; set; }
+        private static CardSubTypeService _cardSubTypeService { get; set; }
+        private static SubTypeService _subTypeService { get; set; }
+        
 
         private static void RegisterServices()
         {
@@ -38,7 +45,7 @@ namespace Accio.SetUpload
 
             var services = new ServiceCollection();
 
-            services.AddDbContext<AccioContext>(options => options.UseSqlServer(_configuration.GetConnectionString("HpTcgConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
+            services.AddDbContext<AccioContext>(options => options.UseSqlServer(_configuration.GetConnectionString("AccioConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
             services.AddSingleton(_configuration);
             services.AddTransient<CardService>();
             services.AddTransient<SetService>();
@@ -47,6 +54,9 @@ namespace Accio.SetUpload
             services.AddTransient<CardDetailService>();
             services.AddTransient<LanguageService>();
             services.AddTransient<LessonService>();
+            services.AddTransient<CardSearchHistoryService>();
+            services.AddTransient<CardSubTypeService>();
+            services.AddTransient<SubTypeService>();
 
             var provider = services.BuildServiceProvider();
             _cardService = provider.GetService<CardService>();
@@ -56,14 +66,44 @@ namespace Accio.SetUpload
             _cardDetailService = provider.GetService<CardDetailService>();
             _languageService = provider.GetService<LanguageService>();
             _lessonService = provider.GetService<LessonService>();
+            _cardSearchHistoryService = provider.GetService<CardSearchHistoryService>();
+            _cardSubTypeService = provider.GetService<CardSubTypeService>();
+            _subTypeService = provider.GetService<SubTypeService>();
         }
 
         private static void Main(string[] args)
         {
             RegisterServices();
-            ImportSets();
+            //ImportSets();
+            ImportSubTypes();
         }
+        private static void ImportSubTypes()
+        {
+            var sets = GetSets();
+            var subTypes = _subTypeService.GetAllSubTypes();
 
+            foreach (var card in _cardService.GetAllCards())
+            {
+                var set = sets.Single(x => x.Name == card.CardSet.Name);
+                var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name && (card.Detail.Name != "Hermione Granger" && card.Detail.Name != "Draco Malfoy"));
+
+                if (jsonCard == null)
+                {
+                    Console.WriteLine($"{card.Detail.Name}");
+                }
+                else
+                {
+                    if (jsonCard.SubTypes != null && jsonCard.SubTypes.Length > 0)
+                    {
+                        foreach (var jsonSubType in jsonCard.SubTypes)
+                        {
+                            var subType = subTypes.Single(x => x.Name == jsonSubType);
+                            _cardSubTypeService.PersistCardSubType(card.CardId, subType.SubTypeId);
+                        }
+                    }
+                }
+            }
+        }
         private static void ImportSets()
         {
             var sets = GetSets();

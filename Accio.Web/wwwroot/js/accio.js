@@ -891,6 +891,7 @@ const singleCardSearchElementIds = {
     CardRulesId: '#cardRules',
     RulingCardNameId: '#rulingCardName',
     CardRulingItemsId: '#cardRulingItems',
+    CardTypeContainerId: '#cardTypeContainer',
 };
 
 //The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
@@ -957,6 +958,11 @@ function AddCardToPage(card) {
 
     //Name
     $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
+
+    //Sub types
+    if (card.subTypes !== null && card.subTypes.length > 0) {
+        PopulateSubTypes(card.subTypes);
+    }
 
     //Lesson
     SetLessonDetails(card);
@@ -1038,6 +1044,18 @@ function GetAdventureCardText(card) {
     var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
 
     return effect + solve + reward;
+}
+function PopulateSubTypes(subtypes) {
+    var cardTypeContainer = $(singleCardSearchElementIds.CardTypeContainerId);
+
+    for (var i = 0; i < subtypes.length; i++) {
+        var html = cardTypeContainer.html();
+        var subType = subtypes[i];
+
+        cardTypeContainer.html(html + '<div class="set-info-separator set-info-item">●</div><div class="sub-type-item">' + subType.subType.name + '</div>');
+    }
+
+    cardTypeContainer.addClass('card-row-item-content v-mid sub-type-container');
 }
 
 function PopulateCardRules(cardId) {

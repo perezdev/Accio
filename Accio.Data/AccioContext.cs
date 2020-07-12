@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Accio.Data
 {
@@ -20,6 +18,7 @@ namespace Accio.Data
         public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
         public virtual DbSet<CardRuling> CardRuling { get; set; }
         public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
+        public virtual DbSet<CardSubType> CardSubType { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<LessonType> LessonType { get; set; }
@@ -30,6 +29,7 @@ namespace Accio.Data
         public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<SetLanguage> SetLanguage { get; set; }
         public virtual DbSet<Source> Source { get; set; }
+        public virtual DbSet<SubType> SubType { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -99,6 +99,15 @@ namespace Accio.Data
                 entity.Property(e => e.SortBy).HasMaxLength(200);
 
                 entity.Property(e => e.SortOrder).HasMaxLength(200);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<CardSubType>(entity =>
+            {
+                entity.Property(e => e.CardSubTypeId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -229,6 +238,17 @@ namespace Accio.Data
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<SubType>(entity =>
+            {
+                entity.Property(e => e.SubTypeId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
