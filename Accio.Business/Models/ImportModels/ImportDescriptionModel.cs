@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Accio.Business.Models.ImportModels
 {
@@ -14,5 +11,9 @@ namespace Accio.Business.Models.ImportModels
         public string ToSolve { get; set; }
         [JsonProperty("reward")]
         public string Reward { get; set; }
+        [JsonProperty("toWin")]
+        public string ToWin { get; set; }
+        [JsonProperty("prize")]
+        public string Prize { get; set; }
     }
 }

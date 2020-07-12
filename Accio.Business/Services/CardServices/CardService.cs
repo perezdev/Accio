@@ -435,5 +435,13 @@ namespace Accio.Business.Services.CardServices
             var randomCard = _context.Card.OrderBy(r => Guid.NewGuid()).Take(1).Single();
             return randomCard.CardId;
         }
+
+        public void UpdateMatchData(Guid cardId, string toSolve, string prize)
+        {
+            var card = _context.CardDetail.Single(x => x.CardId == cardId);
+            card.ToSolve = toSolve;
+            card.Reward = prize;
+            _context.SaveChanges();
+        }
     }
 }

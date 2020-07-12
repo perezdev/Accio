@@ -30,7 +30,7 @@ namespace Accio.SetUpload
         private static CardSearchHistoryService _cardSearchHistoryService { get; set; }
         private static CardSubTypeService _cardSubTypeService { get; set; }
         private static SubTypeService _subTypeService { get; set; }
-        
+
 
         private static void RegisterServices()
         {
@@ -75,7 +75,23 @@ namespace Accio.SetUpload
         {
             RegisterServices();
             //ImportSets();
-            ImportSubTypes();
+            //ImportSubTypes();
+            ImportMatches();
+        }
+        private static void ImportMatches()
+        {
+            var sets = GetSets();
+            var cards = _cardService.GetAllCards().Where(x => x.CardType.Name == "Match");
+            foreach (var card in cards)
+            {
+                var set = sets.Single(x => x.Name == card.CardSet.Name);
+                var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name);
+
+                var toWin = jsonCard.Description.ToWin;
+                var prize = jsonCard.Description.Prize;
+
+                _cardService.UpdateMatchData(card.CardId, toWin, prize);
+            }
         }
         private static void ImportSubTypes()
         {
@@ -116,17 +132,17 @@ namespace Accio.SetUpload
                 case SetType.Base:
                     var baseSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/base/cards.json";
                     var baseSetJson = GetJson(baseSetJsonUrl);
-                    
+
                     return JsonConvert.DeserializeObject<ImportSetModel>(baseSetJson);
                 case SetType.AdventureAtHogwarts:
                     var aahSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/adventures%20at%20hogwarts/cards.json";
                     var aahSetJson = GetJson(aahSetJsonUrl);
-                    
+
                     return JsonConvert.DeserializeObject<ImportSetModel>(aahSetJson);
                 case SetType.ChamberOfSecrets:
                     var cosSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/chamber%20of%20secrets/cards.json";
                     var cosSetJson = GetJson(cosSetJsonUrl);
-                    
+
                     return JsonConvert.DeserializeObject<ImportSetModel>(cosSetJson);
                 case SetType.DiagonAlley:
                     var diagonAlleySetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/diagon%20alley/cards.json";
