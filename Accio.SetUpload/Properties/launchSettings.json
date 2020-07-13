@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Accio.SetUpload": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

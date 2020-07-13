@@ -891,6 +891,9 @@ const singleCardSearchElementIds = {
     CardRulesId: '#cardRules',
     RulingCardNameId: '#rulingCardName',
     CardRulingItemsId: '#cardRulingItems',
+    CardTypeContainerId: '#cardTypeContainer',
+    FlavorTextRowId: '#flavorTextRow',
+    IllustratorContainerId: '#illustratorContainer',
 };
 
 //The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
@@ -958,6 +961,11 @@ function AddCardToPage(card) {
     //Name
     $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
 
+    //Sub types
+    if (card.subTypes !== null && card.subTypes.length > 0) {
+        PopulateSubTypes(card.subTypes);
+    }
+
     //Lesson
     SetLessonDetails(card);
     //Type
@@ -966,11 +974,26 @@ function AddCardToPage(card) {
     if (card.cardType.name === 'Adventure') {
         var adventureCardText = GetAdventureCardText(card);
         $(singleCardSearchElementIds.DescriptionId).html(adventureCardText);
-    } else {
+    }
+    else if (card.cardType.name === 'Match') {
+        var matchCardText = GetMatchCardText(card);
+        $(singleCardSearchElementIds.DescriptionId).html(matchCardText);
+    }
+    else {
         $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
     }
-    //Flavor text
-    $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    //Flavor text 
+    console.log(card.detail.flavorText);
+    if (card.detail.flavorText === null) {
+        //Hide the the flavor text row when there is no flavor text
+        $(singleCardSearchElementIds.FlavorTextRowId).addClass('vh');
+        //Remove extra space above the illustrator row becasue it's not auto removed when the flavor text is hidden
+        $(singleCardSearchElementIds.IllustratorContainerId).addClass('negmt10');
+    }
+    else {
+        $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
+    }
+    
     //Illustrator
     $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));
     //Set
@@ -1038,6 +1061,24 @@ function GetAdventureCardText(card) {
     var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
 
     return effect + solve + reward;
+}
+function GetMatchCardText(card) {
+    var toWin = '<p><b>To Win:</b> ' + card.detail.toSolve + '</p>';
+    var prize = '<p><b>Prize:</b> ' + card.detail.reward + '</p>';
+
+    return toWin + prize;
+}
+function PopulateSubTypes(subtypes) {
+    var cardTypeContainer = $(singleCardSearchElementIds.CardTypeContainerId);
+
+    for (var i = 0; i < subtypes.length; i++) {
+        var html = cardTypeContainer.html();
+        var subType = subtypes[i];
+
+        cardTypeContainer.html(html + '<div class="set-info-separator set-info-item">●</div><div class="sub-type-item">' + subType.subType.name + '</div>');
+    }
+
+    cardTypeContainer.addClass('card-row-item-content v-mid sub-type-container');
 }
 
 function PopulateCardRules(cardId) {

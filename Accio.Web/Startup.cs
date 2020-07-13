@@ -5,6 +5,7 @@ using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.RulingServices;
 using Accio.Business.Services.SourceServices;
+using Accio.Business.Services.TypeServices;
 using Accio.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,8 @@ namespace Accio.Web
             services.AddTransient<RulingSourceService>();
             services.AddTransient<RulingTypeService>();
             services.AddTransient<ConfigurationService>();
+            services.AddTransient<CardSubTypeService>();
+            services.AddTransient<SubTypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

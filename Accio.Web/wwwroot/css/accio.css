@@ -670,9 +670,16 @@ td:nth-child(6) {
 }
 
 .card-row-item-content-flavor {
+    margin-top: 1rem;
     color: var(--blackBat);
     font-size: 0.75rem;
     font-style: italic;
+}
+
+.card-type {
+    color: var(--grayGargoyle);
+    margin-left: 1rem;
+    margin-right: 0.35rem;
 }
 
 .card-printings-text {
@@ -770,8 +777,24 @@ td:nth-child(6) {
     opacity: 0.5;
 }
 
-/* Sets */
+.rule-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
 
+    .rule-anchor:hover {
+        text-decoration: underline;
+    }
+
+.sub-type-item {
+    float: left;
+    margin-left: 4px;
+    margin-right: 4px;
+    opacity: 0.75;
+    color: var(--grayGargoyle);
+}
+
+/* Sets */
 .sets-content-container {
     display: flex;
     flex-direction: column;
@@ -815,10 +838,21 @@ td:nth-child(6) {
     visibility: visible;
 }
 
+.ml0i {
+    margin-left: 0px !important;
+}
+
+.dni {
+    display: none !important;
+}
+
+.negmt10 {
+    margin-top: -10px;
+}
+
 .bs1 {
     box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
 }
-
 
 /* Loading */
 
