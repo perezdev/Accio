@@ -344,3 +344,4 @@ _ScaffoldCommand.txt
 appsettings.json
 appsettings.Development.json
 Accio.Web/wwwroot/images/.DS_Store
+web.config

@@ -772,11 +772,12 @@ function GetSearchData() {
 function RedirectToCardPage(cardID) {
     var baseUrl = location.protocol + '//' + location.host;
     var cardRoute = '/Card?cardId=' + cardID;
+    window.location.href = baseUrl + cardRoute;
 
-    window.open(
-        baseUrl + cardRoute,
-        '_blank'
-    );
+    //window.open(
+    //    baseUrl + cardRoute,
+    //    '_blank'
+    //);
 }
 
 //function SetSearchLoadingState(loading) {
