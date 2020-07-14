@@ -10,7 +10,7 @@ Accio is an opensource card browsing website built on ASP.NET Core.
 
 [https://github.com/perezdev](perezdev), [https://github.com/Tressley](Tressley)
 
-#Technology Overview
+# Technology Overview
 
 ASP.NET Core/Web API, SQL Server, HTML/JS/AJAX, Entity Framework
 
@@ -18,7 +18,7 @@ ASP.NET Core/Web API, SQL Server, HTML/JS/AJAX, Entity Framework
 
 DotNet Core 3.1, SQL Server
 
-#Project Overview
+# Project Overview
 
 The Accio **solution** consists of 4 projects:
 
@@ -28,7 +28,7 @@ The Accio **solution** consists of 4 projects:
 * **Web** - Main app.
 * Web.API - API
 
-#Setup
+# Setup
 
 Once you have the code downloaded and the database server running, you need to make the following changes to run the website:
 
