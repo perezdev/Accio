@@ -6,7 +6,7 @@ http://accio.cards
 
 Accio is an opensource card browsing website built on ASP.NET Core.
 
-#Contributors
+# Contributors
 
 [https://github.com/perezdev](perezdev), [https://github.com/Tressley](Tressley)
 
@@ -14,7 +14,7 @@ Accio is an opensource card browsing website built on ASP.NET Core.
 
 ASP.NET Core/Web API, SQL Server, HTML/JS/AJAX, Entity Framework
 
-#Requirements
+# Requirements
 
 DotNet Core 3.1, SQL Server
 
