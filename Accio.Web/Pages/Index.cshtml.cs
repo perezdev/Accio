@@ -17,9 +17,9 @@ namespace Accio.Web.Pages
             _logger = logger;
         }
 
-        public IActionResult OnGet()
-        {
-            return Redirect("/Search");
-        }
+        //public IActionResult OnGet()
+        //{
+            //return Redirect("/Search");
+        //}
     }
 }
