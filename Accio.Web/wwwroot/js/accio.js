@@ -10,7 +10,10 @@ $(document).ready(function () {
     //So they share the same JS. This ensures we only load the stuff for the appropriate page,
     //regardless of the domain.
     currentPage = GetCurrentPage();
-    if (currentPage === Page.Search) {
+    if (currentPage === Page.Home) {
+        InitializeHomePage();
+    }
+    else if (currentPage === Page.Search) {
         InitializeSearchPage();
     }
     else if (currentPage === Page.Card) {
@@ -29,6 +32,10 @@ $(document).mousemove(function (e) {
 
 function InitializeLayout() {
     InitializeLayouElements();
+}
+function InitializeHomePage() {
+    /* Card search initialization */
+    InitializeSearchBoxOnNonSearchPage();
 }
 function InitializeSearchPage() {
     /* Card set initialization */
@@ -846,6 +853,7 @@ function InitializeCrestElements() {
  * ----------------------------------------------------------------------------------------------------
  */
 const Page = {
+    Home: '/',
     Search: '/Search',
     Card: '/Card',
     Sets: '/Sets',
