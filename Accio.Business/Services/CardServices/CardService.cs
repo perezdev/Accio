@@ -49,7 +49,7 @@ namespace Accio.Business.Services.CardServices
             var utcNow = DateTime.UtcNow;
 
             //We don't want them to pull all cards, so this will force them to search for a set and/or card text to prevent that
-            if (string.IsNullOrEmpty(cardSearchParameters.SearchText) && (cardSearchParameters.SetId == null ||cardSearchParameters.SetId == Guid.Empty))
+            if (string.IsNullOrEmpty(cardSearchParameters.SearchText) && (cardSearchParameters.SetId == null || cardSearchParameters.SetId == Guid.Empty))
             {
                 return new List<CardModel>();
             }
@@ -66,6 +66,10 @@ namespace Accio.Business.Services.CardServices
                          join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
                          join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
+                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         from provides in cardsProvidesLesson.DefaultIfEmpty()
+                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         from plesson in providesLesson.DefaultIfEmpty()
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
@@ -78,7 +82,9 @@ namespace Accio.Business.Services.CardServices
                              cardRarity,
                              cardType,
                              language,
-                             lessonType
+                             lessonType,
+                             provides,
+                             plesson
                          });
 
             if (param.SetId != null && param.SetId != Guid.Empty)
@@ -100,16 +106,17 @@ namespace Accio.Business.Services.CardServices
             if (!string.IsNullOrEmpty(param.SearchText))
             {
                 cards = from card in cards
-                        where EF.Functions.Like(card.cardDetail.Name, $"%{param.SearchText}%") || 
+                        where EF.Functions.Like(card.cardDetail.Name, $"%{param.SearchText}%") ||
                               EF.Functions.Like(card.cardDetail.Text, $"%{param.SearchText}%") ||
-                              //We have to include these 3 fields for adventure cards since they don't have card text
+                              //We have to include these 3 fields for adventure cards and matches since they don't have card text
                               EF.Functions.Like(card.cardDetail.Effect, $"%{param.SearchText}%") ||
                               EF.Functions.Like(card.cardDetail.ToSolve, $"%{param.SearchText}%") ||
                               EF.Functions.Like(card.cardDetail.Reward, $"%{param.SearchText}%")
                         select card;
             }
 
-            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail,
+                                                            x.language, x.lessonType, x.plesson, x.provides)).ToList();
 
             //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
             var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
@@ -147,6 +154,11 @@ namespace Accio.Business.Services.CardServices
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
+                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         from provides in cardsProvidesLesson.DefaultIfEmpty()
+                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         from plesson in providesLesson.DefaultIfEmpty()
+
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == englishLanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
                                popularCardGuids.Contains(card.CardId)
@@ -158,9 +170,13 @@ namespace Accio.Business.Services.CardServices
                              cardRarity,
                              cardType,
                              language,
-                             lessonType
+                             lessonType,
+                             plesson,
+                             provides
                          });
-            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType,
+                                                            x.cardDetail, x.language, x.lessonType, x.plesson,
+                                                            x.provides)).ToList();
 
             return cardModels;
         }
@@ -184,6 +200,10 @@ namespace Accio.Business.Services.CardServices
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
+                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         from provides in cardsProvidesLesson.DefaultIfEmpty()
+                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
                                card.CardId == cardSearchParameters.CardId
@@ -196,10 +216,13 @@ namespace Accio.Business.Services.CardServices
                              cardRarity,
                              cardType,
                              language,
-                             lessonType
+                             lessonType,
+                             plesson,
+                             provides
                          });
 
-            var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).Single();
+            var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail,
+                                                           x.language, x.lessonType, x.plesson, x.provides)).Single();
             cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes((Guid)cardSearchParameters.CardId);
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
@@ -288,6 +311,10 @@ namespace Accio.Business.Services.CardServices
                          join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
+                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         from provides in cardsProvidesLesson.DefaultIfEmpty()
+                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardDetail.Deleted && !language.Deleted && !cardSet.Deleted && !cardRarity.Deleted &&
                                !cardType.Deleted
                          select new
@@ -298,10 +325,14 @@ namespace Accio.Business.Services.CardServices
                              cardRarity,
                              cardType,
                              language,
-                             lessonType
+                             lessonType,
+                             plesson,
+                             provides
                          });
 
-            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail, x.language, x.lessonType)).ToList();
+            var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType,
+                                                            x.cardDetail, x.language, x.lessonType,
+                                                            x.plesson, x.provides)).ToList();
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
@@ -335,7 +366,8 @@ namespace Accio.Business.Services.CardServices
         }
 
         public static CardModel GetCardModel(Card card, Set cardSet, Rarity cardRarity, CardType cardType, CardDetail cardDetail,
-                                             Language language, LessonType lessonType)
+                                             Language language, LessonType lessonType, LessonType providesLesson,
+                                             CardProvidesLesson cardProvidesLesson)
         {
             return new CardModel()
             {
@@ -349,6 +381,8 @@ namespace Accio.Business.Services.CardServices
                 ActionCost = card.ActionCost,
                 CardNumber = card.CardNumber,
                 Orientation = card.Orientation,
+                ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
+                                 CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
                 CreatedById = card.CreatedById,
                 CreatedDate = card.CreatedDate,
                 UpdatedById = card.UpdatedById,

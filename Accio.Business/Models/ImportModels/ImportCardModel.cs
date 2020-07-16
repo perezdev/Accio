@@ -28,5 +28,7 @@ namespace Accio.Business.Models.ImportModels
         public List<string> Artists { get; set; }
         [JsonProperty("cost")]
         public string Cost { get; set; }
+        [JsonProperty("provides")]
+        public string[] Provides { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace Accio.SetUpload
         private static CardSearchHistoryService _cardSearchHistoryService { get; set; }
         private static CardSubTypeService _cardSubTypeService { get; set; }
         private static SubTypeService _subTypeService { get; set; }
-
+        private static CardProvidesLessonService _cardProvidesLessonService { get; set; }
 
         private static void RegisterServices()
         {
@@ -57,6 +57,7 @@ namespace Accio.SetUpload
             services.AddTransient<CardSearchHistoryService>();
             services.AddTransient<CardSubTypeService>();
             services.AddTransient<SubTypeService>();
+            services.AddTransient<CardProvidesLessonService>();
 
             var provider = services.BuildServiceProvider();
             _cardService = provider.GetService<CardService>();
@@ -69,6 +70,7 @@ namespace Accio.SetUpload
             _cardSearchHistoryService = provider.GetService<CardSearchHistoryService>();
             _cardSubTypeService = provider.GetService<CardSubTypeService>();
             _subTypeService = provider.GetService<SubTypeService>();
+            _cardProvidesLessonService = provider.GetService<CardProvidesLessonService>();
         }
 
         private static void Main(string[] args)
@@ -76,7 +78,26 @@ namespace Accio.SetUpload
             RegisterServices();
             //ImportSets();
             //ImportSubTypes();
-            ImportMatches();
+            //ImportMatches();
+            ImportCardProvidesLessons();
+        }
+        private static void ImportCardProvidesLessons()
+        {
+            var sets = GetSets();
+            var cards = _cardService.GetAllCards();
+            var lessons = _lessonService.GetLessonTypes();
+
+            foreach (var card in cards)
+            {
+                var set = sets.Single(x => x.Name == card.CardSet.Name);
+                var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name && (card.Detail.Name != "Hermione Granger" && card.Detail.Name != "Draco Malfoy"));
+                if (jsonCard?.Provides?.Length == 2)
+                {
+                    var lesson = lessons.Single(x => x.Name == jsonCard.Provides[1]);
+                    _cardProvidesLessonService.PersistCardProvidesLesson(card.CardId, lesson.LessonTypeId, Convert.ToInt32(jsonCard.Provides[0]));
+                }
+            }
+
         }
         private static void ImportMatches()
         {

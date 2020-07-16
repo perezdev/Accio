@@ -16,6 +16,7 @@ namespace Accio.Data
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
         public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
+        public virtual DbSet<CardProvidesLesson> CardProvidesLesson { get; set; }
         public virtual DbSet<CardRuling> CardRuling { get; set; }
         public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
         public virtual DbSet<CardSubType> CardSubType { get; set; }
@@ -77,6 +78,15 @@ namespace Accio.Data
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.DateOfRuling).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<CardProvidesLesson>(entity =>
+            {
+                entity.Property(e => e.CardProvidesLessonId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
