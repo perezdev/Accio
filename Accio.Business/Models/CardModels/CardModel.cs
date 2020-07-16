@@ -16,6 +16,7 @@ namespace Accio.Business.Models.CardModels
         public List<CardSubTypeModel> SubTypes { get; set; } = new List<CardSubTypeModel>();
         public RarityModel Rarity { get; set; } = new RarityModel();
         public LessonTypeModel LessonType { get; set; } = new LessonTypeModel();
+        public CardProvidesLessonModel ProvidesLesson { get; set; } = new CardProvidesLessonModel();
         public int? LessonCost { get; set; }
         public int? ActionCost { get; set; }
         public string CardNumber { get; set; }

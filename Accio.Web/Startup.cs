@@ -49,6 +49,7 @@ namespace Accio.Web
             services.AddTransient<ConfigurationService>();
             services.AddTransient<CardSubTypeService>();
             services.AddTransient<SubTypeService>();
+            services.AddTransient<CardProvidesLessonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
