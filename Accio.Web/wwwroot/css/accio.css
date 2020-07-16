@@ -786,26 +786,6 @@ td:nth-child(6) {
     width: 1rem;
 }
 
-.printings-enabled {
-    background-color: var(--mainColor);
-    border-radius: 2px;
-    color: var(--whiteWizard);
-    height: 1.5rem;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    width: 1.5rem;
-}
-
-.printings-disabled {
-    background-color: var(--lightPurpleFirecracker);
-    border-radius: 2px;
-    color: var(--whiteWizard);
-    height: 1.5rem;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    width: 1.5rem;
-}
-
 .printings-unselected {
     cursor: pointer;
 }
@@ -875,23 +855,27 @@ td:nth-child(6) {
     width: 1.125rem;
 }
 
+.printings-enabled,
 .set-language-enabled {
     background-color: var(--mainColor);
     border-radius: 2px;
     color: var(--whiteWizard);
-    height: 1.25rem;
-    margin-right: 0.75rem;
-    width: 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1.67;
+    margin: 0 0.5rem 0 0;
+    padding: 0.125rem 0.25rem;
 }
 
+.printings-disabled,
 .set-language-disabled {
     background-color: var(--whiteWizard);
     border: 1px solid var(--mainColor);
     border-radius: 2px;
     color: var(--mainColor);
-    height: 1.25rem;
-    margin-right: 0.75rem;
-    width: 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1.67;
+    margin: 0 0.5rem 0 0;
+    padding: 0.094rem 0.25rem;
 }
 
 /* Utility */
