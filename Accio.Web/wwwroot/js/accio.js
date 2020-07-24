@@ -504,11 +504,11 @@ function AddCardsToDeck(cards) {
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
 
-        //<div ` + hoverCss + ` onclick="ShowCardModal('` + card.cardId + `');" class="ma1 card-image">
+        var cardUrl = GetCardPageUrl(card.cardId);
         var cardHtml = `
-                        <div ` + hoverCss + ` onclick="RedirectToCardPage('` + card.cardId + `');" class="card-image w-25-ns pa1 w-50">
+                        <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
                             <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
-                        </div>
+                        </a>
                     `;
 
         //Get all of the previous items in the card deck so we can add the new one
@@ -776,6 +776,12 @@ function GetSearchData() {
 
     return searchData;
 }
+function GetCardPageUrl(cardId) {
+    var baseUrl = location.protocol + '//' + location.host;
+    var cardRoute = '/Card?cardId=' + cardId;
+    return baseUrl + cardRoute;
+}
+//This will be removed in a further update
 function RedirectToCardPage(cardID) {
     var baseUrl = location.protocol + '//' + location.host;
     var cardRoute = '/Card?cardId=' + cardID;
