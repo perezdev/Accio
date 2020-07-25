@@ -20,7 +20,7 @@
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <div id="main" class="w-100 ph0-ns ph3">
+    <div id="main" class="w-100 ph0-ns ph3 relative">
         <div id="homeSearch" class="mw8 center">
             <div id="accioLogo">
                 <?xml version="1.0" encoding="utf-8" ?>
@@ -41,6 +41,23 @@
             <form id="search" accept-charset="UTF-8" action="/Search" method="get">
                 <input id="searchInput" class="w-50-ns w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" />
             </form>
+        </div>
+        <div class="w-100">
+            <div class="mw6 center">
+                <div id="spotlight" class="mw6 absolute">
+                    <div class="cf">
+                        <div class="fl w-third relative card-image">
+                            <img src="~/images/cardBack.png" class="dib">
+                        </div>
+                        <div class="fl w-third relative card-image">
+                            <img src="~/images/cardBack.png" class="dib">
+                        </div>
+                        <div class="fl w-third relative card-image">
+                            <img src="~/images/cardBack.png" class="dib">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Begin Footer -->
