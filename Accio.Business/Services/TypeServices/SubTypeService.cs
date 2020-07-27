@@ -22,6 +22,14 @@ namespace Accio.Business.Services.TypeServices
             return subTypes;
         }
 
+        public SubTypeModel GetSubTypeByName(string name)
+        {
+            var st = (from subType in _context.SubType
+                      where !subType.Deleted && subType.Name == name
+                      select GetSubTypeModel(subType)).Single();
+            return st;
+        }
+
         public static SubTypeModel GetSubTypeModel(SubType subType)
         {
             return new SubTypeModel()

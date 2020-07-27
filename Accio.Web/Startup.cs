@@ -1,3 +1,4 @@
+using Accio.Business.Services.AdvancedCardSearchSearchServices;
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.ConfigurationServices;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace Accio.Web
@@ -31,7 +33,9 @@ namespace Accio.Web
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-            services.AddDbContext<AccioContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AccioConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300)));
+            services.AddDbContext<AccioContext>(options => options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
+                                                                  .UseSqlServer(Configuration.GetConnectionString("AccioConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300))
+                                                );
 
             services.AddTransient<CardService>();
             services.AddTransient<SetService>();
@@ -50,6 +54,7 @@ namespace Accio.Web
             services.AddTransient<CardSubTypeService>();
             services.AddTransient<SubTypeService>();
             services.AddTransient<CardProvidesLessonService>();
+            services.AddTransient<AdvancedCardSearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

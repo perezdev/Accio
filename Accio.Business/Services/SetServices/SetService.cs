@@ -9,8 +9,23 @@ namespace Accio.Business.Services.CardServices
 {
     public class SetService
     {
-        private AccioContext _context { get; set; }
         private static List<SetModel> SetsCache { get; set; } = new List<SetModel>();
+
+        private Guid AdventuresAtHogwartsSetId { get; set; } = Guid.Parse("C14CCE67-D0F8-4FC3-9BFA-1915CE4B1C86");
+        private Guid BaseSetId { get; set; } = Guid.Parse("34ECEC73-F224-420B-927A-BE7CE8B28124");
+        private Guid ChamberOfSecretsSetId { get; set; } = Guid.Parse("EFB9A41B-E84A-4E28-B07C-B30969BCD083");
+        private Guid DiagonAlleySetId { get; set; } = Guid.Parse("5468F246-A070-4EFD-9B23-0CF5D26A5ED7");
+        private Guid HeirOfSlytherinSetId { get; set; } = Guid.Parse("33B77285-FBB2-4712-BECF-65A0B26C32C2");
+        private Guid QuidditchCupSetId { get; set; } = Guid.Parse("F05F91CD-939C-438E-866F-ADDEBEECC6F2");
+
+        private string AdventuresAtHogwartsSetName { get; set; } = "Adventures at Hogwarts";
+        private string BaseSetName { get; set; } = "Base";
+        private string ChamberOfSecretsSetName { get; set; } = "Chamber of Secrets";
+        private string DiagonAlleySetName { get; set; } = "Diagon Alley";
+        private string HeirOfSlytherinName { get; set; } = "Heir of Slytherin";
+        private string QuidditchCupName { get; set; } = "Quidditch Cup";
+
+        private AccioContext _context { get; set; }
 
         public SetService(AccioContext context)
         {
@@ -66,6 +81,27 @@ namespace Accio.Business.Services.CardServices
             return setModel;
         }
 
+        public SetModel GetSet(TypeOfSet type)
+        {
+            switch (type)
+            {
+                case TypeOfSet.AdventuresAtHogwarts:
+                    return GetSetModel(AdventuresAtHogwartsSetId, AdventuresAtHogwartsSetName);
+                case TypeOfSet.Base:
+                    return GetSetModel(BaseSetId, BaseSetName);
+                case TypeOfSet.ChamberOfSecrets:
+                    return GetSetModel(ChamberOfSecretsSetId, ChamberOfSecretsSetName);
+                case TypeOfSet.DiagonAlley:
+                    return GetSetModel(DiagonAlleySetId, DiagonAlleySetName);
+                case TypeOfSet.HeirOfSlytherin:
+                    return GetSetModel(HeirOfSlytherinSetId, HeirOfSlytherinName);
+                case TypeOfSet.QuidditchCup:
+                    return GetSetModel(QuidditchCupSetId, QuidditchCupName);
+                default:
+                    throw new Exception("Could not identify set type.");
+            }
+        }
+
         public static SetModel GetSetModel(Set set)
         {
             return new SetModel()
@@ -83,6 +119,15 @@ namespace Accio.Business.Services.CardServices
                 UpdatedById = set.UpdatedById,
                 UpdatedDate = set.UpdatedDate,
                 Deleted = set.Deleted,
+            };
+        }
+        public static SetModel GetSetModel(Guid setId, string name)
+        {
+            return new SetModel()
+            {
+                SetId = setId,
+                Name = name,
+                Deleted = false,
             };
         }
     }

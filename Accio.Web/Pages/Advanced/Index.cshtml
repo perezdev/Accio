@@ -1,0 +1,224 @@
+﻿@page
+@model Accio.Web.Pages.Advanced.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+}
+
+@* Required for AJAX async calls *@
+@Html.AntiForgeryToken()
+
+<main class="w-100 main-container pl2">
+    <div class="mw8 center advanced-content-container pv3">
+        @* Card Name *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Card Name</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input id="cardName" class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Card Text *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Card Text</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input id="cardText" class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Card Type *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Card Type</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Artist *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Card Artist</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Flavor Text *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Flavor Text</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Lesson Type *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Lesson Type</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Keywords *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Keywords</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Rarity *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Rarity</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Set *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Set</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Card Number *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Card Number</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Power *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Power</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Creature Health *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Creature Health</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Creature Damage *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Creature Damage</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Provides *@
+        <div>
+            <section class="cf w-100">
+                <div class="fl w-20">
+                    <div class="flex items-center w-100">
+                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
+                        <h3 class="pl2">Provides</h3>
+                    </div>
+                </div>
+                <div class="fl w-80 pt3">
+                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+    </div>
+</main>

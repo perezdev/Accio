@@ -986,3 +986,17 @@ td:nth-child(6) {
     background-color: var(--blueRaven);
     color: white;
 }
+
+
+/* Advanced Page */
+
+.advanced-content-container {
+    margin-top: 70px;
+    min-height: 80vh; /* Default height for the card area so it isn't smushed when there are no cards */
+    overflow: visible;
+}
+
+.advanced-row-segment {
+    color: #E9E9E9;
+    opacity: 0.3;
+}

@@ -12,98 +12,99 @@
 <main class="w-100 main-container">
     @if (!Model.ShowCardData)
     {
-    @* No card found message *@
+        @* No card found message *@
 
-    <div class="single-no-card-container center tc no-cards-container" style="max-width:500px;">
-        <object data="/images/mask.svg" class="no-cards-image" type="image/svg+xml"></object>
-        <h3 class="b no-cards-h3">
-            No card found
-        </h3>
-        <p>
-            We couldn't find a matching card. Return to <a href="/Search">search</a>.
-        </p>
-    </div>
+        <div class="single-no-card-container center tc no-cards-container" style="max-width:500px;">
+            <object data="/images/mask.svg" class="no-cards-image" type="image/svg+xml"></object>
+            <h3 class="b no-cards-h3">
+                No card found
+            </h3>
+            <p>
+                We couldn't find a matching card. Return to <a href="/Search">search</a>.
+            </p>
+        </div>
     }
     else
     {
-    @* Card container *@
-    <div class="single-card-main-container">
-        <section class="w-100 mw7-ns center card-content-container">
-            <div class="cf">
-                <div class="fl w-100 w-50-ns tc">
-                    <img id="cardImage" class="single-card-image-vertical" />
-                </div>
-                <div class="fl w-100 w-50-ns pa0-ns pa3">
-                    @* Card data *@
-                    <div class="single-card-segment br2">
-                        <div class="dt dt--fixed">
-                            <div class="dt-row">
-                                <div class="cf">
-                                    <div class="v-mid mv2">
-                                        <div class="fl w-70 tl">
-                                            <div id="cardTitle" class="card-row-item-content b">
+        @* Card container *@
+        <div class="single-card-main-container">
+            <section class="w-100 mw7-ns center card-content-container">
+                <div class="cf">
+                    <div class="fl w-100 w-50-ns tc">
+                        <img id="cardImage" class="single-card-image-vertical" />
+                    </div>
+                    <div class="fl w-100 w-50-ns pa0-ns pa3">
+                        @* Card data *@
+                        <div class="single-card-segment br2">
+                            <div class="dt dt--fixed">
+                                <div class="dt-row">
+                                    <div class="cf">
+                                        <div class="v-mid mv2">
+                                            <div class="fl w-70 tl">
+                                                <div id="cardTitle" class="card-row-item-content b">
+                                                </div>
+                                            </div>
+                                            <div class="fl w-30 tl">
+                                                <div class="card-row-item-content-right tr">
+                                                    <label id="lessonNumber" class="v-mid"></label>
+                                                    <img id="lessonImage" class="lesson-image v-mid" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="fl w-30 tl">
-                                            <div class="card-row-item-content-right tr">
-                                                <label id="lessonNumber" class="v-mid"></label>
-                                                <img id="lessonImage" class="lesson-image v-mid" />
-                                            </div>
+                                    </div>
+
+                                    <hr class="segment-divider" />
+                                </div>
+                                <div class="dt-row">
+                                    <div id="cardTypeContainer" class="v-mid mv2 flex items-center ml0i">
+                                        <div id="cardType" class="card-type b mr0">
+
                                         </div>
                                     </div>
+
+                                    <hr class="segment-divider" />
                                 </div>
-
-                                <hr class="segment-divider" />
-                            </div>
-                            <div class="dt-row">
-                                <div id="cardTypeContainer" class="v-mid mv2 flex items-center ml0i">
-                                    <div id="cardType" class="card-type b mr0">
-
+                                <div class="dt-row">
+                                    <div class="card-row-item-content v-mid mv2">
+                                        <div id="description">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <hr class="segment-divider" />
-                            </div>
-                            <div class="dt-row">
-                                <div class="card-row-item-content v-mid mv2">
-                                    <div id="description">
+                                    <hr class="segment-divider" />
+                                </div>
+                                <div id="flavorTextRow" class="dt-row">
+                                    <div class="card-row-item-content v-mid mv2">
+                                        <p id="flavorText" class="card-row-item-content-flavor">
+                                        </p>
                                     </div>
-                                </div>
 
-                                <hr class="segment-divider" />
-                            </div>
-                            <div id="flavorTextRow" class="dt-row">
-                                <div class="card-row-item-content v-mid mv2">
-                                    <p id="flavorText" class="card-row-item-content-flavor">
-                                    </p>
+                                    <hr class="segment-divider" />
                                 </div>
-
-                                <hr class="segment-divider" />
-                            </div>
-                            <div class="dt-row">
-                                <div id="illustratorContainer" class="v-mid mv2">
-                                    <div id="illustrator" class="card-row-item-content">
+                                <div class="dt-row">
+                                    <div id="illustratorContainer" class="v-mid mv2">
+                                        <div id="illustrator" class="card-row-item-content">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <hr class="segment-divider" />
-                            </div>
-                            <div class="dt-row">
-                                <div class="card-row-item-content v-mid mt2 set-info">
-                                    <img id="cardInfoSetIcon" class="set-info-item set-info-icon v-mid" />
-                                    <label id="cardInfoSetName" class="set-info-item"></label>
-                                    <div class="set-info-separator set-info-item">●</div>
-                                    <label id="cardInfoNumber" class="set-info-item"></label>
-                                    <div class="set-info-separator set-info-item">●</div>
-                                    <label id="cardInfoRarity" class="set-info-item"></label>
+                                    <hr class="segment-divider" />
                                 </div>
+                                <div class="dt-row">
+                                    <div class="card-row-item-content v-mid mt2 set-info">
+                                        <img id="cardInfoSetIcon" class="set-info-item set-info-icon v-mid" />
+                                        <label id="cardInfoSetName" class="set-info-item"></label>
+                                        <div class="set-info-separator set-info-item">●</div>
+                                        <label id="cardInfoNumber" class="set-info-item"></label>
+                                        <div class="set-info-separator set-info-item">●</div>
+                                        <label id="cardInfoRarity" class="set-info-item"></label>
+                                    </div>
 
-                                <hr class="segment-divider" />
-                            </div>
-                            <div class="dt-row">
-                                <div class="card-row-item-content v-mid mv2 pb2">
-                                    <p class="card-printings-text mb2">Printings</p>
-                                    <div id="printingsEn" class="printings-enabled dib">EN</div>
+                                    <hr class="segment-divider" />
+                                </div>
+                                <div class="dt-row">
+                                    <div class="card-row-item-content v-mid mv2 pb2">
+                                        <p class="card-printings-text mb2">Printings</p>
+                                        <div id="printingsEn" class="printings-enabled dib">EN</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

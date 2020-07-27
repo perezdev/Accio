@@ -1,4 +1,6 @@
-﻿var currentPage = null;
+﻿//Eventually, I need to split all this code into several files and then bundle on build
+
+var currentPage = null;
 
 /**
  * On page load
@@ -20,6 +22,9 @@ $(document).ready(function () {
         InitializeCardPage();
     } else if (currentPage === Page.Sets) {
         InitializeSetsPage();
+    }
+    else if (currentPage === Page.Advanced) {
+        InitializeAdvancedPage();
     }
 });
 //Shows the card from the grid when hovered over
@@ -65,6 +70,13 @@ function InitializeSetsPage() {
 
     /* Populate sets table */
     PopulateSetsTable();
+
+    /* Card search initialization */
+    InitializeSearchBoxOnNonSearchPage();
+}
+function InitializeAdvancedPage() {
+    /* Advanced search initialization */
+    InitializeAdvancedSearchElements();
 
     /* Card search initialization */
     InitializeSearchBoxOnNonSearchPage();
@@ -176,6 +188,7 @@ const queryParameterNames = {
     SortOrder: 'sortOrder',
     CardView: 'cardView',
     CardId: 'cardId',
+    AdvancedQuery: 'adv',
 };
 
 const searchElementNames = {
@@ -364,6 +377,11 @@ function SearchCards() {
         }
     });
 }
+function SearchAdvancedCards() {
+    HideAllContainers();
+    ToggleLoading();
+
+}
 function PopulateDefaultCards() {
     HideAllContainers();
     ToggleLoading();
@@ -421,7 +439,7 @@ function ToggleViewContainers() {
 
         $(resultsContainerNames.CardContainerId).removeClass('dn');
         $(resultsContainerNames.CardContainerId).addClass('flex');
-    } else if (cardView === 'checklist') {
+    } else if (cardView === 'listview') {
         $(resultsContainerNames.CardContainerId).removeClass('flex');
         $(resultsContainerNames.CardContainerId).addClass('dn');
 
@@ -486,7 +504,7 @@ function AddCardsToContainer(cards) {
     var cardView = $(searchElementNames.CardViewId).val();
     if (cardView === 'images') {
         AddCardsToDeck(cards);
-    } else if (cardView === 'checklist') {
+    } else if (cardView === 'listview') {
         AddCardsToTable(cards);
     }
 }
@@ -683,6 +701,14 @@ function RotateCardVertically(card) {
 }
 
 async function SetValuesFromQueryAndPeformCardSearch() {
+    var advQuery = getParameterByName(queryParameterNames.AdvancedQuery);
+    if (advQuery) {
+        $(searchElementNames.SearchInputId).val(searchText);
+        SearchCards();
+
+        return;
+    }
+
     var setId = getParameterByName(queryParameterNames.SetId);
     var searchText = getParameterByName(queryParameterNames.SearchText);
     var sortBy = getParameterByName(queryParameterNames.SortBy);
@@ -863,6 +889,7 @@ const Page = {
     Search: '/Search',
     Card: '/Card',
     Sets: '/Sets',
+    Advanced: '/Advanced',
 };
 function GetCurrentPage() {
     return window.location.pathname;
@@ -1008,7 +1035,7 @@ function AddCardToPage(card) {
     else {
         $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
     }
-    
+
     //Illustrator
     $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));
     //Set
@@ -1314,4 +1341,60 @@ function UnHideAllContainers() {
     if (noCards.hasClass('vh')) {
         noCards.removeClass('vh');
     }
+}
+
+/*
+ * Advanced Search
+ * -----------------------------------------------------------------------------------------------------------------------------
+ **/
+
+const advancedSearchElements = {
+    CardNameId: '#cardName',
+    CardTextId: '#cardText',
+};
+
+function InitializeAdvancedSearchElements() {
+    $(advancedSearchElements.CardNameId + ',' + advancedSearchElements.CardTextId).on('keypress', function (e) {
+        if (e.which === 13) {
+            RedirectToSearchWithAdvancedSearchString();
+            e.preventDefault();
+        }
+    });
+}
+
+function RedirectToSearchWithAdvancedSearchString() {
+    var cardName = $(advancedSearchElements.CardNameId).val();
+    var cardText = $(advancedSearchElements.CardTextId).val();
+
+    var fd = new FormData();
+    if (cardName) {
+        fd.append('cardName', cardName);
+    }
+    if (cardText) {
+        fd.append('cardText', cardText);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "Advanced?handler=GetAdvancedSearchUrlValue",
+        data: fd,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                var url = response.json;
+                
+                var baseUrl = location.protocol + '//' + location.host;
+                var cardRoute = '/Search?adv=' + url;
+                window.location.href = baseUrl + cardRoute;
+            }
+        },
+        failure: function (response) {
+            alert('Catastropic error');
+        }
+    });
 }
