@@ -44,17 +44,17 @@
         </div>
         <div class="w-100">
             <div class="mw6 center">
-                <div id="spotlight" class="mw6 absolute">
+                <div id="spotlight" class="mw6 absolute animated fadeIn">
                     <div class="cf">
-                        <div class="fl w-third relative card-image">
-                            <img src="~/images/cardBack.png" class="dib">
-                        </div>
-                        <div class="fl w-third relative card-image">
-                            <img src="~/images/cardBack.png" class="dib">
-                        </div>
-                        <div class="fl w-third relative card-image">
-                            <img src="~/images/cardBack.png" class="dib">
-                        </div>
+                        <a href="/Card?cardId=@Model.RandomCards[0].CardId" class="fl w-third relative card-image">
+                            <img src="@Model.RandomCards[0].Detail.Url" class="dib">
+                        </a>
+                        <a href="/Card?cardId=@Model.RandomCards[1].CardId" class="fl w-third relative card-image">
+                            <img src="@Model.RandomCards[1].Detail.Url" class="dib">
+                        </a>
+                        <a href="/Card?cardId=@Model.RandomCards[2].CardId" class="fl w-third relative card-image">
+                            <img src="@Model.RandomCards[2].Detail.Url" class="dib">
+                        </a>
                     </div>
                 </div>
             </div>

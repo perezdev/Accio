@@ -68,102 +68,103 @@ p {
 
 /* Homepage */
 #main {
-        background-color: var(--blackBat);
-        background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0), #000000 70%), linear-gradient(180deg, #6B63B5 0%, #6B63B5 100%), url("../images/hogwarts.png");
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-size: cover;
-        min-height: 100vh;
-        background-blend-mode: multiply, overlay, normal;
-        padding-top: 20vh;
-        text-align: center;
-    }
+    background-color: var(--blackBat);
+    background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0), #000000 70%), linear-gradient(180deg, #6B63B5 0%, #6B63B5 100%), url("../images/hogwarts.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    background-blend-mode: multiply, overlay, normal;
+    padding-top: 20vh;
+    text-align: center;
+}
 
-    #homeSearch {
-        color: var(--parchmentPaper);
-    }
+#homeSearch {
+    color: var(--parchmentPaper);
+}
 
-    #accioLogo {
-        margin-bottom: 1.5rem;
-    }
+#accioLogo {
+    margin-bottom: 1.5rem;
+}
 
     #accioLogo svg {
         fill: var(--purpleFirecracker);
         max-height: 4rem;
     }
 
-    .hero {
-        color: var(--whiteWizard);
-        font-size: 2rem;
-        line-height: 1.25;
-        margin: 0 0 .5rem 0;
+.hero {
+    color: var(--whiteWizard);
+    font-size: 2rem;
+    line-height: 1.25;
+    margin: 0 0 .5rem 0;
+}
+
+/* Homepage Search */
+#homeSearch #search input {
+    background-color: rgba(107, 99, 181, 0.25);
+    background-image: url('../images/logos/logo_white.svg');
+    background-origin: content-box, padding-box;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: 2rem 2rem;
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteWizard);
+    font-family: var(--sansSerif);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin: 1.5rem 0 0 0;
+    padding: 1rem;
+    text-indent: 3rem;
+    transition: background-color 0.125s ease-in;
+}
+
+    #homeSearch #search input:focus {
+        background-color: rgba(107, 99, 181, 0.5);
+        outline: none;
     }
 
-        /* Homepage Search */
-        #homeSearch #search input {
-            background-color: rgba(107, 99, 181, 0.25);
-            background-image: url('../images/logos/logo_white.svg');
-            background-origin: content-box, padding-box;
-            background-position: left center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-size: 2rem 2rem;
-            border: none;
-            border-radius: 8px;
-            color: var(--whiteWizard);
-            font-family: var(--sansSerif);
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin: 1.5rem 0 0 0;
-            padding: 1rem;
-            text-indent: 3rem;
-            transition: background-color 0.125s ease-in;
-        }
+#spotlight {
+    top: 84vh;
+    z-index: 0;
+}
 
-        #homeSearch #search input:focus {
-            background-color: rgba(107, 99, 181, 0.5);
-            outline: none;
-        }
+    #spotlight div .card-image:nth-child(1) {
+        left: 4vh;
+        top: -4vh;
+        z-index: 2;
+    }
 
-        #spotlight {
-            top: 84vh;
-            z-index: 0;
-        }
+    #spotlight div .card-image:nth-child(2) {
+        z-index: 3;
+    }
+
+    #spotlight div .card-image:nth-child(3) {
+        right: 4vh;
+        top: -4vh;
+        z-index: 2;
+    }
+
+
+@media (min-width: 30em) {
+    #main {
+        background-position: top center;
+        background-size: 100% auto;
+    }
+
+    #spotlight {
+        top: 76vh;
+    }
 
         #spotlight div .card-image:nth-child(1) {
-            left: 4vh;
-            top: -4vh;
-            z-index: 2;
-        }
-
-        #spotlight div .card-image:nth-child(2) {
-            z-index: 3;
+            left: 8vh;
         }
 
         #spotlight div .card-image:nth-child(3) {
-            right: 4vh;
-            top: -4vh;
-            z-index: 2;
+            right: 8vh;
         }
-
-        @media (min-width: 30em) {
-            #main {
-                background-position: top center;
-                background-size: 100% auto;
-            }
-    
-            #spotlight {
-                top: 76vh;
-            }
-
-            #spotlight div .card-image:nth-child(1) {
-                left: 8vh;
-            }
-    
-            #spotlight div .card-image:nth-child(3) {
-                right: 8vh;
-            }
-        }
+}
 
 /* Header, Navigation, Footer */
 header {

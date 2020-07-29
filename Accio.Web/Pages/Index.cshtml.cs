@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Accio.Business.Models.CardModels;
+using Accio.Business.Services.CardServices;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Accio.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        public List<CardModel> RandomCards { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        private CardService _cardService { get; set; }
+
+        public IndexModel(CardService cardService)
         {
-            _logger = logger;
+            _cardService = cardService;
         }
 
-        //public IActionResult OnGet()
-        //{
-            //return Redirect("/Search");
-        //}
+        public void OnGet()
+        {
+            RandomCards = _cardService.GetRandomCards(3);
+        }
     }
 }
