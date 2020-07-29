@@ -11,6 +11,7 @@ using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.TypeServices;
 using Accio.Data;
 using Microsoft.EntityFrameworkCore;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +51,10 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         public List<CardModel> SearchCards(AdvancedSearchParameters param)
         {
             var query = GetQuery(param);
-            var cardModels = query.Select(x => CardService.GetCardModel(x.Card, x.Set, x.Rarity, x.CardType, x.CardDetail,
-                                                            x.Language, x.LessonType, x.CardProvidesLessonLessonType, x.CardProvidesLesson)).ToList();
+            var cardModels = query.Select(x => CardService.GetCardModel(
+                                          x.Card, x.Set, x.Rarity, x.CardType, x.CardDetail,
+                                          x.Language, x.LessonType, x.CardProvidesLessonLessonType, x.CardProvidesLesson)
+                                         ).DistinctBy(x => x.CardId).ToList();
 
             //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
             var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
