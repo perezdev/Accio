@@ -428,6 +428,9 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// <param name="searchText">Search page search text</param>
         public bool IsAdvancedSearch(string searchText)
         {
+            if (string.IsNullOrEmpty(searchText))
+                return false;
+
             var containsKeyword = false;
             var containsExpression = false;
 

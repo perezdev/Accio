@@ -77,8 +77,8 @@ namespace Accio.SetUpload
         {
             RegisterServices();
             //ImportSets();
-            //ImportSubTypes();
-            //ImportMatches();
+            ImportSubTypes();
+            ImportMatches();
             ImportCardProvidesLessons();
         }
         private static void ImportCardProvidesLessons()
@@ -89,6 +89,9 @@ namespace Accio.SetUpload
 
             foreach (var card in cards)
             {
+                if (card.CardSet.SetId.ToString().ToUpper() != "33B77285-FBB2-4712-BECF-65A0B26C32C2")
+                    continue;
+
                 var set = sets.Single(x => x.Name == card.CardSet.Name);
                 var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name && (card.Detail.Name != "Hermione Granger" && card.Detail.Name != "Draco Malfoy"));
                 if (jsonCard?.Provides?.Length == 2)
@@ -105,6 +108,9 @@ namespace Accio.SetUpload
             var cards = _cardService.GetAllCards().Where(x => x.CardType.Name == "Match");
             foreach (var card in cards)
             {
+                if (card.CardSet.SetId.ToString().ToUpper() != "33B77285-FBB2-4712-BECF-65A0B26C32C2")
+                    continue;
+
                 var set = sets.Single(x => x.Name == card.CardSet.Name);
                 var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name);
 
@@ -121,6 +127,9 @@ namespace Accio.SetUpload
 
             foreach (var card in _cardService.GetAllCards())
             {
+                if (card.CardSet.SetId.ToString().ToUpper() != "33B77285-FBB2-4712-BECF-65A0B26C32C2")
+                    continue;
+
                 var set = sets.Single(x => x.Name == card.CardSet.Name);
                 var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name && (card.Detail.Name != "Hermione Granger" && card.Detail.Name != "Draco Malfoy"));
 
@@ -175,6 +184,11 @@ namespace Accio.SetUpload
                     var quidditchSetJson = GetJson(quidditchSetJsonUrl);
 
                     return JsonConvert.DeserializeObject<ImportSetModel>(quidditchSetJson);
+                case SetType.HeirOfSlytherin:
+                    var hosSetJsonUrl = "https://raw.githubusercontent.com/Tressley/hpjson/master/sets/heir%20of%20slytherin/cards.json";
+                    var hosSetJson = GetJson(hosSetJsonUrl);
+
+                    return JsonConvert.DeserializeObject<ImportSetModel>(hosSetJson);
                 default:
                     return null;
             }
@@ -186,13 +200,15 @@ namespace Accio.SetUpload
             var chamberOfSecretsSet = GetSet(SetType.ChamberOfSecrets);
             var diagonAlleySet = GetSet(SetType.DiagonAlley);
             var quidditchSet = GetSet(SetType.QuidditchCup);
+            var hosSet = GetSet(SetType.HeirOfSlytherin);
 
             var sets = new List<ImportSetModel>();
-            sets.Add(baseSet);
-            sets.Add(adventureAtHogwartsSet);
-            sets.Add(chamberOfSecretsSet);
-            sets.Add(diagonAlleySet);
-            sets.Add(quidditchSet);
+            //sets.Add(baseSet);
+            //sets.Add(adventureAtHogwartsSet);
+            //sets.Add(chamberOfSecretsSet);
+            //sets.Add(diagonAlleySet);
+            //sets.Add(quidditchSet);
+            sets.Add(hosSet);
 
             return sets;
         }
@@ -215,6 +231,7 @@ namespace Accio.SetUpload
         ChamberOfSecrets,
         DiagonAlley,
         QuidditchCup,
+        HeirOfSlytherin
     }
 
 }
