@@ -934,7 +934,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 var cardType = new CardTypeModel();
 
                 if (field.Value == "adventure")
-                    cardType = _cardTypeService.GetCardType(TypeOfCard.Lesson);
+                    cardType = _cardTypeService.GetCardType(TypeOfCard.Adventure);
                 else if (field.Value == "character")
                     cardType = _cardTypeService.GetCardType(TypeOfCard.Character);
                 else if (field.Value == "creature")
