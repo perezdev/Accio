@@ -812,25 +812,7 @@ function RedirectToCardPage(cardID) {
     var baseUrl = location.protocol + '//' + location.host;
     var cardRoute = '/Card?cardId=' + cardID;
     window.location.href = baseUrl + cardRoute;
-
-    //window.open(
-    //    baseUrl + cardRoute,
-    //    '_blank'
-    //);
 }
-
-//function SetSearchLoadingState(loading) {
-//    if (loading === 'loading') {
-//        $('#searchButton').addClass('disabled');
-//        $('#searchButtonIcon').addClass('d-none');
-//        $('#searchButtonSpinner').removeClass('d-none');
-//    }
-//    else {
-//        $('#searchButton').removeClass('disabled');
-//        $('#searchButtonIcon').removeClass('d-none');
-//        $('#searchButtonSpinner').addClass('d-none');
-//    }
-//}
 
 /**
  * Modal
@@ -1037,14 +1019,17 @@ function AddCardToPage(card) {
     }
 
     //Illustrator
-    $(singleCardSearchElementIds.IllustratorId).html(GetIllustratorText(card.detail.illustrator));
+    var illustratorAnchor = GetIllustratorText(card.detail.illustrator);
+    $(singleCardSearchElementIds.IllustratorId).html(illustratorAnchor);
     //Set
     SetSetInfo(card);
 
     //Printings
 }
 function GetIllustratorText(illustrator) {
-    return '<div class="card-illustrator">Illustrated by <label class="card-illustrator-text">' + illustrator + '</label></div>';
+    var encodedIllustratorName = '"' + illustrator + '"';
+    var url = '/Search?searchText=artist:' + encodeURIComponent(encodedIllustratorName) + '&sortBy=sn&sortOrder=asc&cardView=images';
+    return '<div class="card-illustrator">Illustrated by <a href="' + url + '" class="single-card-artist-anchor">' + illustrator + '</a></div>';
 }
 function GetSegmentHeaderClass(lessonType) {
     if (lessonType === null) {

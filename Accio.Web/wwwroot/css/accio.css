@@ -729,6 +729,16 @@ td:nth-child(6) {
     background-color: var(--whiteWizard);
 }
 
+.single-card-artist-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+
+    .single-card-artist-anchor:hover {
+        text-decoration: underline;
+    }
+
+
 .segment-header-border-default {
     border-top: 4px solid var(--mainColor);
 }
@@ -785,14 +795,6 @@ td:nth-child(6) {
 .card-printings-text {
     font-size: 0.75rem;
     font-weight: 700;
-}
-
-.card-illustrator {
-    font-size: 0.75rem;
-}
-
-.card-illustrator-text {
-    color: var(--blueRaven);
 }
 
 .lesson-color-comc {
