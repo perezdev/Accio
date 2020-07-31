@@ -239,8 +239,8 @@ header {
     background-color: rgb(117, 117, 117);
 }
 
-.no-cards-container {
-}
+/* .no-cards-container {
+} */
 
 .no-cards-items {
     margin-top: 50%;
@@ -553,8 +553,8 @@ select {
     filter: brightness(0) invert(1);
 }
 
-.set-header-title-container {
-}
+/* .set-header-title-container {
+} */
 
 .set-header-title-h1 {
     font-size: 0.875rem;
@@ -592,13 +592,13 @@ select {
     width: 250px !important;
 }
 
-.card-image {
-    /* I'm considering using the card back as a place holder while the cards load */
-    /*background-image: url("../images/cardBack.png");
+/* .card-image {
+    - I'm considering using the card back as a place holder while the cards load
+    background-image: url("../images/cardBack.png");
     background-position: top left;
     background-repeat: no-repeat;
-    background-size: contain;*/
-}
+    background-size: contain;
+} */
 
 /* Card list table */
 
@@ -701,8 +701,8 @@ td:nth-child(6) {
     color: var(--parchmentPaper);
 }
 
-.set-date {
-}
+/* .set-date {
+} */
 
 /* Card Modal */
 
