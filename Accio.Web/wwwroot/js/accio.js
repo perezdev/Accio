@@ -175,6 +175,11 @@ const LessonTypeName = {
     Quidditch: 'Quidditch',
     Transfiguration: 'Transfiguration',
 };
+const ImageSizeType = {
+    Small: 0,
+    Medium: 1,
+    Large: 2,
+};
 
 /**
  * Card Search
@@ -515,9 +520,7 @@ function AddCardsToDeck(cards) {
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
 
-        if (card.detail.url === undefined || card.detail.url === null) {
-            continue;
-        }
+        var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
 
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
@@ -525,7 +528,7 @@ function AddCardsToDeck(cards) {
         var cardUrl = GetCardPageUrl(card.cardId);
         var cardHtml = `
                         <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
-                            <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
+                            <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + smallImage.url + `" />
                         </a>
                     `;
 
@@ -575,7 +578,8 @@ function AddCardsToTable(cards) {
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = card.cardNumber;
         var cardNameColumn = '<b>' + card.detail.name + '</b>';
-        var cardImageUrlColumn = card.detail.url;
+        var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
+        var cardImageUrlColumn = smallImage.url;
         var lessonTypeColumn = '';
 
         var costColumn = null;
@@ -975,7 +979,8 @@ function AddCardToPage(card) {
     $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
 
     //Image
-    $(singleCardSearchElementIds.SingleCardImageId).attr('src', card.detail.url);
+    var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
+    $(singleCardSearchElementIds.SingleCardImageId).attr('src', smallImage.url);
     if (card.orientation === 'Horizontal') {
         var cardImg = $(singleCardSearchElementIds.SingleCardImageId);
         cardImg.removeClass('single-card-image-vertical');
@@ -1382,4 +1387,14 @@ function RedirectToSearchWithAdvancedSearchString() {
             alert('Catastropic error');
         }
     });
+}
+
+function GetImageFromCardImages(card, imageSizeType) {
+    var images = card.images;
+    for (var i = 0; i < images.length; i++) {
+        var image = images[i];
+        if (image.size === imageSizeType) {
+            return image;
+        }
+    }
 }

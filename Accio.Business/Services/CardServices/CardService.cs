@@ -28,10 +28,12 @@ namespace Accio.Business.Services.CardServices
         private LessonService _lessonService { get; set; }
         private CardSearchHistoryService _cardSearchHistoryService { get; set; }
         private CardSubTypeService _cardSubTypeService { get; set; }
+        private CardImageService _cardImageService { get; set; }
 
         public CardService(AccioContext context, SetService cardSetService, TypeService cardTypeService,
                            RarityService cardRarityService, LanguageService languageService, LessonService lessonService,
-                           CardSearchHistoryService cardSearchHistoryService, CardSubTypeService cardSubTypeService)
+                           CardSearchHistoryService cardSearchHistoryService, CardSubTypeService cardSubTypeService,
+                           CardImageService cardImageService)
         {
             _context = context;
             _cardSetService = cardSetService;
@@ -41,6 +43,7 @@ namespace Accio.Business.Services.CardServices
             _lessonService = lessonService;
             _cardSearchHistoryService = cardSearchHistoryService;
             _cardSubTypeService = cardSubTypeService;
+            _cardImageService = cardImageService;
         }
 
         public List<CardModel> SearchCards(CardSearchParameters cardSearchParameters)
@@ -73,7 +76,7 @@ namespace Accio.Business.Services.CardServices
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url)
+                               language.LanguageId == param.LanguageId
                          select new
                          {
                              card,
@@ -117,6 +120,7 @@ namespace Accio.Business.Services.CardServices
 
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail,
                                                             x.language, x.lessonType, x.plesson, x.provides)).ToList();
+            cardModels = GetCardsWithImages(cardModels);
 
             //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
             var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
@@ -160,8 +164,7 @@ namespace Accio.Business.Services.CardServices
                          from plesson in providesLesson.DefaultIfEmpty()
 
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == englishLanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
-                               popularCardGuids.Contains(card.CardId)
+                               language.LanguageId == englishLanguageId && popularCardGuids.Contains(card.CardId)
                          select new
                          {
                              card,
@@ -177,6 +180,7 @@ namespace Accio.Business.Services.CardServices
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType,
                                                             x.cardDetail, x.language, x.lessonType, x.plesson,
                                                             x.provides)).ToList();
+            cardModels = GetCardsWithImages(cardModels);
 
             return cardModels;
         }
@@ -197,8 +201,7 @@ namespace Accio.Business.Services.CardServices
                          join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == englishLanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
-                               randomCardIds.Contains(card.CardId)
+                               language.LanguageId == englishLanguageId && randomCardIds.Contains(card.CardId)
                          select new
                          {
                              card,
@@ -214,6 +217,7 @@ namespace Accio.Business.Services.CardServices
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType,
                                                             x.cardDetail, x.language, x.lessonType, x.plesson,
                                                             x.provides)).ToList();
+            cardModels = GetCardsWithImages(cardModels);
 
             return cardModels;
         }
@@ -241,8 +245,7 @@ namespace Accio.Business.Services.CardServices
                          join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url) &&
-                               card.CardId == cardSearchParameters.CardId
+                               language.LanguageId == param.LanguageId && card.CardId == cardSearchParameters.CardId
 
                          select new
                          {
@@ -260,6 +263,7 @@ namespace Accio.Business.Services.CardServices
             var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail,
                                                            x.language, x.lessonType, x.plesson, x.provides)).Single();
             cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes((Guid)cardSearchParameters.CardId);
+            cardModel = GetCardsWithImages(new List<CardModel>() { cardModel })[0];
 
             _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
@@ -483,7 +487,6 @@ namespace Accio.Business.Services.CardServices
                 Effect = importCardModel.Description.Effect,
                 ToSolve = importCardModel.Description.ToSolve,
                 Reward = importCardModel.Description.Reward,
-                Url = null, //The URL to the card is maintained in a CDN, separate from the JSON.
                 FlavorText = importCardModel.FlavorText,
                 Illustrator = importCardModel.Artists != null ? string.Join(", ", importCardModel.Artists) : null,
                 Copyright = null, //Copyright isn't maintained in the JSON
@@ -511,6 +514,21 @@ namespace Accio.Business.Services.CardServices
             card.ToSolve = toSolve;
             card.Reward = prize;
             _context.SaveChanges();
+        }
+
+        private List<CardModel> GetCardsWithImages(List<CardModel> cards)
+        {
+            var cardImages = _cardImageService.GetCardImages(cards.Select(x => x.CardId).ToList());
+            foreach (var card in cards)
+            {
+                var images = cardImages.Where(x => x.CardId == card.CardId).ToList();
+                if (images?.Count > 0)
+                {
+                    card.Images = images.Select(x => x.Image).ToList();
+                }
+            }
+
+            return cards;
         }
     }
 }

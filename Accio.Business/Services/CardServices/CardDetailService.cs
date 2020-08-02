@@ -36,7 +36,6 @@ namespace Accio.Business.Services.CardServices
                 Effect = cardDetail.Effect,
                 Reward = cardDetail.Reward,
                 ToSolve = cardDetail.ToSolve,
-                Url = cardDetail.Url,
                 FlavorText = cardDetail.FlavorText,
                 Illustrator = cardDetail.Illustrator,
                 Copyright = cardDetail.Copyright,

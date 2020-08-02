@@ -5,7 +5,16 @@
     Layout = null;
 }
 
+@using System.Linq
+@using Accio.Business.Models.ImageModels
+
 <!DOCTYPE html>
+
+@{
+    var firstImage = Model.RandomCards[0].Images.Single(x => x.Size == ImageSizeType.Small);
+    var secondImage = Model.RandomCards[1].Images.Single(x => x.Size == ImageSizeType.Small);
+    var thirdImage = Model.RandomCards[2].Images.Single(x => x.Size == ImageSizeType.Small);
+}
 
 <html>
 <head>
@@ -34,6 +43,7 @@
                         l15.54-15.37L7.22,40.02L7.22,40.02z M46.63,0C56.22,0,64,7.8,64,17.43s-7.78,17.43-17.37,17.43s-17.37-7.8-17.37-17.43
                         C29.26,7.8,37.03,0,46.63,0z M46.63,5.5c-6.56,0-11.89,5.34-11.89,11.93s5.32,11.93,11.89,11.93c6.56,0,11.89-5.34,11.89-11.93
                         C58.51,10.85,53.19,5.5,46.63,5.5z" />
+
                 </svg>
             </div>
             <h1 class="hero">Accio</h1>
@@ -48,17 +58,17 @@
                     <div class="cf">
                         <div class="fl w-third relative card-image">
                             <a href="/Card?cardId=@Model.RandomCards[0].CardId">
-                                <img src="@Model.RandomCards[0].Detail.Url" class="dib">
+                                <img src="@firstImage.Url" class="dib" />
                             </a>
                         </div>
                         <div class="fl w-third relative card-image">
                             <a href="/Card?cardId=@Model.RandomCards[1].CardId">
-                                <img src="@Model.RandomCards[1].Detail.Url" class="dib">
+                                <img src="@secondImage.Url" class="dib" />
                             </a>
                         </div>
                         <div class="fl w-third relative card-image">
                             <a href="/Card?cardId=@Model.RandomCards[2].CardId">
-                                <img src="@Model.RandomCards[2].Detail.Url" class="dib">
+                                <img src="@thirdImage.Url" class="dib" />
                             </a>
                         </div>
                     </div>

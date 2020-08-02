@@ -2,6 +2,7 @@ using Accio.Business.Services.AdvancedCardSearchSearchServices;
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.ConfigurationServices;
+using Accio.Business.Services.ImageServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.RulingServices;
@@ -55,6 +56,9 @@ namespace Accio.Web
             services.AddTransient<SubTypeService>();
             services.AddTransient<CardProvidesLessonService>();
             services.AddTransient<AdvancedCardSearchService>();
+            services.AddTransient<CardImageService>();
+            services.AddTransient<ImageService>();
+            services.AddTransient<ImageSizeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

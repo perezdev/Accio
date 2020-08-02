@@ -67,6 +67,12 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 }
             }
 
+            //TODO: pull all images from card image service
+
+            //join cardImage in _context.CardImage on card.CardId equals cardImage.CardId
+            //             join image in _context.Image on cardImage.ImageId equals image.ImageId
+            //             join imageSize in _context.ImageSize on image.ImageSizeId equals imageSize.ImageSizeId
+
             if (cardModels?.Count > 1 && !string.IsNullOrEmpty(param.SortBy) && !string.IsNullOrEmpty(param.SortOrder))
             {
                 cardModels = _cardService.GetCardModelsSorted(cardModels, param.SortBy, param.SortOrder);
@@ -105,7 +111,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                          join subType in _context.SubType on cardSubType.SubTypeId equals subType.SubTypeId into st
                          from subType in st.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url)
+                               language.LanguageId == param.LanguageId
                          select new AdvancedSearchCardQuery()
                          {
                              Card = card,

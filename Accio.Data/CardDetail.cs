@@ -13,7 +13,6 @@ namespace Accio.Data
         public string Effect { get; set; }
         public string ToSolve { get; set; }
         public string Reward { get; set; }
-        public string Url { get; set; }
         public string FlavorText { get; set; }
         public string Illustrator { get; set; }
         public string Copyright { get; set; }
