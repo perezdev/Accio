@@ -67,11 +67,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 }
             }
 
-            //TODO: pull all images from card image service
-
-            //join cardImage in _context.CardImage on card.CardId equals cardImage.CardId
-            //             join image in _context.Image on cardImage.ImageId equals image.ImageId
-            //             join imageSize in _context.ImageSize on image.ImageSizeId equals imageSize.ImageSizeId
+            cardModels = _cardService.GetCardsWithImages(cardModels);
 
             if (cardModels?.Count > 1 && !string.IsNullOrEmpty(param.SortBy) && !string.IsNullOrEmpty(param.SortOrder))
             {

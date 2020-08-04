@@ -1,69 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Accio.Business.Models.CardModels;
+using Accio.Business.Models.RulingModels;
 using Accio.Business.Models.SourceModels;
 using Accio.Business.Services.CardServices;
+using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.SourceServices;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Accio.Web.Pages.Card
 {
     public class IndexModel : PageModel
     {
+        public CardModel Card { get; set; }
+        public List<RulingModel> Rules { get; set; }
+
+        public string SetShortName { get; set; }
+        public string CardNumber { get; set; }
+        public string CardName { get; set; }
+
         public bool ShowCardData { get; set; } = false;
 
-        private CardService _cardService { get; set; }
         private SourceService _sourceService { get; set; }
         private CardRulingService _cardRulingService { get; set; }
+        private SingleCardService _singleCardService { get; set; }
+        public LessonService _lessonService { get; set; }
+        public TypeService _cardTypeService { get; set; }
 
-        public IndexModel(CardService cardService, SourceService sourceService, CardRulingService cardRulingService)
+        public IndexModel(SingleCardService singleCardService, SourceService sourceService, CardRulingService cardRulingService,
+                          LessonService lessonService, TypeService typeService)
         {
-            _cardService = cardService;
+            _singleCardService = singleCardService;
             _sourceService = sourceService;
             _cardRulingService = cardRulingService;
+            _lessonService = lessonService;
+            _cardTypeService = typeService;
         }
 
-        public void OnGet(Guid? cardId)
+        public void OnGet(string setShortName, string cardNumber, string cardName)
         {
-            //We'll set this value here so we can check it server side, via razor. Otherwise, it would be an AJAX call
-            //which would look weird because the page would load and then the elements would swap. This way, only the elements
-            //we need will load
-            ShowCardData = cardId != null && cardId != Guid.Empty;
-        }
+            SetShortName = setShortName;
+            CardNumber = cardNumber;
+            CardName = cardName;
 
-        public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
-        {
-            try
+            if (string.IsNullOrEmpty(SetShortName) || string.IsNullOrEmpty(CardNumber) || string.IsNullOrEmpty(CardName))
             {
-                var websiteSource = _sourceService.GetSource(SourceType.Website);
-                var cardSearchParameters = new CardSearchParameters()
+                ShowCardData = false;
+            }
+            else
+            {
+                try
                 {
-                    CardId = cardId,
-                    SourceId = websiteSource.SourceId,
-                };
+                    var websiteSource = _sourceService.GetSource(SourceType.Website);
+                    var param = new SingleCardParameters()
+                    {
+                        SetShortName = SetShortName,
+                        CardNumber = CardNumber,
+                        CardName = CardName,
+                    };
 
-                var card = _cardService.SearchSingleCard(cardSearchParameters);
-                return new JsonResult(new { success = true, json = card });
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, json = ex.Message });
-            }
-        }
-        public JsonResult OnPostGetCardRulingsAsync(Guid cardId)
-        {
-            try
-            {
-                var rules = _cardRulingService.GetCardRules(cardId);
-                return new JsonResult(new { success = true, json = rules });
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, json = ex.Message });
+                    Card = _singleCardService.GetCard(param);
+                    Rules = _cardRulingService.GetCardRules(Card.CardId);
+
+                    ShowCardData = Card != null;
+                }
+                catch (Exception ex)
+                {
+                    //TODO: idk, something
+                }
             }
         }
+
+        //public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
+        //{
+        //    try
+        //    {
+        //        var websiteSource = _sourceService.GetSource(SourceType.Website);
+        //        var cardSearchParameters = new CardSearchParameters()
+        //        {
+        //            CardId = cardId,
+        //            SourceId = websiteSource.SourceId,
+        //        };
+
+        //        var card = _cardService.SearchSingleCard(cardSearchParameters);
+        //        return new JsonResult(new { success = true, json = card });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new JsonResult(new { success = false, json = ex.Message });
+        //    }
+        //}
+        //public JsonResult OnPostGetCardRulingsAsync(Guid cardId)
+        //{
+        //    try
+        //    {
+        //        var rules = _cardRulingService.GetCardRules(cardId);
+        //        return new JsonResult(new { success = true, json = rules });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new JsonResult(new { success = false, json = ex.Message });
+        //    }
+        //}
     }
 }

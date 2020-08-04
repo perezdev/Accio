@@ -62,7 +62,7 @@ function InitializeCardPage() {
     InitializeSearchBoxOnNonSearchPage();
 
     /* Perform card search */
-    SetValuesFromQueryAndPeformSingleCardSearch();
+    //SetValuesFromQueryAndPeformSingleCardSearch();
 }
 function InitializeSetsPage() {
     /* Sets table initialization */
@@ -525,7 +525,7 @@ function AddCardsToDeck(cards) {
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
 
-        var cardUrl = GetCardPageUrl(card.cardId);
+        var cardUrl = GetCardPageUrl(card);
         var cardHtml = `
                         <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
                             <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + smallImage.url + `" />
@@ -806,9 +806,9 @@ function GetSearchData() {
 
     return searchData;
 }
-function GetCardPageUrl(cardId) {
+function GetCardPageUrl(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card?cardId=' + cardId;
+    var cardRoute = '/Card/' + card.cardSet.shortName + '/' + card.cardNumber + '/' + card.detail.name;
     return baseUrl + cardRoute;
 }
 //This will be removed in a further update
@@ -871,14 +871,14 @@ function InitializeCrestElements() {
  * ----------------------------------------------------------------------------------------------------
  */
 const Page = {
-    Home: '/',
-    Search: '/Search',
-    Card: '/Card',
-    Sets: '/Sets',
-    Advanced: '/Advanced',
+    Home: '',
+    Search: 'Search',
+    Card: 'Card',
+    Sets: 'Sets',
+    Advanced: 'Advanced',
 };
 function GetCurrentPage() {
-    return window.location.pathname;
+    return window.location.pathname.split('/')[1];
 }
 function GetCardFromCardId(cardId) {
     var cardVal = null;

@@ -174,6 +174,8 @@ namespace Accio.Data
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
+                entity.Property(e => e.CssClassName).HasMaxLength(100);
+
                 entity.Property(e => e.ImageName).HasMaxLength(500);
 
                 entity.Property(e => e.Name)

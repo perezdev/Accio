@@ -221,54 +221,7 @@ namespace Accio.Business.Services.CardServices
 
             return cardModels;
         }
-        public CardModel SearchSingleCard(CardSearchParameters cardSearchParameters)
-        {
-            var param = cardSearchParameters;
-            var utcNow = DateTime.UtcNow;
-
-            if (param.LanguageId == null || param.LanguageId == Guid.Empty)
-            {
-                var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
-                param.LanguageId = englishLanguageId;
-            }
-
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
-                         from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
-                         from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
-                         from plesson in providesLesson.DefaultIfEmpty()
-                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId && card.CardId == cardSearchParameters.CardId
-
-                         select new
-                         {
-                             card,
-                             cardDetail,
-                             cardSet,
-                             cardRarity,
-                             cardType,
-                             language,
-                             lessonType,
-                             plesson,
-                             provides
-                         });
-
-            var cardModel = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType, x.cardDetail,
-                                                           x.language, x.lessonType, x.plesson, x.provides)).Single();
-            cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes((Guid)cardSearchParameters.CardId);
-            cardModel = GetCardsWithImages(new List<CardModel>() { cardModel })[0];
-
-            _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
-
-            return cardModel;
-        }
+        
         public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy, string sortOrder)
         {
             if (sortBy == SortType.SetNumber)
@@ -516,7 +469,7 @@ namespace Accio.Business.Services.CardServices
             _context.SaveChanges();
         }
 
-        private List<CardModel> GetCardsWithImages(List<CardModel> cards)
+        public List<CardModel> GetCardsWithImages(List<CardModel> cards)
         {
             var cardImages = _cardImageService.GetCardImages(cards.Select(x => x.CardId).ToList());
             foreach (var card in cards)

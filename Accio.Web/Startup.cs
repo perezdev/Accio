@@ -59,6 +59,7 @@ namespace Accio.Web
             services.AddTransient<CardImageService>();
             services.AddTransient<ImageService>();
             services.AddTransient<ImageSizeService>();
+            services.AddTransient<SingleCardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

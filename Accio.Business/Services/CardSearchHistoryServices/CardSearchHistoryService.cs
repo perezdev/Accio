@@ -25,6 +25,14 @@ namespace Accio.Business.Services.CardSearchHistoryServices
             _context.CardSearchHistory.Add(cardSearchHistory);
             _context.SaveChanges();
         }
+        public void PersistCardSearchHistory(SingleCardParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)
+        {
+            var cardSearchHistoryModel = GetCardSearchHistoryModel(searchParams, createdDateTime, updatedDateTime);
+            var cardSearchHistory = GetCardSearchHistory(cardSearchHistoryModel);
+
+            _context.CardSearchHistory.Add(cardSearchHistory);
+            _context.SaveChanges();
+        }
 
         public List<Guid> GetMostPopularSearchedCardIds()
         {
@@ -48,7 +56,7 @@ namespace Accio.Business.Services.CardSearchHistoryServices
 
             return guids;
         }
-
+        
         private CardSearchHistoryModel GetCardSearchHistoryModel(CardSearchParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)
         {
             var userId = searchParams.PerformedByUserId == null ? Guid.Empty : (Guid)searchParams.PerformedByUserId;
@@ -66,6 +74,24 @@ namespace Accio.Business.Services.CardSearchHistoryServices
                 LessonCost = searchParams.LessonCost,
                 SortBy = searchParams.SortBy,
                 SortOrder = searchParams.SortOrder,
+                SourceId = searchParams.SourceId,
+                CreatedById = userId,
+                CreatedDate = createdDateTime,
+                UpdatedById = userId,
+                UpdatedDate = updatedDateTime,
+                Deleted = false,
+            };
+        }
+        private CardSearchHistoryModel GetCardSearchHistoryModel(SingleCardParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)
+        {
+            var userId = searchParams.PerformedByUserId == null ? Guid.Empty : (Guid)searchParams.PerformedByUserId;
+
+            return new CardSearchHistoryModel()
+            {
+                CardId = searchParams.CardId,
+                CardSearchHistoryId = Guid.NewGuid(),
+                UserId = userId,
+                LanguageId = searchParams.LanguageId,
                 SourceId = searchParams.SourceId,
                 CreatedById = userId,
                 CreatedDate = createdDateTime,

@@ -585,7 +585,6 @@ select {
     overflow: visible;
 }
 
-/* The card-size classes are set from the database */
 .card-orientation-vertical {
     height: 350px !important;
     width: 250px !important;
@@ -593,7 +592,7 @@ select {
 
 .card-orientation-horizontal {
     height: 350px !important;
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
     width: 250px !important;
 }
 
@@ -724,10 +723,6 @@ td:nth-child(6) {
 
 .card-content-container {
     overflow: auto;
-}
-
-.single-card-image-horizontal {
-    transform: rotate(90deg);
 }
 
 .single-card-segment {

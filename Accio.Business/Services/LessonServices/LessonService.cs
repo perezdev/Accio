@@ -20,6 +20,12 @@ namespace Accio.Business.Services.LessonServices
         private string QuidditchLessonName { get; set; } = "Quidditch";
         private string TransfigurationLessonName { get; set; } = "Transfiguration";
 
+        private string ComcLessonCssClassName { get; set; } = "lesson-color-comc";
+        private string CharmsLessonCssClassName { get; set; } = "lesson-color-charms";
+        private string PotionsLessonCssClassName { get; set; } = "lesson-color-potions";
+        private string QuidditchLessonCssClassName { get; set; } = "lesson-color-quidditch";
+        private string TransfigurationLessonCssClassName { get; set; } = "lesson-color-transfig";
+
         private AccioContext _context { get; set; }
 
         public LessonService(AccioContext context)
@@ -41,15 +47,15 @@ namespace Accio.Business.Services.LessonServices
             switch (type)
             {
                 case TypeOfLesson.CareOfMagicalCreatures:
-                    return GetLessonTypeModel(ComcLessonId, ComcLessonName);
+                    return GetLessonTypeModel(ComcLessonId, ComcLessonName, ComcLessonCssClassName);
                 case TypeOfLesson.Charms:
-                    return GetLessonTypeModel(CharmsLessonId, CharmsLessonName);
+                    return GetLessonTypeModel(CharmsLessonId, CharmsLessonName, CharmsLessonCssClassName);
                 case TypeOfLesson.Potions:
-                    return GetLessonTypeModel(PotionsLessonId, PotionsLessonName);
+                    return GetLessonTypeModel(PotionsLessonId, PotionsLessonName, PotionsLessonCssClassName);
                 case TypeOfLesson.Quidditch:
-                    return GetLessonTypeModel(QuidditchLessonId, QuidditchLessonName);
+                    return GetLessonTypeModel(QuidditchLessonId, QuidditchLessonName, QuidditchLessonCssClassName);
                 case TypeOfLesson.Transfiguration:
-                    return GetLessonTypeModel(TransfigurationLessonId, TransfigurationLessonName);
+                    return GetLessonTypeModel(TransfigurationLessonId, TransfigurationLessonName, TransfigurationLessonCssClassName);
                 default:
                     throw new Exception("Lesson type not recognized.");
             }
@@ -62,6 +68,7 @@ namespace Accio.Business.Services.LessonServices
                 LessonTypeId = lessonType.LessonTypeId,
                 Name = lessonType.Name,
                 ImageName = lessonType.ImageName,
+                CssClassName = lessonType.CssClassName,
                 CreatedById = lessonType.CreatedById,
                 CreatedDate = lessonType.CreatedDate,
                 UpdatedById = lessonType.UpdatedById,
@@ -69,12 +76,13 @@ namespace Accio.Business.Services.LessonServices
                 Deleted = lessonType.Deleted,
             };
         }
-        public static LessonTypeModel GetLessonTypeModel(Guid lessonTypeId, string name)
+        public static LessonTypeModel GetLessonTypeModel(Guid lessonTypeId, string name, string cssClassName)
         {
             return new LessonTypeModel()
             {
                 LessonTypeId = lessonTypeId,
                 Name = name,
+                CssClassName = cssClassName,
                 Deleted = false,
             };
         }
