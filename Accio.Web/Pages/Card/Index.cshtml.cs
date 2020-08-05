@@ -6,6 +6,7 @@ using Accio.Business.Models.SourceModels;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.SourceServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Accio.Web.Pages.Card
@@ -36,8 +37,19 @@ namespace Accio.Web.Pages.Card
             _cardTypeService = typeService;
         }
 
-        public void OnGet(string setShortName, string cardNumber, string cardName)
+        public IActionResult OnGet(string setShortName, string cardNumber, string cardName)
         {
+            //This isn't the best way to do this, but this will be eventually remove. And it was a
+            //bitch to get multiple routes to work with different values. So here we'll just check if a card ID was passed in and if so,
+            //grab the card details and redirect back to this page. this is just for backwards compatibility
+            var cardId = Request.Query["cardId"];
+            if (!string.IsNullOrEmpty(cardId) && Guid.TryParse(cardId, out Guid g))
+            {
+                var route = _singleCardService.GetSingleCardRoute(Guid.Parse(cardId));
+                //return RedirectToPage("Card", new { setShortName = route.SetShortName, cardNumber = route.CardNumber, cardName = route.CardName });
+                return Redirect($"Card/{route.SetShortName}/{route.CardNumber}/{route.CardName}");
+            }
+
             SetShortName = setShortName;
             CardNumber = cardNumber;
 
@@ -66,6 +78,8 @@ namespace Accio.Web.Pages.Card
                     //TODO: idk, something
                 }
             }
+
+            return null;
         }
     }
 }

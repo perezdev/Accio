@@ -82,6 +82,24 @@ namespace Accio.Business.Services.CardServices
 
             return cardModel;
         }
+        /// <summary>
+        /// Returns the card route parameters from the card ID, to help ensure backwards compatibility with the old way of showing the card page
+        /// </summary>
+        public SingleCardRoute GetSingleCardRoute(Guid cardId)
+        {
+            var val = (from card in _context.Card
+                       join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
+                       join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+                       where !card.Deleted && !cardSet.Deleted && card.CardId == cardId
+                       select new SingleCardRoute()
+                       {
+                           SetShortName = cardSet.ShortName,
+                           CardNumber = card.CardNumber,
+                           CardName = cardDetail.Name.Replace(" ", "-"),
+                       }).SingleOrDefault();
+
+            return val;
+        }
 
         private List<CardModel> GetCardsWithImages(List<CardModel> cards)
         {
@@ -115,11 +133,11 @@ namespace Accio.Business.Services.CardServices
             var toc = _cardTypeService.GetTypeOfCard(card.CardType.CardTypeId);
             switch (toc)
             {
-                
+
                 case Models.TypeModels.TypeOfCard.Adventure:
                 case Models.TypeModels.TypeOfCard.Match:
                     desc += $"{card.Detail.Effect} {card.Detail.ToSolve} {card.Detail.Reward} • ";
-                    
+
                     break;
                 case Models.TypeModels.TypeOfCard.Character:
                 case Models.TypeModels.TypeOfCard.Creature:
