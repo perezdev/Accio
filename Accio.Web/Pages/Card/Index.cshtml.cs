@@ -17,7 +17,6 @@ namespace Accio.Web.Pages.Card
 
         public string SetShortName { get; set; }
         public string CardNumber { get; set; }
-        public string CardName { get; set; }
 
         public bool ShowCardData { get; set; } = false;
 
@@ -41,9 +40,8 @@ namespace Accio.Web.Pages.Card
         {
             SetShortName = setShortName;
             CardNumber = cardNumber;
-            CardName = cardName;
 
-            if (string.IsNullOrEmpty(SetShortName) || string.IsNullOrEmpty(CardNumber) || string.IsNullOrEmpty(CardName))
+            if (string.IsNullOrEmpty(SetShortName) || string.IsNullOrEmpty(CardNumber))
             {
                 ShowCardData = false;
             }
@@ -56,7 +54,6 @@ namespace Accio.Web.Pages.Card
                     {
                         SetShortName = SetShortName,
                         CardNumber = CardNumber,
-                        CardName = CardName,
                     };
 
                     Card = _singleCardService.GetCard(param);
@@ -70,37 +67,5 @@ namespace Accio.Web.Pages.Card
                 }
             }
         }
-
-        //public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
-        //{
-        //    try
-        //    {
-        //        var websiteSource = _sourceService.GetSource(SourceType.Website);
-        //        var cardSearchParameters = new CardSearchParameters()
-        //        {
-        //            CardId = cardId,
-        //            SourceId = websiteSource.SourceId,
-        //        };
-
-        //        var card = _cardService.SearchSingleCard(cardSearchParameters);
-        //        return new JsonResult(new { success = true, json = card });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new JsonResult(new { success = false, json = ex.Message });
-        //    }
-        //}
-        //public JsonResult OnPostGetCardRulingsAsync(Guid cardId)
-        //{
-        //    try
-        //    {
-        //        var rules = _cardRulingService.GetCardRules(cardId);
-        //        return new JsonResult(new { success = true, json = rules });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new JsonResult(new { success = false, json = ex.Message });
-        //    }
-        //}
     }
 }

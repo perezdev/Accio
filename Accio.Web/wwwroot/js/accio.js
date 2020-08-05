@@ -813,14 +813,12 @@ function GetSearchData() {
 }
 function GetCardPageUrl(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card/' + card.cardSet.shortName + '/' + card.cardNumber + '/' + card.detail.name;
-    return baseUrl + cardRoute;
+    return baseUrl + card.cardPageUrl;
 }
 //This will be removed in a further update
 function RedirectToCardPage(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card/' + card.cardSet.shortName + '/' + card.cardNumber + '/' + card.detail.name;
-    window.location.href = baseUrl + cardRoute;
+    window.location.href = baseUrl + card.cardPageUrl;
 }
 
 /**

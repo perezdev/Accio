@@ -6,7 +6,6 @@ namespace Accio.Business.Models.CardModels
     {
         public string SetShortName { get; set; }
         public string CardNumber { get; set; }
-        public string CardName { get; set; }
         public Guid LanguageId { get; set; }
         public Guid CardId { get; set; }
         public Guid SourceId { get; set; }

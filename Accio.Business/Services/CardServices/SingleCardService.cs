@@ -55,7 +55,7 @@ namespace Accio.Business.Services.CardServices
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == param.LanguageId && cardSet.ShortName == param.SetShortName &&
-                               card.CardNumber == param.CardNumber && cardDetail.Name == param.CardName
+                               card.CardNumber == param.CardNumber
                          select new
                          {
                              card,

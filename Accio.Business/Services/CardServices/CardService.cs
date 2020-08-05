@@ -375,6 +375,7 @@ namespace Accio.Business.Services.CardServices
                 Orientation = card.Orientation,
                 ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
                                  CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
+                CardPageUrl = $"/Card/{cardSet.ShortName}/{card.CardNumber}/{cardDetail.Name.Replace(" ", "-")}",
                 CreatedById = card.CreatedById,
                 CreatedDate = card.CreatedDate,
                 UpdatedById = card.UpdatedById,
