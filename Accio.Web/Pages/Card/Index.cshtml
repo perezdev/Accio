@@ -47,7 +47,7 @@
                             var orientationClass = Model.Card.Orientation == "Horizontal" ? "card-orientation-horizontal" : "card-orientation-vertical";
                             //var style = Model.Card.Orientation == "Horizontal" ? "height:314px; width: 438px;" : "height:438px; width: 314px;";
                         }
-                        <img id="cardImage" class="@orientationClass" src="@imageUrl" />
+                        <img class="@orientationClass" src="@imageUrl" />
                     </div>
                     <div class="fl w-100 w-50-ns pa0-ns pa3">
                         @* Card data *@
@@ -84,7 +84,7 @@
                                     <div class="cf">
                                         <div class="v-mid mv2">
                                             <div class="fl w-70 tl">
-                                                <div id="cardTitle" class="card-row-item-content b">
+                                                <div class="card-row-item-content b">
                                                     @Model.Card.Detail.Name
                                                 </div>
                                             </div>
@@ -93,8 +93,8 @@
                                                 var lessonTypeImageUrl = $"/images/lessons/{Model.Card.LessonType.ImageName}";
                                                 <div class="fl w-30 tl">
                                                     <div class="card-row-item-content-right tr">
-                                                        <label id="lessonNumber" class="v-mid @Model.Card.LessonType.CssClassName">@Model.Card.LessonCost</label>
-                                                        <img id="lessonImage" src="@lessonTypeImageUrl" class="lesson-image v-mid" />
+                                                        <label class="v-mid @Model.Card.LessonType.CssClassName">@Model.Card.LessonCost</label>
+                                                        <img src="@lessonTypeImageUrl" class="lesson-image v-mid" />
                                                     </div>
                                                 </div>
                                             }
@@ -104,7 +104,7 @@
                                     <hr class="segment-divider" />
                                 </div>
                                 <div class="dt-row">
-                                    <div id="cardTypeContainer" class="v-mid mv2 flex items-center ml0i">
+                                    <div class="v-mid mv2 flex items-center ml0i">
                                         @{
                                             var cardTypeElements = new List<string>();
                                             cardTypeElements.Add($"<div class=\"card-type b mr0\">{@Model.Card.CardType.Name}</div>");
@@ -126,49 +126,47 @@
                                 </div>
                                 <div class="dt-row">
                                     <div class="card-row-item-content v-mid mv2">
-                                        <div id="description">
-                                            @{
-                                                var text = "";
+                                        @{
+                                            var text = "";
 
-                                                var cardType = Model._cardTypeService.GetTypeOfCard(Model.Card.CardType.CardTypeId);
-                                                switch (cardType)
-                                                {
-                                                    case TypeOfCard.Adventure:
-                                                        var effect = $"<p><b>Effect:</b> {Model.Card.Detail.Effect}</p>";
-                                                        var toSolve = $"<p><b>To Solve:</b> {Model.Card.Detail.ToSolve}</p>";
-                                                        var reward = $"<p><b>Opponent's Reward:</b> {Model.Card.Detail.Reward}</p>";
+                                            var cardType = Model._cardTypeService.GetTypeOfCard(Model.Card.CardType.CardTypeId);
+                                            switch (cardType)
+                                            {
+                                                case TypeOfCard.Adventure:
+                                                    var effect = $"<p><b>Effect:</b> {Model.Card.Detail.Effect}</p>";
+                                                    var toSolve = $"<p><b>To Solve:</b> {Model.Card.Detail.ToSolve}</p>";
+                                                    var reward = $"<p><b>Opponent's Reward:</b> {Model.Card.Detail.Reward}</p>";
 
-                                                        text = $"{effect}{toSolve}{reward}";
-                                                        break;
-                                                    case TypeOfCard.Match:
-                                                        var toWin = $"<p><b>To Win:</b> {Model.Card.Detail.ToSolve}</p>";
-                                                        var prize = $"<p><b>Prze:</b> {Model.Card.Detail.Reward}</p>";
+                                                    text = $"{effect}{toSolve}{reward}";
+                                                    break;
+                                                case TypeOfCard.Match:
+                                                    var toWin = $"<p><b>To Win:</b> {Model.Card.Detail.ToSolve}</p>";
+                                                    var prize = $"<p><b>Prze:</b> {Model.Card.Detail.Reward}</p>";
 
-                                                        text = $"{toWin}{prize}";
-                                                        break;
-                                                    case TypeOfCard.Character:
-                                                    case TypeOfCard.Creature:
-                                                    case TypeOfCard.Item:
-                                                    case TypeOfCard.Lesson:
-                                                    case TypeOfCard.Location:
-                                                    case TypeOfCard.Spell:
-                                                        text = $"{Model.Card.Detail.Text}";
+                                                    text = $"{toWin}{prize}";
+                                                    break;
+                                                case TypeOfCard.Character:
+                                                case TypeOfCard.Creature:
+                                                case TypeOfCard.Item:
+                                                case TypeOfCard.Lesson:
+                                                case TypeOfCard.Location:
+                                                case TypeOfCard.Spell:
+                                                    text = $"{Model.Card.Detail.Text}";
 
-                                                        break;
-                                                }
+                                                    break;
                                             }
+                                        }
 
-                                            @Html.Raw(text)
-                                        </div>
+                                        @Html.Raw(text)
                                     </div>
 
                                     <hr class="segment-divider" />
                                 </div>
                                 @if (!string.IsNullOrEmpty(@Model.Card.Detail.FlavorText))
                                 {
-                                    <div id="flavorTextRow" class="dt-row">
+                                    <div class="dt-row">
                                         <div class="card-row-item-content v-mid mv2">
-                                            <p id="flavorText" class="card-row-item-content-flavor">
+                                            <p class="card-row-item-content-flavor">
                                                 @Model.Card.Detail.FlavorText
                                             </p>
                                         </div>
@@ -177,8 +175,8 @@
                                     </div>
                                 }
                                 <div class="dt-row">
-                                    <div id="illustratorContainer" class="v-mid mv2">
-                                        <div id="illustrator" class="card-row-item-content">
+                                    <div class="v-mid mv2">
+                                        <div class="card-row-item-content">
                                             @{
                                                 var illustrator = Model.Card.Detail.Illustrator;
                                                 var illustratorUrl = $"/Search?searchText=artist:\"{illustrator}\"";
@@ -191,12 +189,12 @@
                                 </div>
                                 <div class="dt-row">
                                     <div class="card-row-item-content v-mid mt2 set-info">
-                                        <img src="~/images/seticons/@Model.Card.CardSet.IconFileName" id="cardInfoSetIcon" class="set-info-item set-info-icon v-mid" />
-                                        <label id="cardInfoSetName" class="set-info-item">@Model.Card.CardSet.Name</label>
+                                        <img src="~/images/seticons/@Model.Card.CardSet.IconFileName" class="set-info-item set-info-icon v-mid" />
+                                        <label class="set-info-item">@Model.Card.CardSet.Name</label>
                                         <div class="set-info-separator set-info-item">●</div>
-                                        <label id="cardInfoNumber" class="set-info-item">@Model.Card.CardNumber</label>
+                                        <label class="set-info-item">@Model.Card.CardNumber</label>
                                         <div class="set-info-separator set-info-item">●</div>
-                                        <label id="cardInfoRarity" class="set-info-item">@Model.Card.Rarity.Name</label>
+                                        <label class="set-info-item">@Model.Card.Rarity.Name</label>
                                     </div>
 
                                     <hr class="segment-divider" />
@@ -204,7 +202,7 @@
                                 <div class="dt-row">
                                     <div class="card-row-item-content v-mid mv2 pb2">
                                         <p class="card-printings-text mb2">Printings</p>
-                                        <div id="printingsEn" class="printings-enabled dib">EN</div>
+                                        <div class="printings-enabled dib">EN</div>
                                     </div>
                                 </div>
                             </div>
@@ -214,13 +212,13 @@
             </section>
             <!-- Begin Rulings -->
             <section class="w-100 mt5-ns mt2 pa0-ns pa3 bg-white">
-                <div id="rulesContainer" class="mw7 center">
+                <div class="mw7 center">
                     @{
                         if (Model.Rules?.Count > 0)
                         {
-                            <div id="cardRules" class="w-100 pv3-ns pv2 tl">
-                                <h3 class="rule-label">Notes and Rules for <span id="rulingCardName" class="rule-card-name">@Model.Card.Detail.Name</span></h3>
-                                <div id="cardRulingItems">
+                            <div class="w-100 pv3-ns pv2 tl">
+                                <h3 class="rule-label">Notes and Rules for <span class="rule-card-name">@Model.Card.Detail.Name</span></h3>
+                                <div>
                                     @foreach (var rule in Model.Rules)
                                     {
                                         <div class="rule-item mv3">
@@ -228,7 +226,7 @@
                                                 @rule.Ruling
                                             </div>
                                             <div class="rule-date">
-                                                @{ 
+                                                @{
                                                     var formattedRuleDate = ((DateTime)rule.RulingDate).ToString("yyyy-MM-dd");
                                                 }
                                                 (@formattedRuleDate)
@@ -240,7 +238,7 @@
                         }
                         else
                         {
-                            <div id="rulingNoDataFound" class="w-100 pv5-ns pv4 tc">
+                            <div class="w-100 pv5-ns pv4 tc">
                                 <h3>No Data Found</h3>
                                 <p>No notes or rules found for this card</p>
                             </div>
