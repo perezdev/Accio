@@ -324,7 +324,12 @@ function InitializeCardTable() {
 
     $(resultsContainerNames.CardTableId + ' tbody').on('click', 'tr', function () {
         var data = cardTable.row(this).data();
-        RedirectToCardPage(data[0]);
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            if (card.cardId === data[0]) {
+                RedirectToCardPage(card);
+            }
+        }
     });
 }
 
@@ -812,9 +817,9 @@ function GetCardPageUrl(card) {
     return baseUrl + cardRoute;
 }
 //This will be removed in a further update
-function RedirectToCardPage(cardID) {
+function RedirectToCardPage(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card?cardId=' + cardID;
+    var cardRoute = '/Card/' + card.cardSet.shortName + '/' + card.cardNumber + '/' + card.detail.name;
     window.location.href = baseUrl + cardRoute;
 }
 
