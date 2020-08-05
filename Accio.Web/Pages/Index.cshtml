@@ -11,6 +11,10 @@
 <!DOCTYPE html>
 
 @{
+    var card1 = @Model.RandomCards[0];
+    var card2 = @Model.RandomCards[1];
+    var card3 = @Model.RandomCards[2];
+
     var firstImage = Model.RandomCards[0].Images.Single(x => x.Size == ImageSizeType.Small);
     var secondImage = Model.RandomCards[1].Images.Single(x => x.Size == ImageSizeType.Small);
     var thirdImage = Model.RandomCards[2].Images.Single(x => x.Size == ImageSizeType.Small);
@@ -57,17 +61,17 @@
                 <div id="spotlight" class="mw6 relative animated fadeIn">
                     <div class="cf">
                         <div class="fl w-third relative card-image">
-                            <a href="/Card?cardId=@Model.RandomCards[0].CardId">
+                            <a href="/Card/@card1.CardSet.ShortName/@card1.CardNumber/@card1.Detail.Name">
                                 <img src="@firstImage.Url" class="dib" />
                             </a>
                         </div>
                         <div class="fl w-third relative card-image">
-                            <a href="/Card?cardId=@Model.RandomCards[1].CardId">
+                            <a href="/Card/@card2.CardSet.ShortName/@card2.CardNumber/@card2.Detail.Name">
                                 <img src="@secondImage.Url" class="dib" />
                             </a>
                         </div>
                         <div class="fl w-third relative card-image">
-                            <a href="/Card?cardId=@Model.RandomCards[2].CardId">
+                            <a href="/Card/@card3.CardSet.ShortName/@card3.CardNumber/@card3.Detail.Name">
                                 <img src="@thirdImage.Url" class="dib" />
                             </a>
                         </div>
