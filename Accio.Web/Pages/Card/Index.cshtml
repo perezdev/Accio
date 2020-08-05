@@ -190,11 +190,11 @@
                                 <div class="dt-row">
                                     <div class="card-row-item-content v-mid mt2 set-info">
                                         <img src="~/images/seticons/@Model.Card.CardSet.IconFileName" class="set-info-item set-info-icon v-mid" />
-                                        <label class="set-info-item">@Model.Card.CardSet.Name</label>
+                                        <div class="set-info-item">@Model.Card.CardSet.Name</div>
                                         <div class="set-info-separator set-info-item">●</div>
-                                        <label class="set-info-item">@Model.Card.CardNumber</label>
+                                        <div class="set-info-item">@Model.Card.CardNumber</div>
                                         <div class="set-info-separator set-info-item">●</div>
-                                        <label class="set-info-item">@Model.Card.Rarity.Name</label>
+                                        <div class="set-info-item">@Model.Card.Rarity.Name</div>
                                     </div>
 
                                     <hr class="segment-divider" />
@@ -223,7 +223,7 @@
                                     {
                                         <div class="rule-item mv3">
                                             <div class="mb0">
-                                                @rule.Ruling
+                                                @Html.Raw(rule.Ruling);
                                             </div>
                                             <div class="rule-date">
                                                 @{
