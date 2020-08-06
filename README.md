@@ -26,7 +26,7 @@ The Accio **solution** consists of 4 projects:
 
 * Business - Contains all of the "business logic" for the app and API.
 * Data - The database layer, strictly a container for EF classes.
-* SetUpload - Not to be used on it's own. It's a console app that is used to periodically upload data from [https://github.com/Tressley/hpjson](hpJSON).
+* SetUpload - Not to be used on it's own. It's a console app that is used to periodically upload data from https://github.com/Tressley/hpjson.
 * **Web** - Main app.
 * Web.API - API
 
