@@ -1,4 +1,5 @@
-﻿using Accio.Business.Models.LessonModels;
+﻿using Accio.Business.Models.ImageModels;
+using Accio.Business.Models.LessonModels;
 using Accio.Business.Models.RarityModels;
 using Accio.Business.Models.SetModels;
 using Accio.Business.Models.TypeModels;
@@ -21,6 +22,9 @@ namespace Accio.Business.Models.CardModels
         public int? ActionCost { get; set; }
         public string CardNumber { get; set; }
         public string Orientation { get; set; }
+        public List<ImageModel> Images { get; set; } = new List<ImageModel>();
+        public string MetaDescription { get; set; }
+        public string CardPageUrl { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

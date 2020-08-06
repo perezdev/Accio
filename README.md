@@ -2,6 +2,8 @@
 
 http://accio.cards
 
+![](https://i.imgur.com/uJ9Ap80.png)
+
 # Overview
 
 Accio is an opensource card browsing website built on ASP.NET Core.

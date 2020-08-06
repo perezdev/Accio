@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Accio.Business.Models.CardModels;
+using Accio.Business.Models.RulingModels;
 using Accio.Business.Models.SourceModels;
 using Accio.Business.Services.CardServices;
+using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,57 +13,73 @@ namespace Accio.Web.Pages.Card
 {
     public class IndexModel : PageModel
     {
+        public CardModel Card { get; set; }
+        public List<RulingModel> Rules { get; set; }
+
+        public string SetShortName { get; set; }
+        public string CardNumber { get; set; }
+
         public bool ShowCardData { get; set; } = false;
 
-        private CardService _cardService { get; set; }
         private SourceService _sourceService { get; set; }
         private CardRulingService _cardRulingService { get; set; }
+        private SingleCardService _singleCardService { get; set; }
+        public LessonService _lessonService { get; set; }
+        public TypeService _cardTypeService { get; set; }
 
-        public IndexModel(CardService cardService, SourceService sourceService, CardRulingService cardRulingService)
+        public IndexModel(SingleCardService singleCardService, SourceService sourceService, CardRulingService cardRulingService,
+                          LessonService lessonService, TypeService typeService)
         {
-            _cardService = cardService;
+            _singleCardService = singleCardService;
             _sourceService = sourceService;
             _cardRulingService = cardRulingService;
+            _lessonService = lessonService;
+            _cardTypeService = typeService;
         }
 
-        public void OnGet(Guid? cardId)
+        public IActionResult OnGet(string setShortName, string cardNumber, string cardName)
         {
-            //We'll set this value here so we can check it server side, via razor. Otherwise, it would be an AJAX call
-            //which would look weird because the page would load and then the elements would swap. This way, only the elements
-            //we need will load
-            ShowCardData = cardId != null && cardId != Guid.Empty;
-        }
-
-        public JsonResult OnPostSearchSingleCardAsync(Guid cardId)
-        {
-            try
+            //This isn't the best way to do this, but this will be eventually remove. And it was a
+            //bitch to get multiple routes to work with different values. So here we'll just check if a card ID was passed in and if so,
+            //grab the card details and redirect back to this page. this is just for backwards compatibility
+            var cardId = Request.Query["cardId"];
+            if (!string.IsNullOrEmpty(cardId) && Guid.TryParse(cardId, out Guid g))
             {
-                var websiteSource = _sourceService.GetSource(SourceType.Website);
-                var cardSearchParameters = new CardSearchParameters()
+                var route = _singleCardService.GetSingleCardRoute(Guid.Parse(cardId));
+                //return RedirectToPage("Card", new { setShortName = route.SetShortName, cardNumber = route.CardNumber, cardName = route.CardName });
+                return Redirect($"Card/{route.SetShortName}/{route.CardNumber}/{route.CardName}");
+            }
+
+            SetShortName = setShortName;
+            CardNumber = cardNumber;
+
+            if (string.IsNullOrEmpty(SetShortName) || string.IsNullOrEmpty(CardNumber))
+            {
+                ShowCardData = false;
+            }
+            else
+            {
+                try
                 {
-                    CardId = cardId,
-                    SourceId = websiteSource.SourceId,
-                };
+                    var websiteSource = _sourceService.GetSource(SourceType.Website);
+                    var param = new SingleCardParameters()
+                    {
+                        SetShortName = SetShortName,
+                        CardNumber = CardNumber,
+                    };
 
-                var card = _cardService.SearchSingleCard(cardSearchParameters);
-                return new JsonResult(new { success = true, json = card });
+                    Card = _singleCardService.GetCard(param);
+                    Rules = _cardRulingService.GetCardRules(Card.CardId);
+
+                    ShowCardData = Card != null;
+                }
+                catch (Exception ex)
+                {
+                    //TODO: idk, something
+                }
             }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, json = ex.Message });
-            }
-        }
-        public JsonResult OnPostGetCardRulingsAsync(Guid cardId)
-        {
-            try
-            {
-                var rules = _cardRulingService.GetCardRules(cardId);
-                return new JsonResult(new { success = true, json = rules });
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, json = ex.Message });
-            }
+
+            return null;
         }
     }
 }

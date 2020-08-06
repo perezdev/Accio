@@ -8,6 +8,7 @@ namespace Accio.Data
         public Guid LessonTypeId { get; set; }
         public string Name { get; set; }
         public string ImageName { get; set; }
+        public string CssClassName { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

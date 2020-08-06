@@ -62,7 +62,7 @@ function InitializeCardPage() {
     InitializeSearchBoxOnNonSearchPage();
 
     /* Perform card search */
-    SetValuesFromQueryAndPeformSingleCardSearch();
+    //SetValuesFromQueryAndPeformSingleCardSearch();
 }
 function InitializeSetsPage() {
     /* Sets table initialization */
@@ -174,6 +174,11 @@ const LessonTypeName = {
     Potions: 'Potions',
     Quidditch: 'Quidditch',
     Transfiguration: 'Transfiguration',
+};
+const ImageSizeType = {
+    Small: 0,
+    Medium: 1,
+    Large: 2,
 };
 
 /**
@@ -319,7 +324,12 @@ function InitializeCardTable() {
 
     $(resultsContainerNames.CardTableId + ' tbody').on('click', 'tr', function () {
         var data = cardTable.row(this).data();
-        RedirectToCardPage(data[0]);
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            if (card.cardId === data[0]) {
+                RedirectToCardPage(card);
+            }
+        }
     });
 }
 
@@ -515,17 +525,15 @@ function AddCardsToDeck(cards) {
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
 
-        if (card.detail.url === undefined || card.detail.url === null) {
-            continue;
-        }
+        var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
 
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
 
-        var cardUrl = GetCardPageUrl(card.cardId);
+        var cardUrl = GetCardPageUrl(card);
         var cardHtml = `
                         <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
-                            <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + card.detail.url + `" />
+                            <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + smallImage.url + `" />
                         </a>
                     `;
 
@@ -575,7 +583,8 @@ function AddCardsToTable(cards) {
         var setColumn = GetSetIconImageElement(card.cardSet.iconFileName);
         var cardNumberColumn = card.cardNumber;
         var cardNameColumn = '<b>' + card.detail.name + '</b>';
-        var cardImageUrlColumn = card.detail.url;
+        var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
+        var cardImageUrlColumn = smallImage.url;
         var lessonTypeColumn = '';
 
         var costColumn = null;
@@ -802,16 +811,14 @@ function GetSearchData() {
 
     return searchData;
 }
-function GetCardPageUrl(cardId) {
+function GetCardPageUrl(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card?cardId=' + cardId;
-    return baseUrl + cardRoute;
+    return baseUrl + card.cardPageUrl;
 }
 //This will be removed in a further update
-function RedirectToCardPage(cardID) {
+function RedirectToCardPage(card) {
     var baseUrl = location.protocol + '//' + location.host;
-    var cardRoute = '/Card?cardId=' + cardID;
-    window.location.href = baseUrl + cardRoute;
+    window.location.href = baseUrl + card.cardPageUrl;
 }
 
 /**
@@ -867,14 +874,14 @@ function InitializeCrestElements() {
  * ----------------------------------------------------------------------------------------------------
  */
 const Page = {
-    Home: '/',
-    Search: '/Search',
-    Card: '/Card',
-    Sets: '/Sets',
-    Advanced: '/Advanced',
+    Home: '',
+    Search: 'Search',
+    Card: 'Card',
+    Sets: 'Sets',
+    Advanced: 'Advanced',
 };
 function GetCurrentPage() {
-    return window.location.pathname;
+    return window.location.pathname.split('/')[1];
 }
 function GetCardFromCardId(cardId) {
     var cardVal = null;
@@ -894,30 +901,7 @@ function GetCardFromCardId(cardId) {
  */
 
 const singleCardSearchElementIds = {
-    SingleCardImageId: '#cardImage',
-    SingleCardSegmentCssName: '.single-card-segment',
-    CardTitleId: '#cardTitle',
-    CardTypeId: '#cardType',
-    LessonNumberId: '#lessonNumber',
-    LessonImageId: '#lessonImage',
-    DescriptionId: '#description',
-    FlavorTextId: '#flavorText',
-    IllustratorId: '#illustrator',
-    SetIconId: '#cardInfoSetIcon',
-    SetNameId: '#cardInfoSetName',
-    CardNumberId: '#cardInfoNumber',
-    CardRarityId: '#cardInfoRarity',
-    PrintingsEnglishId: '#printingsEnglish',
     HoverImageClassName: '.hover-card',
-    HoverImageLoadingClassName: '.hover-card-loading',
-    NoRulingDataFoundId: '#rulingNoDataFound',
-    RulesContainerId: '#rulesContainer',
-    CardRulesId: '#cardRules',
-    RulingCardNameId: '#rulingCardName',
-    CardRulingItemsId: '#cardRulingItems',
-    CardTypeContainerId: '#cardTypeContainer',
-    FlavorTextRowId: '#flavorTextRow',
-    IllustratorContainerId: '#illustratorContainer',
 };
 
 //The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
@@ -932,120 +916,6 @@ function InitializeSearchBoxOnNonSearchPage() {
     });
 }
 
-function SetValuesFromQueryAndPeformSingleCardSearch() {
-    var cardId = getParameterByName(queryParameterNames.CardId);
-
-    if (cardId) {
-        var fd = new FormData();
-        fd.append('cardId', cardId);
-
-        $.ajax({
-            type: "POST",
-            url: "Card?handler=SearchSingleCard",
-            data: fd,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("XSRF-TOKEN",
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
-            },
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if (response.success) {
-                    var card = response.json;
-                    AddCardToPage(card);
-                }
-
-                //SetSearchLoadingState('unloading');
-            },
-            failure: function (response) {
-                alert('Catastropic error');
-            }
-        });
-    }
-}
-
-function AddCardToPage(card) {
-    //Populate rules async
-    PopulateCardRules(card.cardId);
-
-    //Update page title
-    document.title = card.detail.name + ' • ' + card.cardSet.name + ' #' + card.cardNumber + ' • Accio Harry Potter TCG Search';
-
-    var segmentHeaderClass = GetSegmentHeaderClass(card.lessonType);
-    $(singleCardSearchElementIds.SingleCardSegmentCssName).addClass(segmentHeaderClass);
-
-    //Image
-    $(singleCardSearchElementIds.SingleCardImageId).attr('src', card.detail.url);
-    if (card.orientation === 'Horizontal') {
-        var cardImg = $(singleCardSearchElementIds.SingleCardImageId);
-        cardImg.removeClass('single-card-image-vertical');
-        cardImg.addClass('single-card-image-horizontal');
-    }
-
-    //Name
-    $(singleCardSearchElementIds.CardTitleId).html(card.detail.name);
-
-    //Sub types
-    if (card.subTypes !== null && card.subTypes.length > 0) {
-        PopulateSubTypes(card.subTypes);
-    }
-
-    //Lesson
-    SetLessonDetails(card);
-    //Type
-    $(singleCardSearchElementIds.CardTypeId).html(card.cardType.name);
-    //Description/Effects
-    if (card.cardType.name === 'Adventure') {
-        var adventureCardText = GetAdventureCardText(card);
-        $(singleCardSearchElementIds.DescriptionId).html(adventureCardText);
-    }
-    else if (card.cardType.name === 'Match') {
-        var matchCardText = GetMatchCardText(card);
-        $(singleCardSearchElementIds.DescriptionId).html(matchCardText);
-    }
-    else {
-        $(singleCardSearchElementIds.DescriptionId).html(card.detail.text);
-    }
-    //Flavor text 
-    console.log(card.detail.flavorText);
-    if (card.detail.flavorText === null) {
-        //Hide the the flavor text row when there is no flavor text
-        $(singleCardSearchElementIds.FlavorTextRowId).addClass('vh');
-        //Remove extra space above the illustrator row becasue it's not auto removed when the flavor text is hidden
-        $(singleCardSearchElementIds.IllustratorContainerId).addClass('negmt10');
-    }
-    else {
-        $(singleCardSearchElementIds.FlavorTextId).html(card.detail.flavorText);
-    }
-
-    //Illustrator
-    var illustratorAnchor = GetIllustratorText(card.detail.illustrator);
-    $(singleCardSearchElementIds.IllustratorId).html(illustratorAnchor);
-    //Set
-    SetSetInfo(card);
-
-    //Printings
-}
-function GetIllustratorText(illustrator) {
-    var encodedIllustratorName = '"' + illustrator + '"';
-    var url = '/Search?searchText=artist:' + encodeURIComponent(encodedIllustratorName) + '&sortBy=sn&sortOrder=asc&cardView=images';
-    return '<div class="card-illustrator">Illustrated by <a href="' + url + '" class="single-card-artist-anchor">' + illustrator + '</a></div>';
-}
-function GetSegmentHeaderClass(lessonType) {
-    if (lessonType === null) {
-        return 'segment-header-border-default';
-    } else if (lessonType.name === LessonTypeName.CareOfMagicalCreatures) {
-        return 'segment-header-border-comc';
-    } else if (lessonType.name === LessonTypeName.Charms) {
-        return 'segment-header-border-charms';
-    } else if (lessonType.name === LessonTypeName.Potions) {
-        return 'segment-header-border-potions';
-    } else if (lessonType.name === LessonTypeName.Quidditch) {
-        return 'segment-header-border-quidditch';
-    } else if (lessonType.name === LessonTypeName.Transfiguration) {
-        return 'segment-header-border-transfig';
-    }
-}
 function GetLessonColorClass(card) {
     if (card.lessonCost === null || card.lessonType === null) {
         return '';
@@ -1064,116 +934,6 @@ function GetLessonColorClass(card) {
             return 'lesson-color-transfig';
         }
     }
-}
-function SetLessonDetails(card) {
-    var lessonColorCost = GetLessonColorClass(card);
-    $(singleCardSearchElementIds.LessonNumberId).html(card.lessonCost);
-    $(singleCardSearchElementIds.LessonNumberId).addClass(lessonColorCost);
-    if (card.lessonType !== null) {
-        $(singleCardSearchElementIds.LessonImageId).attr('src', 'images/lessons/' + card.lessonType.imageName);
-    }
-    else {
-        $(singleCardSearchElementIds.LessonImageId).addClass('dn');
-    }
-}
-function SetSetInfo(card) {
-    $(singleCardSearchElementIds.SetIconId).attr('src', 'images/seticons/' + card.cardSet.iconFileName);
-    $(singleCardSearchElementIds.SetNameId).html(card.cardSet.name);
-    $(singleCardSearchElementIds.CardNumberId).html('#' + card.cardNumber);
-    $(singleCardSearchElementIds.CardRarityId).html(card.rarity.name);
-}
-function GetAdventureCardText(card) {
-    var effect = '<p><b>Effect:</b> ' + card.detail.effect + '</p>';
-    var solve = '<p><b>To Solve:</b> ' + card.detail.toSolve + '</p>';
-    var reward = '<p><b>Opponent\'s Reward:</b> ' + card.detail.reward + '</p>';
-
-    return effect + solve + reward;
-}
-function GetMatchCardText(card) {
-    var toWin = '<p><b>To Win:</b> ' + card.detail.toSolve + '</p>';
-    var prize = '<p><b>Prize:</b> ' + card.detail.reward + '</p>';
-
-    return toWin + prize;
-}
-function PopulateSubTypes(subtypes) {
-    var cardTypeContainer = $(singleCardSearchElementIds.CardTypeContainerId);
-
-    for (var i = 0; i < subtypes.length; i++) {
-        var html = cardTypeContainer.html();
-        var subType = subtypes[i];
-
-        cardTypeContainer.html(html + '<div class="set-info-separator set-info-item">●</div><div class="sub-type-item">' + subType.subType.name + '</div>');
-    }
-
-    cardTypeContainer.addClass('card-row-item-content v-mid sub-type-container');
-}
-
-function PopulateCardRules(cardId) {
-    var fd = new FormData();
-    fd.append('cardId', cardId);
-
-    $.ajax({
-        type: "POST",
-        url: "Card?handler=GetCardRulings",
-        data: fd,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
-                $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response.success) {
-                var rulings = response.json;
-                if (rulings.length > 0) {
-                    $(singleCardSearchElementIds.CardRulesId).removeClass('dn');
-                    AddRulesToContainers(rulings);
-                }
-                else {
-                    $(singleCardSearchElementIds.NoRulingDataFoundId).removeClass('dn');
-                }
-            }
-        },
-        failure: function (response) {
-            alert('Catastropic error');
-        }
-    });
-}
-function AddRulesToContainers(rulings) {
-    $(singleCardSearchElementIds.RulingCardNameId).html($(singleCardSearchElementIds.CardTitleId).html());
-
-    for (var i = 0; i < rulings.length; i++) {
-        var rule = rulings[i];
-
-        var cardRuleElement = $(singleCardSearchElementIds.CardRulesId);
-        cardRuleElement.html(cardRuleElement.html() + GetRulingItem(rule));
-    }
-}
-function GetRulingItem(rule) {
-    //We format the date to remove the time.
-    var ruleDate = new Date(rule.rulingDate);
-    var formattedRuleDate = ruleDate.getFullYear() + '-' + GetTwoDigitMonth(ruleDate) + '-' + GetTwoDigitDay(ruleDate);
-
-    var rulingHtml = `
-                       <div class="rule-item">
-                            <p class="mb0">
-                                ` + rule.ruling + `
-                            </p>
-                            <p class="rule-date">
-                                (` + formattedRuleDate + `)
-                            </p>
-                       </div>
-                     `;
-
-    return rulingHtml;
-}
-function GetTwoDigitMonth(date) {
-    var month = date.getMonth() + 1;
-    return month < 10 ? '0' + month : '' + month;
-}
-function GetTwoDigitDay(date) {
-    var day = date.getDay();
-    return day < 10 ? '0' + day : '' + day;
 }
 
 /*
@@ -1382,4 +1142,14 @@ function RedirectToSearchWithAdvancedSearchString() {
             alert('Catastropic error');
         }
     });
+}
+
+function GetImageFromCardImages(card, imageSizeType) {
+    var images = card.images;
+    for (var i = 0; i < images.length; i++) {
+        var image = images[i];
+        if (image.size === imageSizeType) {
+            return image;
+        }
+    }
 }

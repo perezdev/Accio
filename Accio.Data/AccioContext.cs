@@ -15,12 +15,14 @@ namespace Accio.Data
 
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
-        public virtual DbSet<CardDetailRuling> CardDetailRuling { get; set; }
+        public virtual DbSet<CardImage> CardImage { get; set; }
         public virtual DbSet<CardProvidesLesson> CardProvidesLesson { get; set; }
         public virtual DbSet<CardRuling> CardRuling { get; set; }
         public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
         public virtual DbSet<CardSubType> CardSubType { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
+        public virtual DbSet<ImageSize> ImageSize { get; set; }
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<LessonType> LessonType { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
@@ -69,15 +71,11 @@ namespace Accio.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<CardDetailRuling>(entity =>
+            modelBuilder.Entity<CardImage>(entity =>
             {
-                entity.HasKey(e => e.CardDetailRuleId);
-
-                entity.Property(e => e.CardDetailRuleId).ValueGeneratedNever();
+                entity.Property(e => e.CardImageId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.DateOfRuling).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -133,6 +131,30 @@ namespace Accio.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.Property(e => e.ImageId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Url).IsRequired();
+            });
+
+            modelBuilder.Entity<ImageSize>(entity =>
+            {
+                entity.Property(e => e.ImageSizeId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Language>(entity =>
             {
                 entity.Property(e => e.LanguageId).ValueGeneratedNever();
@@ -151,6 +173,8 @@ namespace Accio.Data
                 entity.Property(e => e.LessonTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CssClassName).HasMaxLength(100);
 
                 entity.Property(e => e.ImageName).HasMaxLength(500);
 

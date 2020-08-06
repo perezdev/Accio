@@ -67,6 +67,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 }
             }
 
+            cardModels = _cardService.GetCardsWithImages(cardModels);
+
             if (cardModels?.Count > 1 && !string.IsNullOrEmpty(param.SortBy) && !string.IsNullOrEmpty(param.SortOrder))
             {
                 cardModels = _cardService.GetCardModelsSorted(cardModels, param.SortBy, param.SortOrder);
@@ -105,7 +107,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                          join subType in _context.SubType on cardSubType.SubTypeId equals subType.SubTypeId into st
                          from subType in st.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId && !string.IsNullOrEmpty(cardDetail.Url)
+                               language.LanguageId == param.LanguageId
                          select new AdvancedSearchCardQuery()
                          {
                              Card = card,
