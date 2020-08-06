@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
 
+    @{
+        var metaDesc = ViewData["MetaDescription"];
+        if (!string.IsNullOrEmpty(metaDesc.ToString()))
+        {
+            <meta name="description" content="@metaDesc">
+        }
+    }
+
     <link href="https://unpkg.com/tippy.js@6/themes/light.css" />
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />

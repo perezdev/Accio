@@ -4,6 +4,7 @@
     var title = $"{Model.Card.Detail.Name} • {Model.Card.CardSet.Name} • {Model.Card.CardNumber} • Accio Harry Potter TCG Search";
     ViewData["Title"] = title;
     Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+    ViewData["MetaDescription"] = Model.Card.MetaDescription;
 }
 
 @using System.Linq
@@ -13,8 +14,6 @@
 
 @* Required for AJAX async calls *@
 @Html.AntiForgeryToken()
-
-<meta name="description" content="@Model.Card.MetaDescription">
 
 <!-- Begin Content -->
 <main class="w-100 main-container">
