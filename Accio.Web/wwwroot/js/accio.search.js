@@ -211,7 +211,7 @@ function InitializeCardTable() {
             $('td', row).on("mouseover", function () {
                 var url = data[CardTableColumnIndex.ImageUrl];
                 var cardId = data[CardTableColumnIndex.CardId];
-                var img = $(singleCardSearchElementIds.HoverImageClassName);
+                var img = $(searchElementNames.HoverImageClassName);
 
                 if (img.attr('src') === url)
                     return;
@@ -229,7 +229,7 @@ function InitializeCardTable() {
                 img.attr('src', url);
             });
             $('td', row).on("mouseleave", function () {
-                var img = $(singleCardSearchElementIds.HoverImageClassName);
+                var img = $(searchElementNames.HoverImageClassName);
                 img.addClass('dn');
 
                 //This class is only added on horizontal cards. But it's easier to just always remove it
@@ -543,8 +543,6 @@ function AddCardsToDeck(cards) {
         }).each(function () {
             if (this.complete) {
                 $(this).trigger('load');
-            } else if (this.error) {
-                $(this).trigger('error');
             }
         });
     }
