@@ -1,0 +1,13 @@
+[
+  {
+    "outputFileName": "wwwroot/js/accio.bundle.min.js",
+    "inputFiles": [
+      "wwwroot/js/accio.advanced.js",
+      "wwwroot/js/accio.card.js",
+      "wwwroot/js/accio.core.js",
+      "wwwroot/js/accio.home.js",
+      "wwwroot/js/accio.search.js",
+      "wwwroot/js/accio.set.js"
+    ]
+  }
+]

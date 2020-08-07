@@ -1,47 +1,73 @@
-﻿//Eventually, I need to split all this code into several files and then bundle on build
+﻿const searchQueryParameterNames = {
+    SetId: 'setId',
+    SearchText: 'searchText',
+    SortBy: 'sortBy',
+    SortOrder: 'sortOrder',
+    CardView: 'cardView',
+    CardId: 'cardId',
+};
+const searchElementNames = {
+    SetId: '#setSelect',
+    SearchInputId: '#searchInput',
+    SortCardsById: '#sortCardsBy',
+    CardModalId: '#cardModal',
+    SortCardsOrderId: '#sortCardsOrder',
+    CardViewId: '#cardView',
+    CardCountId: '#cardCount',
+    SetDateClassName: '.set-date',
+    ClearSearchClassName: '.clear-search',
+    HoverImageClassName: '.hover-card'
+};
+const resultsContainerNames = {
+    ContentContainerId: '#contentContainer',
+    CardContainerId: '#cardContainer',
+    CardTableId: '#cardTable',
+    CardTableContainerId: '#tableContainer',
+    SearchResultsContainerId: '#searchResults',
+    SetInfoContainerId: '#setInfo',
+    SetHeaderIconClassName: '.set-header-title-icon',
+    SetHeaderTitleClassName: '.set-header-title-h1',
+    SetHeaderDataClassName: '.set-header-title-data',
+    NoCardsContainerId: '#noCardsContainer',
+};
+const ImageSizeType = {
+    Small: 0,
+    Medium: 1,
+    Large: 2,
+};
+const CardTableColumnIndex = {
+    CardId: 0,
+    Set: 1,
+    Number: 2,
+    Name: 3,
+    Cost: 4,
+    Type: 5,
+    Rarity: 6,
+    Artist: 7,
+    ImageUrl: 8,
+    Lesson: 9,
+};
+const SortBy = {
+    SetNumber: 'sn',
+    Name: 'name',
+    Cost: 'cost',
+    Type: 'type',
+    Rarity: 'rarity',
+    Artist: 'artist',
+    Lesson: 'lesson',
+};
+const SortOrder = {
+    Ascending: 'asc',
+    Descending: 'desc',
+};
+const LessonTypeName = {
+    CareOfMagicalCreatures: 'Care of Magical Creatures',
+    Charms: 'Charms',
+    Potions: 'Potions',
+    Quidditch: 'Quidditch',
+    Transfiguration: 'Transfiguration',
+};
 
-var currentPage = null;
-
-/**
- * On page load
- */
-$(document).ready(function () {
-    InitializeLayout();
-
-    //The Search and Card page both derive from the same layout page
-    //So they share the same JS. This ensures we only load the stuff for the appropriate page,
-    //regardless of the domain.
-    currentPage = GetCurrentPage();
-    if (currentPage === Page.Home) {
-        InitializeHomePage();
-    }
-    else if (currentPage === Page.Search) {
-        InitializeSearchPage();
-    }
-    else if (currentPage === Page.Card) {
-        InitializeCardPage();
-    } else if (currentPage === Page.Sets) {
-        InitializeSetsPage();
-    }
-    else if (currentPage === Page.Advanced) {
-        InitializeAdvancedPage();
-    }
-});
-//Shows the card from the grid when hovered over
-//https://stackoverflow.com/a/1678194/1339826
-$(document).mousemove(function (e) {
-    var img = $(singleCardSearchElementIds.HoverImageClassName);
-    var windowScrollY = window.scrollY;
-    img.css({ 'top': windowScrollY + e.clientY, 'left': e.clientX + 20 });
-});
-
-function InitializeLayout() {
-    InitializeLayouElements();
-}
-function InitializeHomePage() {
-    /* Card search initialization */
-    InitializeSearchBoxOnNonSearchPage();
-}
 function InitializeSearchPage() {
     /* Card set initialization */
     SetCardSets();
@@ -50,75 +76,19 @@ function InitializeSearchPage() {
     InitializeCardSearchElements();
     SetValuesFromQueryAndPeformCardSearch();
     InitializeCardTable();
-
-    /* Crest initialization */
-    InitializeCrestElements();
-
-    /* Modal initialization */
-    InitializeModal();
-}
-function InitializeCardPage() {
-    /* Card search initialization */
-    InitializeSearchBoxOnNonSearchPage();
-
-    /* Perform card search */
-    //SetValuesFromQueryAndPeformSingleCardSearch();
-}
-function InitializeSetsPage() {
-    /* Sets table initialization */
-    InitializeSetsTable();
-
-    /* Populate sets table */
-    PopulateSetsTable();
-
-    /* Card search initialization */
-    InitializeSearchBoxOnNonSearchPage();
-}
-function InitializeAdvancedPage() {
-    /* Advanced search initialization */
-    InitializeAdvancedSearchElements();
-
-    /* Card search initialization */
-    InitializeSearchBoxOnNonSearchPage();
 }
 
-/**
- * Layout
- * -----------------------------------------------------------------------------------------------------
- */
-function InitializeLayouElements() {
-    //Clear search
-    $(searchElementNames.SearchInputId).on('keyup', function () {
-        var clear = $(searchElementNames.ClearSearchClassName);
-        if ($(this).val() === '') {
-            if (!clear.hasClass('vh')) {
-                clear.addClass('vh');
-            }
-        }
-        else {
-            if (clear.hasClass('vh')) {
-                clear.removeClass('vh');
-            }
-        }
-    });
-    $(searchElementNames.ClearSearchClassName).on('click', function () {
-        var search = $(searchElementNames.SearchInputId);
-        search.val('');
-
-        $(this).addClass('vh');
-    });
-}
-
-
-/**
- * Search - Card Sets
- * -----------------------------------------------------------------------------------------------------
- */
+//Shows the card from the grid when hovered over
+//https://stackoverflow.com/a/1678194/1339826
+$(document).mousemove(function (e) {
+    var img = $(searchElementNames.HoverImageClassName);
+    var windowScrollY = window.scrollY;
+    img.css({ 'top': windowScrollY + e.clientY, 'left': e.clientX + 20 });
+});
 
 //We need to complete some activities after the sets have loaded
 //Since that process isn't always fast, we'll set this variable and check it
 var hasSetsLoaded = false;
-
 function SetCardSets() {
     $.ajax({
         type: "POST",
@@ -168,64 +138,10 @@ function AddSetsToDropDown(sets) {
     hasSetsLoaded = true;
 }
 
-const LessonTypeName = {
-    CareOfMagicalCreatures: 'Care of Magical Creatures',
-    Charms: 'Charms',
-    Potions: 'Potions',
-    Quidditch: 'Quidditch',
-    Transfiguration: 'Transfiguration',
-};
-const ImageSizeType = {
-    Small: 0,
-    Medium: 1,
-    Large: 2,
-};
-
-/**
- * Card Search
- * -----------------------------------------------------------------------------------------------------
- */
-
-const queryParameterNames = {
-    SetId: 'setId',
-    SearchText: 'searchText',
-    SortBy: 'sortBy',
-    SortOrder: 'sortOrder',
-    CardView: 'cardView',
-    CardId: 'cardId',
-    AdvancedQuery: 'adv',
-};
-
-const searchElementNames = {
-    SetId: '#setSelect',
-    SearchInputId: '#searchInput',
-    SortCardsById: '#sortCardsBy',
-    CardModalId: '#cardModal',
-    SortCardsOrderId: '#sortCardsOrder',
-    CardViewId: '#cardView',
-    CardCountId: '#cardCount',
-    SetDateClassName: '.set-date',
-    ClearSearchClassName: '.clear-search',
-};
-
-const resultsContainerNames = {
-    ContentContainerId: '#contentContainer',
-    CardContainerId: '#cardContainer',
-    CardTableId: '#cardTable',
-    CardTableContainerId: '#tableContainer',
-    SearchResultsContainerId: '#searchResults',
-    SetInfoContainerId: '#setInfo',
-    SetHeaderIconClassName: '.set-header-title-icon',
-    SetHeaderTitleClassName: '.set-header-title-h1',
-    SetHeaderDataClassName: '.set-header-title-data',
-    NoCardsContainerId: '#noCardsContainer',
-};
-
 /* Hold cards in global variable so we can swap views with the existing cards without
  * performing another query.
  */
 var cards = null;
-
 function InitializeCardSearchElements() {
     //Search text press enter
     $(searchElementNames.SearchInputId).on('keypress', function (e) {
@@ -327,15 +243,28 @@ function InitializeCardTable() {
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
             if (card.cardId === data[0]) {
-                RedirectToCardPage(card);
+                var baseUrl = location.protocol + '//' + location.host;
+                window.location.href = baseUrl + card.cardPageUrl;
             }
         }
     });
 }
+function GetCardFromCardId(cardId) {
+    var cardVal = null;
+
+    for (var i = 0; i < this.cards.length; i++) {
+        var card = cards[i];
+        if (card.cardId === cardId) {
+            cardVal = card;
+        }
+    }
+
+    return cardVal;
+}
 
 function SearchCards() {
     HideAllContainers();
-    ToggleLoading();
+    ToggleSearchLoading();
 
     const searchData = GetSearchData();
 
@@ -372,7 +301,7 @@ function SearchCards() {
         processData: false,
         success: function (response) {
             if (response.success) {
-                ToggleLoading();
+                ToggleSearchLoading();
                 UnHideAllContainers();
 
                 cards = response.json;
@@ -387,14 +316,74 @@ function SearchCards() {
         }
     });
 }
-function SearchAdvancedCards() {
-    HideAllContainers();
-    ToggleLoading();
 
+async function SetValuesFromQueryAndPeformCardSearch() {
+    var setId = getParameterByName(searchQueryParameterNames.SetId);
+    var searchText = getParameterByName(searchQueryParameterNames.SearchText);
+    var sortBy = getParameterByName(searchQueryParameterNames.SortBy);
+    var sortOrder = getParameterByName(searchQueryParameterNames.SortOrder);
+    var cardView = getParameterByName(searchQueryParameterNames.CardView);
+
+    if (searchText) {
+        $(searchElementNames.SearchInputId).val(searchText);
+    }
+    if (sortBy) {
+        $(searchElementNames.SortCardsById).val(sortBy);
+    }
+    if (sortOrder) {
+        $(searchElementNames.SortCardsOrderId).val(sortOrder);
+    }
+    if (cardView) {
+        $(searchElementNames.CardViewId).val(cardView);
+    }
+
+    if (setId) {
+        //Set data comes from the database. We need to wait until it loads before we can
+        //set the selected value, because the load is async and if we don't wait, there's
+        //value to set
+        await until(_ => hasSetsLoaded === true);
+        $(searchElementNames.SetId).val(setId);
+    }
+
+    //This function is called on page load. If any of the query param values are passed in, we'll perform
+    //the search
+    if (setId || searchText) {
+        SearchCards();
+    }
+    else {
+        PopulateDefaultCards();
+    }
 }
+
+//Default field values were causing issues with setting the query string from the field values
+//We check the default values server side, but weren't doing anything client side
+//This will clear the default values before setting the search data, which will
+//allow us to properly check the query string and not set a value if it's false or default.
+function GetSearchData() {
+    var setId = $(searchElementNames.SetId).val();
+    var searchText = $(searchElementNames.SearchInputId).val().trim();
+    var sortBy = $(searchElementNames.SortCardsById).val();
+    var sortOrder = $(searchElementNames.SortCardsOrderId).val();
+    var cardView = $(searchElementNames.CardViewId).val();
+
+    if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
+        setId = null;
+    }
+
+    const searchData = {
+        SetId: setId,
+        SearchText: searchText,
+        SortBy: sortBy,
+        SortOrder: sortOrder,
+        CardView: cardView,
+    };
+
+    return searchData;
+}
+
 function PopulateDefaultCards() {
     HideAllContainers();
-    ToggleLoading();
+    ToggleSearchLoading();
 
     $.ajax({
         type: "POST",
@@ -407,7 +396,7 @@ function PopulateDefaultCards() {
         processData: false,
         success: function (response) {
             if (response.success) {
-                ToggleLoading();
+                ToggleSearchLoading();
                 UnHideAllContainers();
 
                 cards = response.json;
@@ -419,6 +408,7 @@ function PopulateDefaultCards() {
         }
     });
 }
+
 //Adds cards to selected container if the cards have already been searched
 //Searches cards and adds them otherwise
 function ToggleViewSearch() {
@@ -459,8 +449,8 @@ function ToggleViewContainers() {
 }
 //Toggles between the search results and set data based on query params
 function ToggleSearchResultData() {
-    var setId = getParameterByName(queryParameterNames.SetId);
-    var searchText = getParameterByName(queryParameterNames.SearchText);
+    var setId = getParameterByName(searchQueryParameterNames.SetId);
+    var searchText = getParameterByName(searchQueryParameterNames.SearchText);
     $(resultsContainerNames.SearchResultsContainerId).removeClass('dn');
     $(resultsContainerNames.SetInfoContainerId).removeClass('dn');
 
@@ -530,7 +520,7 @@ function AddCardsToDeck(cards) {
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
 
-        var cardUrl = GetCardPageUrl(card);
+        var cardUrl = location.protocol + '//' + location.host + card.cardPageUrl;
         var cardHtml = `
                         <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
                             <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + smallImage.url + `" />
@@ -559,18 +549,7 @@ function AddCardsToDeck(cards) {
         });
     }
 }
-const CardTableColumnIndex = {
-    CardId: 0,
-    Set: 1,
-    Number: 2,
-    Name: 3,
-    Cost: 4,
-    Type: 5,
-    Rarity: 6,
-    Artist: 7,
-    ImageUrl: 8,
-    Lesson: 9,
-};
+
 function AddCardsToTable(cards) {
     //Remove all cards prior to adding any new ones from search
     cardTable.clear().draw();
@@ -641,19 +620,7 @@ function AddCardsToTable(cards) {
         }
     });
 }
-const SortBy = {
-    SetNumber: 'sn',
-    Name: 'name',
-    Cost: 'cost',
-    Type: 'type',
-    Rarity: 'rarity',
-    Artist: 'artist',
-    Lesson: 'lesson',
-};
-const SortOrder = {
-    Ascending: 'asc',
-    Descending: 'desc',
-};
+
 //Sort values come from the server, but datatables overrides that.
 function ApplySortToCardTable() {
     var sortBy = $(searchElementNames.SortCardsById).val();
@@ -699,6 +666,7 @@ function GetRarityImageElement(imageName) {
 function GetSetIconImageElement(setFileName) {
     return '<img class="card-table-cell-icon-image" src="/images/seticons/' + setFileName + '" />';
 }
+
 function RotateCardHorizontally(card) {
     card.style.transform = 'rotate(90deg)';
     card.style.position = 'relative';
@@ -709,52 +677,6 @@ function RotateCardVertically(card) {
     card.style.zIndex = '0';
 }
 
-async function SetValuesFromQueryAndPeformCardSearch() {
-    var advQuery = getParameterByName(queryParameterNames.AdvancedQuery);
-    if (advQuery) {
-        $(searchElementNames.SearchInputId).val(searchText);
-        SearchCards();
-
-        return;
-    }
-
-    var setId = getParameterByName(queryParameterNames.SetId);
-    var searchText = getParameterByName(queryParameterNames.SearchText);
-    var sortBy = getParameterByName(queryParameterNames.SortBy);
-    var sortOrder = getParameterByName(queryParameterNames.SortOrder);
-    var cardView = getParameterByName(queryParameterNames.CardView);
-
-    if (searchText) {
-        $(searchElementNames.SearchInputId).val(searchText);
-    }
-    if (sortBy) {
-        $(searchElementNames.SortCardsById).val(sortBy);
-    }
-    if (sortOrder) {
-        $(searchElementNames.SortCardsOrderId).val(sortOrder);
-    }
-    if (cardView) {
-        $(searchElementNames.CardViewId).val(cardView);
-    }
-
-    if (setId) {
-        //Set data comes from the database. We need to wait until it loads before we can
-        //set the selected value, because the load is async and if we don't wait, there's
-        //value to set
-        await until(_ => hasSetsLoaded === true);
-        $(searchElementNames.SetId).val(setId);
-    }
-
-    //This function is called on page load. If any of the query param values are passed in, we'll perform
-    //the search
-    if (setId || searchText) {
-        SearchCards();
-    }
-    else {
-        PopulateDefaultCards();
-    }
-}
-
 function SetQueryFromValues(searchData) {
     //Only set the query string if at least one of the values have been set
     if (searchData.SetId || searchData.LessonCost || searchData.SearchText) {
@@ -763,19 +685,19 @@ function SetQueryFromValues(searchData) {
         var queryValues = '?';
 
         if (searchData.SetId) {
-            queryValues += queryParameterNames.SetId + '=' + searchData.SetId + '&';
+            queryValues += searchQueryParameterNames.SetId + '=' + searchData.SetId + '&';
         }
         if (searchData.SearchText) {
-            queryValues += queryParameterNames.SearchText + '=' + searchData.SearchText + '&';
+            queryValues += searchQueryParameterNames.SearchText + '=' + searchData.SearchText + '&';
         }
         if (searchData.SortBy) {
-            queryValues += queryParameterNames.SortBy + '=' + searchData.SortBy + '&';
+            queryValues += searchQueryParameterNames.SortBy + '=' + searchData.SortBy + '&';
         }
         if (searchData.SortOrder) {
-            queryValues += queryParameterNames.SortOrder + '=' + searchData.SortOrder + '&';
+            queryValues += searchQueryParameterNames.SortOrder + '=' + searchData.SortOrder + '&';
         }
         if (searchData.CardView) {
-            queryValues += queryParameterNames.CardView + '=' + searchData.CardView + '&';
+            queryValues += searchQueryParameterNames.CardView + '=' + searchData.CardView + '&';
         }
 
         //Since we don't know which fields the user will search, it's easiest to just to add & at the
@@ -784,136 +706,6 @@ function SetQueryFromValues(searchData) {
 
         history.pushState(null, null, baseUrl + queryValues);
     }
-}
-
-//Default field values were causing issues with setting the query string from the field values
-//We check the default values server side, but weren't doing anything client side
-//This will clear the default values before setting the search data, which will
-//allow us to properly check the query string and not set a value if it's false or default.
-function GetSearchData() {
-    var setId = $(searchElementNames.SetId).val();
-    var searchText = $(searchElementNames.SearchInputId).val().trim();
-    var sortBy = $(searchElementNames.SortCardsById).val();
-    var sortOrder = $(searchElementNames.SortCardsOrderId).val();
-    var cardView = $(searchElementNames.CardViewId).val();
-
-    if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
-        setId = null;
-    }
-
-    const searchData = {
-        SetId: setId,
-        SearchText: searchText,
-        SortBy: sortBy,
-        SortOrder: sortOrder,
-        CardView: cardView,
-    };
-
-    return searchData;
-}
-function GetCardPageUrl(card) {
-    var baseUrl = location.protocol + '//' + location.host;
-    return baseUrl + card.cardPageUrl;
-}
-//This will be removed in a further update
-function RedirectToCardPage(card) {
-    var baseUrl = location.protocol + '//' + location.host;
-    window.location.href = baseUrl + card.cardPageUrl;
-}
-
-/**
- * Modal
- * -----------------------------------------------------------------------------------------------------
- */
-
-function InitializeModal() {
-    //$("#modal-custom").iziModal();
-}
-function ShowCardModal(id) {
-    //$('#modal-custom').iziModal('open');
-}
-
-/**
- * Crests
- * -----------------------------------------------------------------------------------------------------
- */
-
-const crestElementNames = {
-    CrestId: '#crest',
-    CrestTooltipId: '#crestsTooltip',
-    CrestButtonGryffindorId: '#crestButtonGryffindor',
-    CrestButtonHufflepuffId: '#crestButtonHufflepuff',
-    CrestButtonRavenclawId: '#crestButtonRavenclaw',
-    CrestButtonSlytherinId: '#crestButtonSlytherin'
-};
-
-function InitializeCrestElements() {
-    //var crestTooltipHtml = $(crestElementNames.CrestTooltipId).html();
-    //tippy(crestElementNames.CrestId, {
-    //    content: crestTooltipHtml,
-    //    allowHTML: true,
-    //    interactive: true,
-    //    offset: [0, -26], //We have to offset the tooltip by because the main crest is offset
-    //    trigger: 'click'
-    //});
-
-    //$('#crestButtonGryffindor').on('click', function () {
-    //    //console.log($(this).html());
-    //    alert('test');
-    //});
-}
-
-
-/*
- * Misc
- * ----------------------------------------------------------------------------------------------------
- */
-
-/*
- * Page Tools
- * ----------------------------------------------------------------------------------------------------
- */
-const Page = {
-    Home: '',
-    Search: 'Search',
-    Card: 'Card',
-    Sets: 'Sets',
-    Advanced: 'Advanced',
-};
-function GetCurrentPage() {
-    return window.location.pathname.split('/')[1];
-}
-function GetCardFromCardId(cardId) {
-    var cardVal = null;
-
-    for (var i = 0; i < this.cards.length; i++) {
-        var card = cards[i];
-        if (card.cardId === cardId) {
-            cardVal = card;
-        }
-    }
-
-    return cardVal;
-}
-/*
- * Card Page Search
- * ----------------------------------------------------------------------------------------------------
- */
-
-const singleCardSearchElementIds = {
-    HoverImageClassName: '.hover-card',
-};
-
-//The search box will behave differently on the pages that aren't the search page. We'll basically just redirect to the search page
-//so that'll seem like a seamless integration
-function InitializeSearchBoxOnNonSearchPage() {
-    //Search text press enter
-    $(searchElementNames.SearchInputId).on('keypress', function (e) {
-        if (e.which === 13) {
-            window.location.href = '/Search?searchText=' + $(this).val() + '&sortBy=sn&cardView=images';
-            e.preventDefault();
-        }
-    });
 }
 
 function GetLessonColorClass(card) {
@@ -936,119 +728,7 @@ function GetLessonColorClass(card) {
     }
 }
 
-/*
- * Sets Page
- * ------------------------------------------------------------------------------------------------------------------------------
- */
-
-const setsPageElements = {
-    SetsTableId: '#setsTable',
-};
-const SetsTableColumnIndex = {
-    SetId: 0,
-    Name: 1,
-    TotalCards: 2,
-    ReleaseDate: 3,
-    Languages: 4,
-};
-
-var setsTable = null;
-function InitializeSetsTable() {
-    console.log(setsPageElements.SetsTableId);
-    setsTable = $(setsPageElements.SetsTableId).DataTable({
-        lengthChange: false,
-        searching: false,
-        paging: false,
-        bInfo: false,
-        columnDefs: [
-            {
-                //Hide the card ID column
-                targets: [0],
-                visible: false,
-            },
-            {
-                //Align the name to the left of the column. The 100% class is used to extend the text
-                //so row over works correctly
-                targets: [1],
-                className: 'fl w-100'
-            },
-            {
-                //Cap the width of the cards and date column
-                targets: [2, 3],
-                width: '10%'
-            },
-            {
-                //Align the content of the language column vertically centered
-                targets: [4],
-                className: 'v-mid',
-            }
-        ]
-    });
-
-    $(setsPageElements.SetsTableId + ' tbody').on('click', 'tr', function () {
-        var data = setsTable.row(this).data();
-        window.location.href = '/Search?setId=' + data[0] + '&sortBy=sn&cardView=images';
-    });
-}
-
-function PopulateSetsTable() {
-    $.ajax({
-        type: "POST",
-        url: "Sets?handler=GetSets",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
-                $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response.success) {
-                var sets = response.json;
-                AddSetsToSetsTable(sets);
-            }
-        },
-        failure: function (response) {
-            alert('Catastropic error');
-        }
-    });
-}
-function AddSetsToSetsTable(sets) {
-    for (var i = 0; i < sets.length; i++) {
-        var set = sets[i];
-
-        var setIdColumn = set.setId;
-        var nameColumn = '<div class="flex items-center"><img class="sets-set-table-set-icon" src="/images/seticons/' + set.iconFileName + '" /><div>' + set.name + '</div></div>';
-        var totalCardsColumn = set.totalCards;
-        var releaseDateColumn = set.releaseDate;
-
-        var languages = '<div class="flex items-center">';
-        for (var n = 0; n < set.languages.length; n++) {
-            var language = set.languages[n];
-            var className = '';
-            if (language.enabled) {
-                className = 'set-language-enabled';
-            }
-            else {
-                className = 'set-language-disabled';
-            }
-
-            languages += '<div class="' + className + '">' + language.code + '</div>';
-        }
-        languages += '</div>';
-
-        var languageColumn = languages;
-
-        //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
-        //The second column is hidden by the column definitions when the table was instantiated
-        var rowNode = setsTable.row.add([
-            setIdColumn, nameColumn, totalCardsColumn, releaseDateColumn, languageColumn
-        ]);
-
-        setsTable.order([SetsTableColumnIndex.ReleaseDate, 'desc']).draw();
-    }
-}
-
-function ToggleLoading() {
+function ToggleSearchLoading() {
     var loading = $('#loading');
     if (loading.hasClass('dn')) {
         loading.removeClass('dn');
@@ -1086,62 +766,6 @@ function UnHideAllContainers() {
     if (noCards.hasClass('vh')) {
         noCards.removeClass('vh');
     }
-}
-
-/*
- * Advanced Search
- * -----------------------------------------------------------------------------------------------------------------------------
- **/
-
-const advancedSearchElements = {
-    CardNameId: '#cardName',
-    CardTextId: '#cardText',
-};
-
-function InitializeAdvancedSearchElements() {
-    $(advancedSearchElements.CardNameId + ',' + advancedSearchElements.CardTextId).on('keypress', function (e) {
-        if (e.which === 13) {
-            RedirectToSearchWithAdvancedSearchString();
-            e.preventDefault();
-        }
-    });
-}
-
-function RedirectToSearchWithAdvancedSearchString() {
-    var cardName = $(advancedSearchElements.CardNameId).val();
-    var cardText = $(advancedSearchElements.CardTextId).val();
-
-    var fd = new FormData();
-    if (cardName) {
-        fd.append('cardName', cardName);
-    }
-    if (cardText) {
-        fd.append('cardText', cardText);
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "Advanced?handler=GetAdvancedSearchUrlValue",
-        data: fd,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
-                $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response.success) {
-                var url = response.json;
-                
-                var baseUrl = location.protocol + '//' + location.host;
-                var cardRoute = '/Search?adv=' + url;
-                window.location.href = baseUrl + cardRoute;
-            }
-        },
-        failure: function (response) {
-            alert('Catastropic error');
-        }
-    });
 }
 
 function GetImageFromCardImages(card, imageSizeType) {

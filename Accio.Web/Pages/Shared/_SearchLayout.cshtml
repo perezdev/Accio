@@ -7,7 +7,7 @@
 
     @{
         var metaDesc = ViewData["MetaDescription"];
-        if (!string.IsNullOrEmpty(metaDesc.ToString()))
+        if (metaDesc != null && metaDesc.ToString() != string.Empty)
         {
             <meta name="description" content="@metaDesc">
         }
@@ -114,7 +114,7 @@
     <script src="//cdn.datatables.net/plug-ins/1.10.21/sorting/natural.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.21/sorting/absolute.js"></script>
     <script src="~/js/utlity.js" asp-append-version="true"></script>
-    <script src="~/js/accio.js" asp-append-version="true"></script>
+    <script src="~/js/accio.bundle.min.js" asp-append-version="true"></script>
 
     @*
         Old dependencies that we may need in the future.
