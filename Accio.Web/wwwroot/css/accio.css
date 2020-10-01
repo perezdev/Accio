@@ -729,12 +729,12 @@ td:nth-child(6) {
     background-color: var(--whiteWizard);
 }
 
-.single-card-artist-anchor {
+.single-card-artist-anchor, .single-card-set-anchor {
     text-decoration: none;
     color: var(--blueRaven);
 }
 
-    .single-card-artist-anchor:hover {
+    .single-card-artist-anchor:hover, .single-card-set-anchor:hover {
         text-decoration: underline;
     }
 
