@@ -378,23 +378,60 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// <summary>
         /// Returns the query string used when redirecting to the search page from advanced search page
         /// </summary>
-        public string GetAdvancedSearchUrlValue(string cardName, string cardText)
+        public string GetAdvancedSearchUrlValue(string cardName, string cardText, string cardTypes, string lessonTypes,
+                                                string power, string sets, string rarity, string flavorText, string artist,
+                                                string cardNumber, string provides)
         {
             var urlList = new List<string>();
 
             if (!string.IsNullOrEmpty(cardName))
             {
-                cardName = GetSearchValueWithoutIllegalChars(cardName);
-                urlList.Add($"{AdvancedSearchKeywords.Name}{AdvancedSearchExpressions.Contains}{cardName}");
+                urlList.Add($"{AdvancedSearchKeywords.Name}{AdvancedSearchExpressions.Contains}{cardName.ToStringWithoutIllegalCharacters()}");
             }
             if (!string.IsNullOrEmpty(cardText))
             {
-                cardText = GetSearchValueWithoutIllegalChars(cardText);
-                urlList.Add($"{AdvancedSearchKeywords.Text}{AdvancedSearchExpressions.Contains}{cardText}");
+                urlList.Add($"{AdvancedSearchKeywords.Text}{AdvancedSearchExpressions.Contains}{cardText.ToStringWithoutIllegalCharacters()}");
+            }
+            if (!string.IsNullOrEmpty(cardTypes))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Type}{AdvancedSearchExpressions.Exact}{cardTypes.ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(lessonTypes))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.LessonType}{AdvancedSearchExpressions.Exact}{lessonTypes.ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(power))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Power}{AdvancedSearchExpressions.Exact}{power.ToStringWithoutIllegalCharacters()}");
+            }
+            if (!string.IsNullOrEmpty(sets))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Set}{AdvancedSearchExpressions.Exact}{sets.ToLower().ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(rarity))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Rarity}{AdvancedSearchExpressions.Exact}{rarity.ToLower().ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(flavorText))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.FlavorText}{AdvancedSearchExpressions.Contains}{flavorText.ToStringWithoutIllegalCharacters()}");
+            }
+            if (!string.IsNullOrEmpty(artist))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Artist}{AdvancedSearchExpressions.Contains}{artist.ToStringWithoutIllegalCharacters()}");
+            }
+            if (!string.IsNullOrEmpty(cardNumber))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Number}{AdvancedSearchExpressions.Exact}{cardNumber.ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(provides))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Provides}{AdvancedSearchExpressions.Exact}{provides.ToPipeDelimitedFromCommaDelimited()}");
             }
 
             return string.Join('+', urlList);
         }
+
         /// <summary>
         /// Takes a list of fields and converts it to the same list, parting out the ORs from the OR operator
         /// </summary>
@@ -457,14 +494,6 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                                  searchText.Contains(AdvancedSearchExpressions.Or);
 
             return containsKeyword && containsExpression;
-        }
-
-        private string GetSearchValueWithoutIllegalChars(string val)
-        {
-            //This should be regex eventually. We need to remove the expression characters so it doesn't mess up the search
-            //And remove characters that could screw up the URL string
-            return val.Replace("+", "").Replace("&", "").Replace("*", "").Replace(":", "").
-                   Replace(">", "").Replace("<", "").Replace("=", "").Replace("|", "");
         }
 
         private List<AdvancedSearchFieldValue> GetAdvancedSearchFieldValues(AdvancedSearchField field, string advancedSearchString)
@@ -1095,11 +1124,15 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         public static float ToFloat(this string s, float defaultValue = 0) => float.TryParse(s, out var v) ? v : defaultValue;
         public static double ToDouble(this string s, double defaultValue = 0) => double.TryParse(s, out var v) ? v : defaultValue;
 
-        public static short? ToshortNullable(this string s, short? defaultValue = null) => short.TryParse(s, out var v) ? v : defaultValue;
+        public static short? ToShortNullable(this string s, short? defaultValue = null) => short.TryParse(s, out var v) ? v : defaultValue;
         public static int? ToIntNullable(this string s, int? defaultValue = null) => int.TryParse(s, out var v) ? v : defaultValue;
         public static long? ToLongNullable(this string s, long? defaultValue = null) => long.TryParse(s, out var v) ? v : defaultValue;
         public static decimal? ToDecimalNullable(this string s, decimal? defaultValue = null) => decimal.TryParse(s, out var v) ? v : defaultValue;
         public static float? ToFloatNullable(this string s, float? defaultValue = null) => float.TryParse(s, out var v) ? v : defaultValue;
         public static double? ToDoubleNullable(this string s, double? defaultValue = null) => double.TryParse(s, out var v) ? v : defaultValue;
+
+        public static string ToPipeDelimitedFromCommaDelimited(this string s) => s.Replace(',', '|');
+        public static string ToStringWithoutIllegalCharacters(this string s) => s.Replace("+", "").Replace("&", "").Replace("*", "").Replace(":", "")
+                                                                                .Replace(">", "").Replace("<", "").Replace("=", "");
     }
 }
