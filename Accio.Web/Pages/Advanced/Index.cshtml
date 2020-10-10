@@ -1,7 +1,7 @@
 ﻿@page
 @model Accio.Web.Pages.Advanced.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Accio Harry Potter TCG Search - Advanced";
     Layout = "~/Pages/Shared/_SearchLayout.cshtml";
 }
 
@@ -9,216 +9,265 @@
 @Html.AntiForgeryToken()
 
 <main class="w-100 main-container pl2">
-    <div class="mw8 center advanced-content-container pv3">
+    <div class="mw8 center advanced-content-container pv3 pl5">
         @* Card Name *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Card Name</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Card Name</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input id="cardName" class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 pt3 ml3">
+                    <input id="cardName" type="text" class="input-reset pa2 mb2 w-50" />
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
         @* Card Text *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Card Text</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Text</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input id="cardText" class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 pv2 ml3">
+                    <input id="cardText" type="text" class="input-reset pa2 mv1 w-50" />
+                    <div class="advanced-text-info">Enter text that should appear in the rules box.</div>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
         @* Card Type *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
                     <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Card Type</h3>
+                        <div class="advanced-h3">Type</div>
                     </div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
-                </div>
-            </section>
-            <hr class="fb advanced-row-segment" />
-        </div>
-        @* Artist *@
-        <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Card Artist</h3>
-                    </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
-                </div>
-            </section>
-            <hr class="fb advanced-row-segment" />
-        </div>
-        @* Flavor Text *@
-        <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Flavor Text</h3>
-                    </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
-                </div>
-            </section>
-            <hr class="fb advanced-row-segment" />
-        </div>
-        @* Lesson Type *@
-        <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Lesson Type</h3>
-                    </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 ml3">
+                    <select id="cardTypes" multiple="multiple">
+                        @foreach (var type in Model.CardTypes)
+                        {
+                            <option value="@type.Name">@type.Name</option>
+                        }
+                    </select>
+                    @*<input class="input-reset pa2 mv1 w-50" type="text" placeholder="Enter a type or choose from the list" />*@
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
         @* Keywords *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Keywords</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Keywords</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 ml3">
+                    <input class="input-reset pa2 mv1 w-50" type="text" placeholder="Any keywords, e.g. 'Wizard', 'Snake', etc." />
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
-        @* Rarity *@
+        @* Lesson Type *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Rarity</h3>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Lesson</div>
+                </div>
+                <div class="fl w-90 pv2 ml3 flex items-center flex-wrap">
+                    <div class="checkbox-container flex items-center">
+                        <input id="comcCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/care-of-magical-creatures.svg" />
+                        <label for="comcCheckbox">CoMC</label>
                     </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
-                </div>
-            </section>
-            <hr class="fb advanced-row-segment" />
-        </div>
-        @* Set *@
-        <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Set</h3>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="charmsCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/charms.svg" />
+                        <label for="charmsCheckbox">Charms</label>
                     </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
-                </div>
-            </section>
-            <hr class="fb advanced-row-segment" />
-        </div>
-        @* Card Number *@
-        <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Card Number</h3>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="potionsCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/potions.svg" />
+                        <label for="potionsCheckbox">Potions</label>
                     </div>
-                </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="quidditchCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/quidditch.svg" />
+                        <label for="quidditchCheckbox">Quidditch</label>
+                    </div>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="transfigurationCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/transfiguration.svg" />
+                        <label for="transfigurationCheckbox">Transfiguration</label>
+                    </div>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
         @* Power *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Power</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Power</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 pt3 ml3">
+                    <input id="power" class="input-reset pa2 mb2 w-50" type="text" />
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
-        @* Creature Health *@
+        @* Set *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Creature Health</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Set</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 pt3 ml3">
+                    <select id="sets" class="advanced-set-dropdown" multiple="multiple">
+                        @foreach (var set in Model.Sets)
+                        {
+                            <option value="@set.ShortName">@set.Name</option>
+                        }
+                    </select>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
-        @* Creature Damage *@
+        @* Rarity *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Creature Damage</h3>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Rarity</div>
+                </div>
+                <div class="fl w-90 pt3">
+                    <div class="fl w-90 pv2 ml3 flex items-center flex-wrap">
+                        <div class="checkbox-container flex items-center">
+                            <input id="commonCheckbox" class="mr2" type="checkbox">
+                            <img class="mr2" src="~/images/rarities/common.svg" />
+                            <label for="commonCheckbox">Common</label>
+                        </div>
+
+                        <div class="checkbox-container ml3 flex items-center">
+                            <input id="uncommonCheckbox" class="mr2" type="checkbox">
+                            <img class="mr2" src="~/images/rarities/uncommon.svg" />
+                            <label for="uncommonCheckbox">Uncommon</label>
+                        </div>
+
+                        <div class="checkbox-container ml3 flex items-center">
+                            <input id="rareCheckbox" class="mr2" type="checkbox">
+                            <img class="mr2" src="~/images/rarities/rare.svg" />
+                            <label for="rareCheckbox">Rare</label>
+                        </div>
+
+                        <div class="checkbox-container ml3 flex items-center">
+                            <input id="premiumCheckbox" class="mr2" type="checkbox">
+                            <img class="mr2" src="~/images/rarities/premium.svg" />
+                            <label for="premiumCheckbox">Premium</label>
+                        </div>
                     </div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Flavor Text *@
+        <div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Flavor Text</div>
+                </div>
+                <div class="fl w-90 pt3 ml3">
+                    <input id="flavorText" class="input-reset pa2 mb2 w-50" type="text" placeholder="Any flavor text, e.g. 'Merlin's Beard!'" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Artist *@
+        <div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Card Artist</div>
+                </div>
+                <div class="fl w-90 pt3 ml3">
+                    <input id="artist" class="input-reset pa2 mb2 w-50" type="text" placeholder="Any artist, e.g. 'Ron Spencer'" />
+                </div>
+            </section>
+            <hr class="fb advanced-row-segment" />
+        </div>
+        @* Card Number *@
+        <div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Card Number</div>
+                </div>
+                <div class="fl w-90 pt3 ml3">
+                    <input id="cardNumber" class="input-reset pa2 mb2 w-50" type="text" placeholder="Any number, e.g. '10'" />
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
         @* Provides *@
         <div>
-            <section class="cf w-100">
-                <div class="fl w-20">
-                    <div class="flex items-center w-100">
-                        <i class="fa fa-wheelchair-alt pt1" aria-hidden="true"></i>
-                        <h3 class="pl2">Provides</h3>
-                    </div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+                    <div class="advanced-h3">Provides</div>
                 </div>
-                <div class="fl w-80 pt3">
-                    <input class="input-reset ba b--black-20 pa2 mb2 w-40" />
+                <div class="fl w-90 pv2 ml3 flex items-center flex-wrap">
+                    <div class="checkbox-container flex items-center">
+                        <input id="providesComcCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/care-of-magical-creatures.svg" />
+                        <label for="providesComcCheckbox">CoMC</label>
+                    </div>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="providesCharmsCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/charms.svg" />
+                        <label for="providesCharmsCheckbox">Charms</label>
+                    </div>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="providesPotionsCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/potions.svg" />
+                        <label for="providesPotionsCheckbox">Potions</label>
+                    </div>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="providesQuidditchCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/quidditch.svg" />
+                        <label for="providesQuidditchCheckbox">Quidditch</label>
+                    </div>
+
+                    <div class="checkbox-container ml3 flex items-center">
+                        <input id="providesTransfigurationCheckbox" class="mr2" type="checkbox">
+                        <img class="mr2" src="~/images/lessons/transfiguration.svg" />
+                        <label for="providesTransfigurationCheckbox">Transfiguration</label>
+                    </div>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
         </div>
+        <div>
+            <section class="cf w-100 flex items-center">
+                <div class="fl w-10">
+
+                </div>
+                <div class="fl w-90 pt3 ml3">
+                    <button id="search" class="search-button flex items-center">
+                        <object data="/images/search_dark.svg" type="image/svg+xml"></object>
+                        <div class="ml2">
+                            Search these options
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
+        @*
+            TODO: Add creature health and damage
+            TODO: Add display and sort
+        *@
     </div>
 </main>
+
+<script src="~/js/select2.full.min.js" asp-append-version="true"></script>
