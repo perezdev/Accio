@@ -52,11 +52,7 @@ namespace Accio.Business.Services.CardServices
             var utcNow = DateTime.UtcNow;
 
             //We don't want them to pull all cards, so this will force them to search for a set and/or card text to prevent that
-            if (
-                string.IsNullOrEmpty(cardSearchParameters.SearchText) &&
-                (cardSearchParameters.SetId == null || cardSearchParameters.SetId == Guid.Empty) &&
-                string.IsNullOrWhiteSpace(cardSearchParameters.SetShortName)
-            )
+            if (string.IsNullOrEmpty(cardSearchParameters.SearchText) && (cardSearchParameters.SetId == null || cardSearchParameters.SetId == Guid.Empty) && string.IsNullOrWhiteSpace(cardSearchParameters.SetShortName))
             {
                 return new List<CardModel>();
             }
@@ -100,7 +96,9 @@ namespace Accio.Business.Services.CardServices
             }
 
             if (!string.IsNullOrWhiteSpace(param.SetShortName))
+            {
                 cards = cards.Where(card => card.cardSet.ShortName == param.SetShortName);
+            }
 
             if (param.TypeId != null && param.TypeId != Guid.Empty)
             {
