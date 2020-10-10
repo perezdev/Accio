@@ -189,7 +189,12 @@
                                 <div class="dt-row">
                                     <div class="card-row-item-content v-mid mt2 set-info">
                                         <img src="~/images/seticons/@Model.Card.CardSet.IconFileName" class="set-info-item set-info-icon v-mid" />
-                                        <div class="set-info-item">@Model.Card.CardSet.Name</div>
+                                        <div class="set-info-item">
+                                            @{
+                                                var searchBySetUrl = $"/Search?setName={Model.Card.CardSet.ShortName.ToLower()}";
+                                            }
+                                            <a class="single-card-set-anchor" href="@searchBySetUrl">@Model.Card.CardSet.Name</a>
+                                        </div>
                                         <div class="set-info-separator set-info-item">●</div>
                                         <div class="set-info-item">@Model.Card.CardNumber</div>
                                         <div class="set-info-separator set-info-item">●</div>

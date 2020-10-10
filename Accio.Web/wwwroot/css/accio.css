@@ -729,6 +729,14 @@ td:nth-child(6) {
     background-color: var(--whiteWizard);
 }
 
+.single-card-set-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+    .single-card-set-anchor:hover {
+        text-decoration: underline;
+    }
+
 .single-card-artist-anchor {
     text-decoration: none;
     color: var(--blueRaven);

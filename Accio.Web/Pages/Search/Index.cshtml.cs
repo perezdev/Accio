@@ -55,10 +55,32 @@ namespace Accio.Web.Pages.Search
                 return new JsonResult(new { success = false, json = ex.Message });
             }
         }
-        public JsonResult OnPostSearchCardsAsync(Guid setId, string searchText, string sortBy, string sortOrder)
+
+        public JsonResult OnPostGetSetByShortName(string shortName)
         {
             try
             {
+                var setByShortName = _setService.GetSetByShortName(shortName);
+                return new JsonResult(new {
+                    result = true,
+                    json = setByShortName
+                });
+            }
+            catch (Exception exception)
+            {
+                return new JsonResult(new {
+                    SourceService = false,
+                    json = exception.Message
+                });
+            }
+        }
+
+        public JsonResult OnPostSearchCardsAsync(string setName, string searchText, string sortBy, string sortOrder)
+        {
+            try
+            {
+                // Harding coding English for now, as we don't have other languages atm
+                var englishLanguageId = new Guid("4F5CC98D-4315-4410-809F-E2CC428E0C9B");
                 var websiteSource = _sourceService.GetSource(SourceType.Website);
                 var cards = new List<CardModel>();
 
@@ -70,8 +92,7 @@ namespace Accio.Web.Pages.Search
                         AdvancedSearchText = searchText,
                         SortBy = sortBy,
                         SortOrder = sortOrder,
-                        //Harding coding English for now, as we don't have other languages atm
-                        LanguageId = new Guid("4F5CC98D-4315-4410-809F-E2CC428E0C9B"),
+                        LanguageId = englishLanguageId
                     };
                     cards = _advancedCardSearchService.SearchCards(advancedSearchParamters);
                 }
@@ -79,18 +100,16 @@ namespace Accio.Web.Pages.Search
                 {
                     var cardSearchParameters = new CardSearchParameters()
                     {
-                        SetId = setId,
+                        SetShortName = setName,
                         SearchText = searchText,
                         SortBy = sortBy,
                         SortOrder = sortOrder,
-                        //Harding coding English for now, as we don't have other languages atm
-                        LanguageId = new Guid("4F5CC98D-4315-4410-809F-E2CC428E0C9B"),
+                        LanguageId = englishLanguageId,
                         SourceId = websiteSource.SourceId,
                     };
                     cards = _cardService.SearchCards(cardSearchParameters);
                 }
 
-                
                 return new JsonResult(new { success = true, json = cards });
             }
             catch (Exception ex)

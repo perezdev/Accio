@@ -1,5 +1,5 @@
 ﻿const searchQueryParameterNames = {
-    SetId: 'setId',
+    SetName: 'setName',
     SearchText: 'searchText',
     SortBy: 'sortBy',
     SortOrder: 'sortOrder',
@@ -117,23 +117,16 @@ function SetCardSets() {
         }
     });
 }
+
 function AddSetsToDropDown(sets) {
-    var dropDownName = '#setSelect';
+    const setsElement = $(searchElementNames.SetId);
 
     //Clear all options before adding new ones, just in case
-    $(dropDownName).find('option').remove();
+    setsElement.find('option').remove();
 
     //Add empty item so the user can choose to not search by set if they want
-    var emptyOption = '<option value="00000000-0000-0000-0000-000000000000">All Sets</option>';
-    $(dropDownName).append(emptyOption);
-
-    for (var i = 0; i < sets.length; i++) {
-        var set = sets[i];
-        var img = '/images/seticons/' + set.iconFileName;
-
-        var option = '<option value="' + set.setId + '">' + set.name + '</option>';
-        $(dropDownName).append(option);
-    }
+    setsElement.append('<option value="">All Sets</option>');
+    sets.forEach((set) => setsElement.append(`<option value="${set.shortName.toLowerCase()}">${set.name}</option>`));
 
     hasSetsLoaded = true;
 }
@@ -167,14 +160,14 @@ function InitializeCardSearchElements() {
         //it so that it would only perform the search when they chose a proper sort option (not the default empty) and there was at
         //least one search field with a valid value.
         var searchData = GetSearchData();
-        if ((searchData.SetId || searchData.LessonCost || searchData.SearchText) && searchData.SortBy) {
+        if ((searchData.SetName || searchData.LessonCost || searchData.SearchText) && searchData.SortBy) {
             SearchCards();
         }
     });
     //Sort order change
     $(searchElementNames.SortCardsOrderId).on('change', function () {
         var searchData = GetSearchData();
-        if ((searchData.SetId || searchData.LessonCost || searchData.SearchText)) {
+        if ((searchData.SetName || searchData.LessonCost || searchData.SearchText)) {
             SearchCards();
         }
     });
@@ -276,8 +269,8 @@ function SearchCards() {
     ToggleSearchResultData();
 
     var fd = new FormData();
-    if (searchData.SetId) {
-        fd.append('setId', searchData.SetId);
+    if (searchData.SetName) {
+        fd.append('setName', searchData.SetName);
     }
     if (searchData.SearchText) {
         fd.append('searchText', searchData.SearchText);
@@ -318,7 +311,7 @@ function SearchCards() {
 }
 
 async function SetValuesFromQueryAndPeformCardSearch() {
-    var setId = getParameterByName(searchQueryParameterNames.SetId);
+    var setName = getParameterByName(searchQueryParameterNames.SetName);
     var searchText = getParameterByName(searchQueryParameterNames.SearchText);
     var sortBy = getParameterByName(searchQueryParameterNames.SortBy);
     var sortOrder = getParameterByName(searchQueryParameterNames.SortOrder);
@@ -337,17 +330,17 @@ async function SetValuesFromQueryAndPeformCardSearch() {
         $(searchElementNames.CardViewId).val(cardView);
     }
 
-    if (setId) {
+    if (setName) {
         //Set data comes from the database. We need to wait until it loads before we can
         //set the selected value, because the load is async and if we don't wait, there's
         //value to set
         await until(_ => hasSetsLoaded === true);
-        $(searchElementNames.SetId).val(setId);
+        $(searchElementNames.SetId).val(setName);
     }
 
     //This function is called on page load. If any of the query param values are passed in, we'll perform
     //the search
-    if (setId || searchText) {
+    if (setName || searchText) {
         SearchCards();
     }
     else {
@@ -360,18 +353,14 @@ async function SetValuesFromQueryAndPeformCardSearch() {
 //This will clear the default values before setting the search data, which will
 //allow us to properly check the query string and not set a value if it's false or default.
 function GetSearchData() {
-    var setId = $(searchElementNames.SetId).val();
+    var setName = $(searchElementNames.SetId).val();
     var searchText = $(searchElementNames.SearchInputId).val().trim();
     var sortBy = $(searchElementNames.SortCardsById).val();
     var sortOrder = $(searchElementNames.SortCardsOrderId).val();
     var cardView = $(searchElementNames.CardViewId).val();
 
-    if (setId === '00000000-0000-0000-0000-000000000000' || setId === '') {
-        setId = null;
-    }
-
     const searchData = {
-        SetId: setId,
+        SetName: setName,
         SearchText: searchText,
         SortBy: sortBy,
         SortOrder: sortOrder,
@@ -449,22 +438,22 @@ function ToggleViewContainers() {
 }
 //Toggles between the search results and set data based on query params
 function ToggleSearchResultData() {
-    var setId = getParameterByName(searchQueryParameterNames.SetId);
+    var setName = getParameterByName(searchQueryParameterNames.SetName);
     var searchText = getParameterByName(searchQueryParameterNames.SearchText);
     $(resultsContainerNames.SearchResultsContainerId).removeClass('dn');
     $(resultsContainerNames.SetInfoContainerId).removeClass('dn');
 
     //Only display the set data when only the set has been chosen. This will apply for when the user chooses a set
     //on the search page or if they choose a set from the set page
-    if (setId && !searchText) {
+    if (setName && !searchText) {
         $(resultsContainerNames.SearchResultsContainerId).addClass('dn');
 
         var fd = new FormData();
-        fd.append('setId', setId);
+        fd.append('setName', setName);
 
         $.ajax({
             type: "POST",
-            url: "Search?handler=GetSetBySetId",
+            url: "Search?handler=GetSetByShortName",
             data: fd,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("XSRF-TOKEN",
@@ -677,13 +666,13 @@ function RotateCardVertically(card) {
 
 function SetQueryFromValues(searchData) {
     //Only set the query string if at least one of the values have been set
-    if (searchData.SetId || searchData.LessonCost || searchData.SearchText) {
+    if (searchData.SetName || searchData.LessonCost || searchData.SearchText) {
         //If the existing URL has query string values, we need to ignore them so we don't add them to the existing ones.
         var baseUrl = window.location.href.split('?')[0];
         var queryValues = '?';
 
-        if (searchData.SetId) {
-            queryValues += searchQueryParameterNames.SetId + '=' + searchData.SetId + '&';
+        if (searchData.SetName) {
+            queryValues += searchQueryParameterNames.SetName + '=' + searchData.SetName + '&';
         }
         if (searchData.SearchText) {
             queryValues += searchQueryParameterNames.SearchText + '=' + searchData.SearchText + '&';

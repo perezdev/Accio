@@ -22,7 +22,6 @@ function InitializeSetsPage() {
 
 var setsTable = null;
 function InitializeSetsTable() {
-    console.log(setsPageElements.SetsTableId);
     setsTable = $(setsPageElements.SetsTableId).DataTable({
         lengthChange: false,
         searching: false,
@@ -55,7 +54,7 @@ function InitializeSetsTable() {
 
     $(setsPageElements.SetsTableId + ' tbody').on('click', 'tr', function () {
         var data = setsTable.row(this).data();
-        window.location.href = '/Search?setId=' + data[0] + '&sortBy=sn&cardView=images';
+        window.location.href = '/Search?setName=' + data[0] + '&sortBy=sn&cardView=images';
     });
 }
 
@@ -84,7 +83,7 @@ function AddSetsToSetsTable(sets) {
     for (var i = 0; i < sets.length; i++) {
         var set = sets[i];
 
-        var setIdColumn = set.setId;
+        var shortNameColumn = set.shortName.toLowerCase();
         var nameColumn = '<div class="flex items-center"><img class="sets-set-table-set-icon" src="/images/seticons/' + set.iconFileName + '" /><div>' + set.name + '</div></div>';
         var totalCardsColumn = set.totalCards;
         var releaseDateColumn = set.releaseDate;
@@ -109,7 +108,7 @@ function AddSetsToSetsTable(sets) {
         //Add row to table. Passing in a comma separated list for each column will add the columns in that order.
         //The second column is hidden by the column definitions when the table was instantiated
         var rowNode = setsTable.row.add([
-            setIdColumn, nameColumn, totalCardsColumn, releaseDateColumn, languageColumn
+            shortNameColumn, nameColumn, totalCardsColumn, releaseDateColumn, languageColumn
         ]);
 
         setsTable.order([SetsTableColumnIndex.ReleaseDate, 'desc']).draw();
