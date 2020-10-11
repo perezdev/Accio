@@ -16,6 +16,7 @@ namespace Accio.Business.Models.CardModels
         public string FlavorText { get; set; }
         public string Illustrator { get; set; }
         public string Copyright { get; set; }
+        public string Note { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

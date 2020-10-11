@@ -42,6 +42,7 @@ namespace Accio.Business.Services.CardServices
                 FlavorText = cardDetail.FlavorText,
                 Illustrator = cardDetail.Illustrator,
                 Copyright = cardDetail.Copyright,
+                Note = cardDetail.Note,
                 CreatedById = cardDetail.CreatedById,
                 CreatedDate = cardDetail.CreatedDate,
                 UpdatedById = cardDetail.UpdatedById,

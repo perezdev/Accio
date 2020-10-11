@@ -132,17 +132,37 @@
                                             switch (cardType)
                                             {
                                                 case TypeOfCard.Adventure:
+
+
                                                     var effect = $"<p><b>Effect:</b> {Model.Card.Detail.Effect}</p>";
                                                     var toSolve = $"<p><b>To Solve:</b> {Model.Card.Detail.ToSolve}</p>";
                                                     var reward = $"<p><b>Opponent's Reward:</b> {Model.Card.Detail.Reward}</p>";
 
-                                                    text = $"{effect}{toSolve}{reward}";
+                                                    if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
+                                                    {
+                                                        var note = $"<p class=\"tc\">{Model.Card.Detail.Note}</p>";
+                                                        text = $"{note}{effect}{toSolve}{reward}";
+                                                    }
+                                                    else
+                                                    {
+                                                        text = $"{effect}{toSolve}{reward}";
+                                                    }
+
                                                     break;
                                                 case TypeOfCard.Match:
                                                     var toWin = $"<p><b>To Win:</b> {Model.Card.Detail.ToSolve}</p>";
                                                     var prize = $"<p><b>Prize:</b> {Model.Card.Detail.Reward}</p>";
 
-                                                    text = $"{toWin}{prize}";
+                                                    if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
+                                                    {
+                                                        var note = $"<p class=\"tc\">{Model.Card.Detail.Note}</p>";
+                                                        text = $"{note}{toWin}{prize}";
+                                                    }
+                                                    else
+                                                    {
+                                                        text = $"{toWin}{prize}";
+                                                    }
+
                                                     break;
                                                 case TypeOfCard.Character:
                                                 case TypeOfCard.Creature:
