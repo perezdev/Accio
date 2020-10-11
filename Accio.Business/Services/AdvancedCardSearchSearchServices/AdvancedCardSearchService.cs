@@ -235,8 +235,18 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     }
                     else if (field.Field == AdvancedSearchField.Power)
                     {
-                        var powers = fieldsExact.Select(x => x.Value.ToIntNullable()).ToList();
-                        cardTable = cardTable.Where(x => powers.Contains(x.LessonCost));
+                        var values = fieldsExact.Select(x => x.Value.ToIntNullable()).ToList();
+                        cardTable = cardTable.Where(x => values.Contains(x.LessonCost));
+                    }
+                    else if (field.Field == AdvancedSearchField.Health)
+                    {
+                        var values = fieldsExact.Select(x => x.Value.ToIntNullable()).ToList();
+                        cardTable = cardTable.Where(x => values.Contains(x.Health));
+                    }
+                    else if (field.Field == AdvancedSearchField.Damage)
+                    {
+                        var values = fieldsExact.Select(x => x.Value.ToIntNullable()).ToList();
+                        cardTable = cardTable.Where(x => values.Contains(x.Damage));
                     }
                     else
                     {
@@ -249,20 +259,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 if (fieldsGreaterThan?.Count > 0)
                 {
                     fieldsGreaterThan = GetOrFields(fieldsGreaterThan);
-
-                    if (field.Field == AdvancedSearchField.Power)
-                    {
-                        var powers = fieldsGreaterThan.Select(x => x.Value.ToIntNullable()).ToArray();
-                        cardTable = GetCardQueryLessonCost(powers, AdvancedSearchFieldExpression.GreaterThan);
-                    }
-                    else if (field.Field == AdvancedSearchField.Damage)
-                    {
-                        //TODO: implement once we have damage data
-                    }
-                    else if (field.Field == AdvancedSearchField.Health)
-                    {
-                        //TODO: implement once we have health data
-                    }
+                    var values = fieldsGreaterThan.Select(x => x.Value.ToIntNullable()).ToArray();
+                    cardTable = GetCardQueryByCostValue(values, field.Field, AdvancedSearchFieldExpression.GreaterThan);
                 }
 
                 //Less than
@@ -270,20 +268,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 if (fieldsLessThan?.Count > 0)
                 {
                     fieldsLessThan = GetOrFields(fieldsLessThan);
-
-                    if (field.Field == AdvancedSearchField.Power)
-                    {
-                        var powers = fieldsLessThan.Select(x => x.Value.ToIntNullable()).ToArray();
-                        cardTable = GetCardQueryLessonCost(powers, AdvancedSearchFieldExpression.LessThan);
-                    }
-                    else if (field.Field == AdvancedSearchField.Damage)
-                    {
-                        //TODO: implement once we have damage data
-                    }
-                    else if (field.Field == AdvancedSearchField.Health)
-                    {
-                        //TODO: implement once we have health data
-                    }
+                    var values = fieldsLessThan.Select(x => x.Value.ToIntNullable()).ToArray();
+                    cardTable = GetCardQueryByCostValue(values, field.Field, AdvancedSearchFieldExpression.LessThan);
                 }
             }
 
@@ -299,9 +285,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var types = new List<AdvancedSearchField>()
             {
                 AdvancedSearchField.Artist,
-                AdvancedSearchField.Damage,
                 AdvancedSearchField.FlavorText,
-                AdvancedSearchField.Health,
                 AdvancedSearchField.Text,
                 AdvancedSearchField.Name,
             };
@@ -327,6 +311,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 AdvancedSearchField.Rarity,
                 AdvancedSearchField.Set,
                 AdvancedSearchField.Type,
+                AdvancedSearchField.Health,
+                AdvancedSearchField.Damage,
             };
 
             foreach (var type in types)
@@ -630,7 +616,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
-                        //TODO: add health
+                        fieldValues.Select(c => { c.DatabaseColumnName = nameof(Card.Health); return c; }).ToList();
                         fullFieldValues.AddRange(fieldValues);
                     }
 
@@ -640,7 +626,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
-                        //TODO: add damage
+                        fieldValues.Select(c => { c.DatabaseColumnName = nameof(Card.Damage); return c; }).ToList();
                         fullFieldValues.AddRange(fieldValues);
                     }
 
@@ -879,7 +865,10 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             return filteredQuery;
         }
 
-        IQueryable<Card> GetCardQueryLessonCost(int?[] numbers, AdvancedSearchFieldExpression expression)
+        /// <summary>
+        /// Applies the greater than and lesson than where clause for the power, health, damage
+        /// </summary>
+        IQueryable<Card> GetCardQueryByCostValue(int?[] numbers, AdvancedSearchField field, AdvancedSearchFieldExpression expression)
         {
             IQueryable<Card> query = _context.Card;
 
@@ -888,11 +877,33 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 var number = numbers[i];
                 if (expression == AdvancedSearchFieldExpression.GreaterThan)
                 {
-                    query = query.Where(p => p.LessonCost > number);
+                    if (field == AdvancedSearchField.Power)
+                    {
+                        query = query.Where(p => p.LessonCost > number);
+                    }
+                    else if (field == AdvancedSearchField.Health)
+                    {
+                        query = query.Where(p => p.Health > number);
+                    }
+                    else if (field == AdvancedSearchField.Damage)
+                    {
+                        query = query.Where(p => p.Damage > number);
+                    }
                 }
                 else if (expression == AdvancedSearchFieldExpression.LessThan)
                 {
-                    query = query.Where(p => p.LessonCost < number);
+                    if (field == AdvancedSearchField.Power)
+                    {
+                        query = query.Where(p => p.LessonCost < number);
+                    }
+                    else if (field == AdvancedSearchField.Health)
+                    {
+                        query = query.Where(p => p.Health < number);
+                    }
+                    else if (field == AdvancedSearchField.Damage)
+                    {
+                        query = query.Where(p => p.Damage < number);
+                    }
                 }
             }
 
