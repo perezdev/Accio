@@ -1,6 +1,9 @@
 ﻿using Accio.Business.Models.CardModels;
 using Accio.Business.Models.LanguageModels;
 using Accio.Data;
+using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Accio.Business.Services.CardServices
 {
@@ -45,6 +48,13 @@ namespace Accio.Business.Services.CardServices
                 UpdatedDate = cardDetail.UpdatedDate,
                 Deleted = cardDetail.Deleted,
             };
+        }
+
+        public void UpdateCardDetailNote(Guid cardDetailId, string note)
+        {
+            var cardDetail = _context.CardDetail.Single(x => x.CardDetailId == cardDetailId);
+            cardDetail.Note = note;
+            _context.SaveChanges();
         }
     }
 }

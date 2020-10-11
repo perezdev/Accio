@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Accio.Presentation.SetUpload
 {
@@ -83,7 +84,8 @@ namespace Accio.Presentation.SetUpload
             //ImportSubTypes();
             //ImportMatches();
             //ImportCardProvidesLessons();
-            ImportDamageAndHealth();
+            //ImportDamageAndHealth();
+            ImportDescriptionNotes();
         }
         private static void ImportCardProvidesLessons()
         {
@@ -176,6 +178,23 @@ namespace Accio.Presentation.SetUpload
                 else
                 {
                     _cardService.UpdateCreatureData(card.CardId, jsonCard.Damage, jsonCard.Health);
+                }
+            }
+        }
+        private static void ImportDescriptionNotes()
+        {
+            var sets = GetSets();
+            var cards = _cardService.GetAllCards();
+
+            foreach (var set in sets)
+            {
+                foreach (var jsonCard in set.Cards)
+                {
+                    if (!string.IsNullOrEmpty(jsonCard.Description.Note))
+                    {
+                        var card = cards.SingleOrDefault(x => x.Detail.Name == jsonCard.Name);
+                        _cardDetailService.UpdateCardDetailNote(card.Detail.CardDetailId, jsonCard.Description.Note);
+                    }
                 }
             }
         }

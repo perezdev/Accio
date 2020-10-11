@@ -15,5 +15,7 @@ namespace Accio.Business.Models.ImportModels
         public string ToWin { get; set; }
         [JsonProperty("prize")]
         public string Prize { get; set; }
+        [JsonProperty("note")]
+        public string Note { get; set; }
     }
 }

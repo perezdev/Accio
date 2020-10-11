@@ -41,7 +41,7 @@
                         @{
                             var smallImage = Model.Card.Images.SingleOrDefault(x => x.Size == ImageSizeType.Small);
                             var largeImage = Model.Card.Images.SingleOrDefault(x => x.Size == ImageSizeType.Large);
-                            var imageUrl = largeImage == null ? smallImage.Url : largeImage.Url;
+                            var imageUrl = largeImage == null ? smallImage.Url : largeImage.Url;    
 
                             var orientationClass = Model.Card.Orientation == "Horizontal" ? "card-orientation-horizontal" : "card-orientation-vertical";
                             //var style = Model.Card.Orientation == "Horizontal" ? "height:314px; width: 438px;" : "height:438px; width: 314px;";
