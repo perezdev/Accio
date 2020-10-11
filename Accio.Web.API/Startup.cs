@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Accio.Web.API
+namespace Accio.Presentation.Web.API
 {
     public class Startup
     {

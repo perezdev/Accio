@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Accio.Web.Pages.Random
+namespace Accio.Presentation.Web.Pages.Random
 {
     public class IndexModel : PageModel
     {

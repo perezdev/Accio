@@ -3,7 +3,7 @@ using Accio.Business.Models.TypeModels;
 using Accio.Business.Services.CardServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Accio.Web.API.Controllers.Types
+namespace Accio.Presentation.Web.API.Controllers.Types
 {
     [Route("Types")]
     [ApiController]

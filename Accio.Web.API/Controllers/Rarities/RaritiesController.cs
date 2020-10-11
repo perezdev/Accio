@@ -3,7 +3,7 @@ using Accio.Business.Models.RarityModels;
 using Accio.Business.Services.CardServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Accio.Web.API.Controllers.Rarities
+namespace Accio.Presentation.Web.API.Controllers.Rarities
 {
     [Route("Rarities")]
     [ApiController]

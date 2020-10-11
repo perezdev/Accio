@@ -9,7 +9,7 @@ using Accio.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Accio.Web.Pages.Card
+namespace Accio.Presentation.Web.Pages.Card
 {
     public class IndexModel : PageModel
     {

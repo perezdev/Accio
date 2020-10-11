@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Accio.Web.Pages.Shared.Components.Environment
+namespace Accio.Presentation.Web.Pages.Shared.Components.Environment
 {
     public class EnvironmentViewComponent : ViewComponent
     {

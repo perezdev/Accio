@@ -3,7 +3,7 @@ using Accio.Business.Services.CardServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Accio.Web.Pages.Sets
+namespace Accio.Presentation.Web.Pages.Sets
 {
     public class IndexModel : PageModel
     {

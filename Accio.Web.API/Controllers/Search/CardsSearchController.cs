@@ -6,7 +6,7 @@ using Accio.Business.Services.CardServices;
 using Accio.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Accio.Web.API.Controllers.Cards.Search
+namespace Accio.Presentation.Web.API.Controllers.Cards.Search
 {
     [Route("Search")]
     [ApiController]

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace Accio.Web.Pages
+namespace Accio.Presentation.Web.Pages
 {
     public class PrivacyModel : PageModel
     {

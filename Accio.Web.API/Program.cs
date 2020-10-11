@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Accio.Web.API
+namespace Accio.Presentation.Web.API
 {
     public class Program
     {

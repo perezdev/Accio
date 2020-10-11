@@ -10,7 +10,7 @@ using Accio.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Accio.Web.Pages.Advanced
+namespace Accio.Presentation.Web.Pages.Advanced
 {
     public class IndexModel : PageModel
     {
