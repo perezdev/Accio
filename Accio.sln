@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.Web", "Accio.Web\Accio.Presentation.Web.csproj", "{AAA89567-A62C-4D89-B929-B1C638C03201}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.Web", "Accio.Presentation.Web\Accio.Presentation.Web.csproj", "{AAA89567-A62C-4D89-B929-B1C638C03201}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Business", "Accio.Business\Accio.Business.csproj", "{F6522F5A-FAB2-4612-8B91-3C421C280285}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Data", "Accio.Data\Accio.Data.csproj", "{0EED1CB1-363A-4490-96CF-6335683F84E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.SetUpload", "Accio.SetUpload\Accio.Presentation.SetUpload.csproj", "{8857A1D0-D11D-4C6F-918A-919B4F670D50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.SetUpload", "Accio.Presentation.SetUpload\Accio.Presentation.SetUpload.csproj", "{8857A1D0-D11D-4C6F-918A-919B4F670D50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.Web.API", "Accio.Web.API\Accio.Presentation.Web.API.csproj", "{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accio.Presentation.Web.API", "Accio.Presentation.Web.API\Accio.Presentation.Web.API.csproj", "{7E29E4FA-9A19-4C41-87D7-829C1EC9B8E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
