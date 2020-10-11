@@ -22,6 +22,8 @@ namespace Accio.Business.Models.CardModels
         public int? ActionCost { get; set; }
         public string CardNumber { get; set; }
         public string Orientation { get; set; }
+        public int? Health { get; set; }
+        public int? Damage { get; set; }
         public List<ImageModel> Images { get; set; } = new List<ImageModel>();
         public string MetaDescription { get; set; }
         public string CardPageUrl { get; set; }

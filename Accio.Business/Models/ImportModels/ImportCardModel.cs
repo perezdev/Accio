@@ -16,6 +16,10 @@ namespace Accio.Business.Models.ImportModels
         public string LessonType { get; set; }
         [JsonProperty("subTypes")]
         public string[] SubTypes { get; set; }
+        [JsonProperty("dmgEachTurn")]
+        public int? Damage { get; set; }
+        [JsonProperty("health")]
+        public int? Health { get; set; }
         [JsonProperty("description")]
         [JsonConverter(typeof(DescriptionConverter))]
         public ImportDescriptionModel Description { get; set; } = new ImportDescriptionModel();

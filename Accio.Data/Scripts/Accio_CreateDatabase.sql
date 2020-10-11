@@ -1,4 +1,4 @@
-/****** Object:  Database [Accio]    Script Date: 7/14/2020 4:58:08 PM ******/
+/****** Object:  Database [Accio]    Script Date: 10/10/2020 8:34:10 PM ******/
 CREATE DATABASE [Accio]  (EDITION = 'Standard', SERVICE_OBJECTIVE = 'S0', MAXSIZE = 2 GB) WITH CATALOG_COLLATION = SQL_Latin1_General_CP1_CI_AS;
 GO
 
@@ -64,5 +64,3 @@ GO
 
 ALTER DATABASE [Accio] SET  READ_WRITE 
 GO
-
-

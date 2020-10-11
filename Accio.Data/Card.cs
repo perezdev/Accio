@@ -14,6 +14,8 @@ namespace Accio.Data
         public int? ActionCost { get; set; }
         public string CardNumber { get; set; }
         public string Orientation { get; set; }
+        public int? Health { get; set; }
+        public int? Damage { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

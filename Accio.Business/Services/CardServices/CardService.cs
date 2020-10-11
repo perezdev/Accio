@@ -382,6 +382,8 @@ namespace Accio.Business.Services.CardServices
                 ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
                                  CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
                 CardPageUrl = $"/Card/{cardSet.ShortName}/{card.CardNumber}/{cardDetail.Name.Replace(" ", "-")}",
+                Damage = card.Damage,
+                Health = card.Health,
                 CreatedById = card.CreatedById,
                 CreatedDate = card.CreatedDate,
                 UpdatedById = card.UpdatedById,
@@ -489,6 +491,14 @@ namespace Accio.Business.Services.CardServices
             }
 
             return cards;
+        }
+
+        public void UpdateCreatureData(Guid cardId, int? damage, int? health)
+        {
+            var card = _context.Card.Single(x => x.CardId == cardId);
+            card.Damage = damage;
+            card.Health = health;
+            _context.SaveChanges();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Accio.SetUpload
         private static CardSubTypeService _cardSubTypeService { get; set; }
         private static SubTypeService _subTypeService { get; set; }
         private static CardProvidesLessonService _cardProvidesLessonService { get; set; }
+        private static CardImageService _cardImageService { get; set; }
 
         private static void RegisterServices()
         {
@@ -58,6 +59,7 @@ namespace Accio.SetUpload
             services.AddTransient<CardSubTypeService>();
             services.AddTransient<SubTypeService>();
             services.AddTransient<CardProvidesLessonService>();
+            services.AddTransient<CardImageService>();
 
             var provider = services.BuildServiceProvider();
             _cardService = provider.GetService<CardService>();
@@ -71,15 +73,17 @@ namespace Accio.SetUpload
             _cardSubTypeService = provider.GetService<CardSubTypeService>();
             _subTypeService = provider.GetService<SubTypeService>();
             _cardProvidesLessonService = provider.GetService<CardProvidesLessonService>();
+            _cardImageService = provider.GetService<CardImageService>();
         }
 
         private static void Main(string[] args)
         {
             RegisterServices();
             //ImportSets();
-            ImportSubTypes();
-            ImportMatches();
-            ImportCardProvidesLessons();
+            //ImportSubTypes();
+            //ImportMatches();
+            //ImportCardProvidesLessons();
+            ImportDamageAndHealth();
         }
         private static void ImportCardProvidesLessons()
         {
@@ -155,6 +159,26 @@ namespace Accio.SetUpload
             var sets = GetSets();
             _cardService.ImportCardsFromSets(sets);
         }
+        private static void ImportDamageAndHealth()
+        {
+            var sets = GetSets();
+            var cards = _cardService.GetAllCards().Where(x => x.CardType.Name == "Creature");
+
+            foreach (var card in cards)
+            {
+                var set = sets.Single(x => x.Name == card.CardSet.Name);
+                var jsonCard = set.Cards.SingleOrDefault(x => x.Name == card.Detail.Name);
+
+                if (jsonCard == null)
+                {
+                    Console.WriteLine($"{card.Detail.Name}");
+                }
+                else
+                {
+                    _cardService.UpdateCreatureData(card.CardId, jsonCard.Damage, jsonCard.Health);
+                }
+            }
+        }
         private static ImportSetModel GetSet(SetType setType)
         {
             switch (setType)
@@ -203,11 +227,11 @@ namespace Accio.SetUpload
             var hosSet = GetSet(SetType.HeirOfSlytherin);
 
             var sets = new List<ImportSetModel>();
-            //sets.Add(baseSet);
-            //sets.Add(adventureAtHogwartsSet);
-            //sets.Add(chamberOfSecretsSet);
-            //sets.Add(diagonAlleySet);
-            //sets.Add(quidditchSet);
+            sets.Add(baseSet);
+            sets.Add(adventureAtHogwartsSet);
+            sets.Add(chamberOfSecretsSet);
+            sets.Add(diagonAlleySet);
+            sets.Add(quidditchSet);
             sets.Add(hosSet);
 
             return sets;
