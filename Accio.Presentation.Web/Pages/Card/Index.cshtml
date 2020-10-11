@@ -140,7 +140,7 @@
 
                                                     if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
                                                     {
-                                                        var note = $"<p class=\"tc\">{Model.Card.Detail.Note}</p>";
+                                                        var note = $"<p>{Model.Card.Detail.Note}</p>";
                                                         text = $"{note}{effect}{toSolve}{reward}";
                                                     }
                                                     else
@@ -155,7 +155,7 @@
 
                                                     if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
                                                     {
-                                                        var note = $"<p class=\"tc\">{Model.Card.Detail.Note}</p>";
+                                                        var note = $"<p>{Model.Card.Detail.Note}</p>";
                                                         text = $"{note}{toWin}{prize}";
                                                     }
                                                     else
@@ -169,6 +169,18 @@
                                                 case TypeOfCard.Item:
                                                 case TypeOfCard.Lesson:
                                                 case TypeOfCard.Location:
+                                                    var locationText = $"<p>{Model.Card.Detail.Text}</p>";
+                                                    if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
+                                                    {
+                                                        var note = $"<p><i>{Model.Card.Detail.Note}</i></p>";
+                                                        text = $"{note}{locationText}";
+                                                    }
+                                                    else
+                                                    {
+                                                        text = $"{locationText}";
+                                                    }
+
+                                                    break;
                                                 case TypeOfCard.Spell:
                                                     text = $"{Model.Card.Detail.Text}";
 

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "AccioConnection",
+      "suggestion": "true",
+      "ignored": "true"
+    }
+  }
+}
