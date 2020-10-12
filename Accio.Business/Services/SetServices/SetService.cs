@@ -84,10 +84,10 @@ namespace Accio.Business.Services.CardServices
         public SetModel GetSetByShortName(string shortName)
         {
             if (SetsCache.Count > 0)
-                return SetsCache.FirstOrDefault(set => set.ShortName == shortName);
-            
+                return SetsCache.FirstOrDefault(set => set.ShortName.ToLower() == shortName.ToLower());
+
             return (from set in _context.Set
-                    where !set.Deleted && set.ShortName == shortName
+                    where !set.Deleted && set.ShortName.ToLower() == shortName.ToLower()
                     select GetSetModel(set)).FirstOrDefault();
         }
 
