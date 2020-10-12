@@ -61,10 +61,7 @@ namespace Accio.Presentation.Web.Pages.Search
             try
             {
                 var setByShortName = _setService.GetSetByShortName(shortName);
-                return new JsonResult(new {
-                    result = true,
-                    json = setByShortName
-                });
+                return new JsonResult(new { success = true, json = setByShortName });
             }
             catch (Exception exception)
             {
