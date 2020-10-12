@@ -8,6 +8,6 @@
         public const string Or = "|";
         public const string GreaterThan = ">";
         public const string LessThan = "<";
-        public const string EqualTo = "=";
+        //public const string EqualTo = "=";
     }
 }

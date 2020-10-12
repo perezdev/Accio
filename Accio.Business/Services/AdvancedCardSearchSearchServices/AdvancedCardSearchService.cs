@@ -50,6 +50,10 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
         public List<CardModel> SearchCards(AdvancedSearchParameters param)
         {
+            var validSearchParams = ValidateAdvancedSearchParams(param.AdvancedSearchText);
+            if (!validSearchParams)
+                return new List<CardModel>();
+
             var query = GetQuery(param);
             var cardModels = query.Select(x => CardService.GetCardModel(
                                           x.Card, x.Set, x.Rarity, x.CardType, x.CardDetail,
@@ -475,7 +479,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                               searchText.Contains(AdvancedSearchKeywords.Type) || searchText.Contains(AdvancedSearchKeywords.TypeAlias);
 
             containsExpression = searchText.Contains(AdvancedSearchExpressions.And) || searchText.Contains(AdvancedSearchExpressions.Contains) ||
-                                 searchText.Contains(AdvancedSearchExpressions.EqualTo) || searchText.Contains(AdvancedSearchExpressions.Exact) ||
+                                 /*searchText.Contains(AdvancedSearchExpressions.EqualTo) || */ searchText.Contains(AdvancedSearchExpressions.Exact) ||
                                  searchText.Contains(AdvancedSearchExpressions.GreaterThan) || searchText.Contains(AdvancedSearchExpressions.LessThan) ||
                                  searchText.Contains(AdvancedSearchExpressions.Or);
 
@@ -680,12 +684,12 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                         fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.LessThan);
                         fieldValues.Add(fieldValue);
                     }
-                    if (rawField.Contains(AdvancedSearchExpressions.EqualTo))
-                    {
-                        fieldValue.Expression = AdvancedSearchFieldExpression.EqualTo;
-                        fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.EqualTo);
-                        fieldValues.Add(fieldValue);
-                    }
+                    //if (rawField.Contains(AdvancedSearchExpressions.EqualTo))
+                    //{
+                    //    fieldValue.Expression = AdvancedSearchFieldExpression.EqualTo;
+                    //    fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.EqualTo);
+                    //    fieldValues.Add(fieldValue);
+                    //}
                 }
 
                 return fieldValues;
@@ -1112,6 +1116,20 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             }
 
             return setFields;
+        }
+        /// <summary>
+        /// Takes the search string from the URL query and parses it through the field methods. These
+        /// methods parse the string individually and returns a list of fields for each table. If any
+        /// of those fields exist, this method returns true.
+        /// </summary>
+        public bool ValidateAdvancedSearchParams(string advancedSearchString)
+        {
+            var cardTableFields = GetCardTableFields(advancedSearchString); 
+            var cardTableDetailFields = GetCardDetailTableFields(advancedSearchString);
+            var cardProvidesLessonTableFields = GetCardProvidesLessonTableFields(advancedSearchString);
+            var cardsubTypeTableFields = GetSubTypeTableFields(advancedSearchString);
+
+            return (cardTableFields.Any() || cardTableDetailFields.Any() || cardProvidesLessonTableFields.Any() || cardsubTypeTableFields.Any());
         }
     }
     public static class CharacterExtensionMethods
