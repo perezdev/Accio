@@ -1,4 +1,4 @@
-﻿const searchQueryParameterNames = {
+const searchQueryParameterNames = {
     SetName: 'setName',
     SearchText: 'searchText',
     SortBy: 'sortBy',
@@ -449,7 +449,7 @@ function ToggleSearchResultData() {
         $(resultsContainerNames.SearchResultsContainerId).addClass('dn');
 
         var fd = new FormData();
-        fd.append('setName', setName);
+        fd.append('shortName', setName);
 
         $.ajax({
             type: "POST",
