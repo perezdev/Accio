@@ -449,7 +449,7 @@ function ToggleSearchResultData() {
         $(resultsContainerNames.SearchResultsContainerId).addClass('dn');
 
         var fd = new FormData();
-        fd.append('shortName', setName);
+        fd.append('setShortName', setName);
 
         $.ajax({
             type: "POST",
