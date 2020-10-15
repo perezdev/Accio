@@ -1,4 +1,4 @@
-﻿using Accio.Business.Models.SetModels;
+using Accio.Business.Models.SetModels;
 using Accio.Business.Services.LanguageServices;
 using Accio.Data;
 using System;
@@ -84,10 +84,10 @@ namespace Accio.Business.Services.CardServices
         public SetModel GetSetByShortName(string shortName)
         {
             if (SetsCache.Count > 0)
-                return SetsCache.FirstOrDefault(set => set.ShortName.ToLower() == shortName.ToLower());
+                return SetsCache.FirstOrDefault(set => set.ShortName == setShortName);
 
             return (from set in _context.Set
-                    where !set.Deleted && set.ShortName.ToLower() == shortName.ToLower()
+                    where !set.Deleted && set.ShortName == setShortName
                     select GetSetModel(set)).FirstOrDefault();
         }
 
