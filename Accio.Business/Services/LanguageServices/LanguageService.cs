@@ -23,6 +23,13 @@ namespace Accio.Business.Services.LanguageServices
 
             return languageModels;
         }
+        public Guid? GetLanguageIdByCode(string languageCode)
+        {
+            var language = (from lang in _context.Language
+                            where !lang.Deleted && lang.Code == languageCode
+                            select lang).SingleOrDefault();
+            return language?.LanguageId;
+        }
         public Guid GetLanguageId(TypeOfLanguage typeOfLanguage)
         {
             var englishLanguageId = Guid.Parse("4F5CC98D-4315-4410-809F-E2CC428E0C9B");

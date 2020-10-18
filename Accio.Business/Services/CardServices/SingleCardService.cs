@@ -106,7 +106,7 @@ namespace Accio.Business.Services.CardServices
             var cardImages = _cardImageService.GetCardImages(cards.Select(x => x.CardId).ToList());
             foreach (var card in cards)
             {
-                var images = cardImages.Where(x => x.CardId == card.CardId).ToList();
+                var images = cardImages.Where(x => x.CardId == card.CardId && x.Image.Language.LanguageId == card.Detail.Language.LanguageId).ToList();
                 if (images?.Count > 0)
                 {
                     card.Images = images.Select(x => x.Image).ToList();

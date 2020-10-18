@@ -43,6 +43,7 @@ namespace Accio.Business.Services.CardServices
                 Illustrator = cardDetail.Illustrator,
                 Copyright = cardDetail.Copyright,
                 Note = cardDetail.Note,
+                Orientation = cardDetail.Orientation,
                 CreatedById = cardDetail.CreatedById,
                 CreatedDate = cardDetail.CreatedDate,
                 UpdatedById = cardDetail.UpdatedById,

@@ -5,6 +5,7 @@ using Accio.Business.Models.LessonModels;
 using Accio.Business.Models.RarityModels;
 using Accio.Business.Models.SetModels;
 using Accio.Business.Models.TypeModels;
+using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
@@ -31,11 +32,13 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         private RarityService _rarityService { get; set; }
         private SetService _setService { get; set; }
         private SubTypeService _subTypeService { get; set; }
-        public CardService _cardService { get; set; }
+        private CardService _cardService { get; set; }
+        private CardSearchHistoryService _cardSearchHistoryService { get; set; }
 
         public AdvancedCardSearchService(AccioContext context, LanguageService languageService, TypeService typeService,
                                          CardSubTypeService cardSubTypeService, LessonService lessonService, RarityService rarityService,
-                                         SetService setService, SubTypeService subTypeService, CardService cardService)
+                                         SetService setService, SubTypeService subTypeService, CardService cardService,
+                                         CardSearchHistoryService cardSearchHistoryService)
         {
             _languageService = languageService;
             _context = context;
@@ -46,10 +49,13 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             _setService = setService;
             _subTypeService = subTypeService;
             _cardService = cardService;
+            _cardSearchHistoryService = cardSearchHistoryService;
         }
 
         public List<CardModel> SearchCards(AdvancedSearchParameters param)
         {
+            var utcNow = DateTime.UtcNow;
+
             var validSearchParams = ValidateAdvancedSearchParams(param.AdvancedSearchText);
             if (!validSearchParams)
                 return new List<CardModel>();
@@ -77,6 +83,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             {
                 cardModels = _cardService.GetCardModelsSorted(cardModels, param.SortBy, param.SortOrder);
             }
+
+            _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
 
             return cardModels;
         }

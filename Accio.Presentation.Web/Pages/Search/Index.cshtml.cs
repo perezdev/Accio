@@ -92,7 +92,8 @@ namespace Accio.Presentation.Web.Pages.Search
                         AdvancedSearchText = searchText,
                         SortBy = sortBy,
                         SortOrder = sortOrder,
-                        LanguageId = englishLanguageId
+                        LanguageId = englishLanguageId,
+                        SourceId = websiteSource.SourceId,
                     };
                     cards = _advancedCardSearchService.SearchCards(advancedSearchParamters);
                 }

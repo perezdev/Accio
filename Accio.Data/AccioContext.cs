@@ -68,6 +68,8 @@ namespace Accio.Data
                     .IsRequired()
                     .HasMaxLength(150);
 
+                entity.Property(e => e.Orientation).HasMaxLength(50);
+
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 

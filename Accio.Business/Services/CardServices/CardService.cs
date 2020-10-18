@@ -75,8 +75,8 @@ namespace Accio.Business.Services.CardServices
                          from plesson in providesLesson.DefaultIfEmpty()
                          join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId
+                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted
+                         /*&& language.LanguageId == param.LanguageId*/
                          select new
                          {
                              card,
@@ -94,12 +94,10 @@ namespace Accio.Business.Services.CardServices
             {
                 cards = cards.Where(x => x.card.CardSetId == param.SetId);
             }
-
             if (!string.IsNullOrWhiteSpace(param.SetShortName))
             {
                 cards = cards.Where(card => card.cardSet.ShortName == param.SetShortName);
             }
-
             if (param.TypeId != null && param.TypeId != Guid.Empty)
             {
                 cards = cards.Where(x => x.card.CardTypeId == param.TypeId);
@@ -227,7 +225,7 @@ namespace Accio.Business.Services.CardServices
 
             return cardModels;
         }
-        
+
         public List<CardModel> GetCardModelsSorted(List<CardModel> cards, string sortBy, string sortOrder)
         {
             if (sortBy == SortType.SetNumber)
@@ -381,7 +379,7 @@ namespace Accio.Business.Services.CardServices
                 Orientation = card.Orientation,
                 ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
                                  CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
-                CardPageUrl = $"/Card/{cardSet.ShortName}/{card.CardNumber}/{cardDetail.Name.Replace(" ", "-")}",
+                CardPageUrl = $"/Card/{cardSet.ShortName}/{card.CardNumber}/{language.Code}/{cardDetail.Name.Replace(" ", "-")}",
                 Damage = card.Damage,
                 Health = card.Health,
                 CreatedById = card.CreatedById,
@@ -483,7 +481,7 @@ namespace Accio.Business.Services.CardServices
             var cardImages = _cardImageService.GetCardImages(cards.Select(x => x.CardId).ToList());
             foreach (var card in cards)
             {
-                var images = cardImages.Where(x => x.CardId == card.CardId).ToList();
+                var images = cardImages.Where(x => x.CardId == card.CardId && x.Image.Language.LanguageId == card.Detail.Language.LanguageId).ToList();
                 if (images?.Count > 0)
                 {
                     card.Images = images.Select(x => x.Image).ToList();

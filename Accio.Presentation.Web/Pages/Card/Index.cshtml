@@ -1,4 +1,4 @@
-﻿@page "{setShortName?}/{cardNumber?}/{cardName?}"
+﻿@page "{setShortName?}/{cardNumber?}/{langCode?}/{cardName?}"
 @model Accio.Presentation.Web.Pages.Card.IndexModel
 @{
     var title = $"{Model.Card.Detail.Name} • {Model.Card.CardSet.Name} • {Model.Card.CardNumber} • Accio Harry Potter TCG Search";
@@ -41,10 +41,22 @@
                         @{
                             var smallImage = Model.Card.Images.SingleOrDefault(x => x.Size == ImageSizeType.Small);
                             var largeImage = Model.Card.Images.SingleOrDefault(x => x.Size == ImageSizeType.Large);
-                            var imageUrl = largeImage == null ? smallImage.Url : largeImage.Url;    
+                            var imageUrl = largeImage == null ? smallImage.Url : largeImage.Url;
 
-                            var orientationClass = Model.Card.Orientation == "Horizontal" ? "card-orientation-horizontal" : "card-orientation-vertical";
-                            //var style = Model.Card.Orientation == "Horizontal" ? "height:314px; width: 438px;" : "height:438px; width: 314px;";
+                            var orientationClass = "";
+                            var orientation = Model.Card.Detail.Orientation;
+                            if (orientation == "Horizontal")
+                            {
+                                orientationClass = "card-orientation-horizontal";
+                            }
+                            else if (orientation == "Vertical")
+                            {
+                                orientationClass = "card-orientation-vertical";
+                            }
+                            else
+                            {
+                                orientationClass = "card-orientation-none";
+                            }
                         }
                         <img class="@orientationClass" src="@imageUrl" />
                     </div>
