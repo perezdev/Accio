@@ -64,7 +64,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var cardModels = query.Select(x => CardService.GetCardModel(
                                           x.Card, x.Set, x.Rarity, x.CardType, x.CardDetail,
                                           x.Language, x.LessonType, x.CardProvidesLessonLessonType, x.CardProvidesLesson)
-                                         ).DistinctBy(x => x.CardId).ToList();
+                                         ).DistinctBy(x => new { x.CardId, x.Detail.Language.LanguageId }).ToList();
 
             //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
             var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
@@ -93,12 +93,6 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         private IQueryable<AdvancedSearchCardQuery> GetQuery(AdvancedSearchParameters param)
         {
-            if (param.LanguageId == null || param.LanguageId == Guid.Empty)
-            {
-                var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
-                param.LanguageId = englishLanguageId;
-            }
-
             var detailTable = GetDetailTable(param.AdvancedSearchText);
             var cardTable = GetCardTable(param.AdvancedSearchText);
 
@@ -118,8 +112,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                          from cardSubType in cst.DefaultIfEmpty()
                          join subType in _context.SubType on cardSubType.SubTypeId equals subType.SubTypeId into st
                          from subType in st.DefaultIfEmpty()
-                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
-                               language.LanguageId == param.LanguageId
+                         where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted
                          select new AdvancedSearchCardQuery()
                          {
                              Card = card,
