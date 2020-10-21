@@ -72,7 +72,7 @@ namespace Accio.Presentation.Web.Pages.Search
             }
         }
 
-        public JsonResult OnPostSearchCardsAsync(string setName, string searchText, string sortBy, string sortOrder)
+        public JsonResult OnPostSearchCardsAsync(string set, string searchText, string sortBy, string sortOrder)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace Accio.Presentation.Web.Pages.Search
                 {
                     var cardSearchParameters = new CardSearchParameters()
                     {
-                        SetShortName = setName,
+                        SetShortName = set,
                         SearchText = searchText,
                         SortBy = sortBy,
                         SortOrder = sortOrder,
