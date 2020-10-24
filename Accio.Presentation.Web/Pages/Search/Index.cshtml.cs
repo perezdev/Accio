@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Accio.Business.Models.AdvancedCardSearchSearchModels;
 using Accio.Business.Models.CardModels;
@@ -56,11 +56,11 @@ namespace Accio.Presentation.Web.Pages.Search
             }
         }
 
-        public JsonResult OnPostGetSetByShortName(string shortName)
+        public JsonResult OnPostGetSetByShortName(string setShortName)
         {
             try
             {
-                var setByShortName = _setService.GetSetByShortName(shortName);
+                var setByShortName = _setService.GetSetByShortName(setShortName);
                 return new JsonResult(new { success = true, json = setByShortName });
             }
             catch (Exception exception)
