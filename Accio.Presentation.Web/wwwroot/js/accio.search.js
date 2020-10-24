@@ -1,5 +1,5 @@
 const searchQueryParameterNames = {
-    SetName: 'setName',
+    SetName: 'set',
     SearchText: 'searchText',
     SortBy: 'sortBy',
     SortOrder: 'sortOrder',
@@ -270,7 +270,7 @@ function SearchCards() {
 
     var fd = new FormData();
     if (searchData.SetName) {
-        fd.append('setName', searchData.SetName);
+        fd.append('set', searchData.SetName);
     }
     if (searchData.SearchText) {
         fd.append('searchText', searchData.SearchText);
