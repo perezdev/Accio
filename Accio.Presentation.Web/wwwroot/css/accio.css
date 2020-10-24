@@ -733,6 +733,7 @@ td:nth-child(6) {
     text-decoration: none;
     color: var(--blueRaven);
 }
+
     .single-card-set-anchor:hover {
         text-decoration: underline;
     }
@@ -1147,28 +1148,51 @@ td:nth-child(6) {
     background-color: var(--whiteWizard);
 }
 
-/*.advanced-set-dropdown {
-    width: 52%;
-    padding-bottom: 20px !important;
+.advanced-dropdown {
+    max-width: 50% !important;
+    min-height: 0px !important;
+    padding-right: 0px !important;
+    font-size: 0.875rem !important;
+    border-radius: 4px !important;
+    border: solid 1px #999999 !important;
 }
 
-    .advanced-set-dropdown span + li {
-        width: 100% !important;
-    }*/
+    .advanced-dropdown a {
+        width: 100%;
+        box-shadow: none !important;
+    }
 
-.select2-container {
-    width: 50% !important;
-    margin-bottom: 15px;
+        .advanced-dropdown a i.icon.delete {
+            float: right !important;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url(../images/clear.svg);
+            filter: invert(66%) sepia(0%) saturate(631%) hue-rotate(144deg) brightness(86%) contrast(87%);
+            cursor: pointer;
+        }
+
+            .advanced-dropdown a i.icon.delete:hover {
+                filter: contrast(0) sepia(100%) hue-rotate(350deg) brightness(0.2) saturate(25.28);
+            }
+
+            .advanced-dropdown a i.icon.delete::before {
+                content: '' !important;
+            }
+
+    .advanced-dropdown i.remove.icon {
+        visibility: hidden;
+    }
+
+    .advanced-dropdown i.dropdown.icon {
+        visibility: hidden;
+    }
+
+    .advanced-dropdown .menu > .item {
+        font-size: 0.875rem !important;
+    }
+
+.advanced-dropdown-icon {
+    height: 16px;
+    width: 16px;
+    vertical-align: middle !important;
 }
-
-/*.select2-selection select2-selection--multiple:focus {
-    border: solid 1px var(--purpleFirecracker) !important;
-    box-shadow: 0 0 0 2px rgba(107, 99, 181, 0.3) !important;
-}*/
-
-/*.select2-container:focus {
-        border: solid 1px var(--purpleFirecracker) !important;
-        box-shadow: 0 0 0 2px rgba(107, 99, 181, 0.3) !important;
-        /*outline: none;
-}
-*/

@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <link href="~/css/animate.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
-    <link href="~/css/select2.min.css" rel="stylesheet" />
+    @*    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />*@
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
@@ -114,6 +113,8 @@
     <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.21/sorting/natural.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.21/sorting/absolute.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/transition.min.js" integrity="sha512-PizVXr2x8nthLzuhSX9uZjZ6VQpxdh8+sNvx+JZSOJA29Edpz+Ly+y+dS87Vi4wyc1YFAgDczoV0pqdXXPltmA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/dropdown.min.js" integrity="sha512-gRgrEMNhytpIi2ERGBzFO8pxf7QSoCjXIWw7xo+Wny/WSrGyYLxuR+o2wyxwUy6eTMEZDnyV+xRZok0Z+zSckA==" crossorigin="anonymous"></script>
 
     @* Raw files for development *@
     <environment include="Development">
@@ -123,7 +124,6 @@
         <script src="~/js/accio.card.js" asp-append-version="true"></script>
         <script src="~/js/accio.set.js" asp-append-version="true"></script>
         <script src="~/js/accio.advanced.js" asp-append-version="true"></script>
-        <script src="~/js/select2.full.min.js" asp-append-version="true"></script>
     </environment>
 
     @* Bundled JS for production *@

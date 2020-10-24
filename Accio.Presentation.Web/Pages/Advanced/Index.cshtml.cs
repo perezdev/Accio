@@ -9,13 +9,14 @@ using Accio.Business.Services.CardServices;
 using Accio.Business.Services.SourceServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Accio.Presentation.Web.Pages.Advanced
 {
     public class IndexModel : PageModel
     {
-        public List<SetModel> Sets { get; set; }
         public List<CardTypeModel> CardTypes { get; set; }
+        public List<SetModel> Sets { get; set; }
 
         private SourceService _sourceService { get; set; }
         private AdvancedCardSearchService _advancedCardSearchService { get; set; }
@@ -33,8 +34,8 @@ namespace Accio.Presentation.Web.Pages.Advanced
 
         public void OnGet()
         {
-            Sets = _setService.GetSets();
             CardTypes = _typeService.GetCardTypes();
+            Sets = _setService.GetSets();
         }
 
         public JsonResult OnPostGetAdvancedSearchUrlValueAsync(string cardName, string cardText, string cardTypes, string lessonTypes,

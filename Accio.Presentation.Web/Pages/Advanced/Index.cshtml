@@ -8,6 +8,10 @@
 @* Required for AJAX async calls *@
 @Html.AntiForgeryToken()
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/dropdown.min.css" integrity="sha512-z3j2IzCEWvpzB55wuNyXiTTLI8nZoQ444IizHBKp18FyTm/wclzoxDeCxIz6niOBFmCwQiS/+0kvameIT090wA==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/transition.min.css" integrity="sha512-pinUcwCNaqU0NZshAbsdo6KVLgxKgFh1YH2Hb5otGJMMnEjgH3y9wxbA3Ig2onWdMNGI/ee9SlrZ0X5xcqqnVw==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/icon.min.css" integrity="sha512-I7/aUklkRw/Q5C9/7X2EH1jsng7oBb2P29tXv15+83/hu8qE0BZJyXmCX2u230RZlcf0oylQqmStJGCPxQpUQw==" crossorigin="anonymous" />
+
 <main class="w-100 main-container pl2">
     <div class="mw8 center advanced-content-container pv3 pl5">
         @* Card Name *@
@@ -37,20 +41,25 @@
         </div>
         @* Card Type *@
         <div>
-            <section class="cf w-100 flex items-center">
+            <section class="cf w-100 flex">
                 <div class="fl w-10">
                     <div class="flex items-center w-100">
-                        <div class="advanced-h3">Type</div>
+                        <div class="advanced-h3 pt1">Type</div>
                     </div>
                 </div>
                 <div class="fl w-90 ml3">
-                    <select id="cardTypes" multiple="multiple">
-                        @foreach (var type in Model.CardTypes)
-                        {
-                            <option value="@type.Name">@type.Name</option>
-                        }
-                    </select>
-                    @*<input class="input-reset pa2 mv1 w-50" type="text" placeholder="Enter a type or choose from the list" />*@
+                    <div id="cardTypes" class="ui fluid multiple search selection dropdown advanced-dropdown">
+                        <i class="dropdown icon"></i>
+                        <div class="default text"></div>
+                        <div class="menu">
+                            @foreach (var item in Model.CardTypes)
+                            {
+                                <div class="item" data-value="@item.Name">
+                                    @item.Name
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
@@ -121,17 +130,24 @@
         </div>
         @* Set *@
         <div>
-            <section class="cf w-100 flex items-center">
+            <section class="cf w-100 flex">
                 <div class="fl w-10">
-                    <div class="advanced-h3">Set</div>
+                    <div class="advanced-h3 pt1">Set</div>
                 </div>
-                <div class="fl w-90 pt3 ml3">
-                    <select id="sets" class="advanced-set-dropdown" multiple="multiple">
-                        @foreach (var set in Model.Sets)
-                        {
-                            <option value="@set.ShortName">@set.Name</option>
-                        }
-                    </select>
+                <div class="fl w-90 ml3">
+                    <div id="sets" class="ui fluid multiple search selection dropdown advanced-dropdown">
+                        <i class="dropdown icon"></i>
+                        <div class="default text"></div>
+                        <div class="menu">
+                            @foreach (var item in Model.Sets)
+                            {
+                                <div class="item" data-value="@item.ShortName">
+                                    <img src="~/images/seticons/@item.IconFileName" class="advanced-dropdown-icon" />
+                                    @item.Name
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </section>
             <hr class="fb advanced-row-segment" />
@@ -269,5 +285,3 @@
         *@
     </div>
 </main>
-
-<script src="~/js/select2.full.min.js" asp-append-version="true"></script>

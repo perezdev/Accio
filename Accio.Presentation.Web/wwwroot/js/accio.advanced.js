@@ -46,17 +46,18 @@ function InitializeAdvancedSearchElements() {
             }
         });
 
-    $(advancedSearchElements.SetsDropDownId).select2({});
-    $(advancedSearchElements.CardTypesDropDownId).select2({});
+    $('.ui.dropdown').dropdown({
+        clearable: true,
+    });
 }
 
 function RedirectToSearchWithAdvancedSearchString() {
     var cardName = $(advancedSearchElements.CardNameId).val();
     var cardText = $(advancedSearchElements.CardTextId).val();
-    var cardTypes = $(advancedSearchElements.CardTypesDropDownId).val();
+    var cardTypes = $(advancedSearchElements.CardTypesDropDownId).dropdown('get value');
     var lessonTypes = GetLessonsDelimitedString('lessonTypes');
     var power = $(advancedSearchElements.PowerId).val();
-    var sets = $(advancedSearchElements.SetsDropDownId).val();
+    var sets = $(advancedSearchElements.SetsDropDownId).dropdown('get value');
     var rarity = GetRarityDelimitedString();
     var flavorText = $(advancedSearchElements.FlavorTextId).val();
     var artist = $(advancedSearchElements.ArtistId).val();
