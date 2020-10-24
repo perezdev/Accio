@@ -39,21 +39,28 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
     <link href="~/css/accio.css" rel="stylesheet" asp-append-version="true" />
 </head>
-<body>
-    <div id="main" class="w-100 ph0-ns ph3 relative">
+<body class="home-body">
+    <div id="main" class="w-100 relative">
+        <nav class="tc center home-nav pt4">
+            <a class="dib-ns db mr5-ns" href="/Advanced" title="Advanced"><i class="fas fa-hat-wizard mr2"></i>Advanced Search</a>
+            <a class="dib-ns db mr5-ns" href="https://github.com/perezdev/Accio/wiki/%F0%9F%93%9D-Syntax" target="_blank"><i class="fas fa-code mr2"></i>Syntax</a>
+            <a class="dib-ns db mr5-ns" href="/Sets" title="All Sets"><i class="fas fa-book mr2"></i>Sets</a>
+            <a class="dib-ns db" href="/Random" title="Random Card"><i class="fas fa-magic mr2"></i>Random Card</a>
+        </nav>
+
         <div id="homeSearch" class="mw8 center">
             <div id="accioLogo">
                 <?xml version="1.0" encoding="utf-8" ?>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0"
                      viewBox="0 0 64 64" xml:space="preserve">
-                <path d="M31.2,32.93c1.02,1.04,1.06,2.68,0.11,3.76l-0.12,0.13L4.67,63.2c-1.08,1.07-2.81,1.06-3.88-0.02
-                        c-1.02-1.04-1.06-2.68-0.11-3.76l0.12-0.13l26.51-26.38C28.4,31.84,30.14,31.85,31.2,32.93L31.2,32.93z M39.44,37.52
-                        c1.02,1.04,1.05,2.69,0.1,3.76l-0.12,0.13L23.87,56.79c-1.08,1.07-2.82,1.05-3.88-0.03c-1.02-1.04-1.05-2.69-0.09-3.76l0.12-0.13
-                        l15.54-15.37C36.64,36.42,38.38,36.44,39.44,37.52z M7.22,40.02l15.54-15.37c1.08-1.07,2.82-1.06,3.88,0.03
-                        c1.02,1.04,1.05,2.69,0.1,3.76l-0.12,0.13L11.07,43.94C9.99,45.01,8.25,45,7.19,43.91c-1.02-1.04-1.05-2.69-0.09-3.76L7.22,40.02
-                        l15.54-15.37L7.22,40.02L7.22,40.02z M46.63,0C56.22,0,64,7.8,64,17.43s-7.78,17.43-17.37,17.43s-17.37-7.8-17.37-17.43
-                        C29.26,7.8,37.03,0,46.63,0z M46.63,5.5c-6.56,0-11.89,5.34-11.89,11.93s5.32,11.93,11.89,11.93c6.56,0,11.89-5.34,11.89-11.93
-                        C58.51,10.85,53.19,5.5,46.63,5.5z" />
+                    <path d="M31.2,32.93c1.02,1.04,1.06,2.68,0.11,3.76l-0.12,0.13L4.67,63.2c-1.08,1.07-2.81,1.06-3.88-0.02
+                            c-1.02-1.04-1.06-2.68-0.11-3.76l0.12-0.13l26.51-26.38C28.4,31.84,30.14,31.85,31.2,32.93L31.2,32.93z M39.44,37.52
+                            c1.02,1.04,1.05,2.69,0.1,3.76l-0.12,0.13L23.87,56.79c-1.08,1.07-2.82,1.05-3.88-0.03c-1.02-1.04-1.05-2.69-0.09-3.76l0.12-0.13
+                            l15.54-15.37C36.64,36.42,38.38,36.44,39.44,37.52z M7.22,40.02l15.54-15.37c1.08-1.07,2.82-1.06,3.88,0.03
+                            c1.02,1.04,1.05,2.69,0.1,3.76l-0.12,0.13L11.07,43.94C9.99,45.01,8.25,45,7.19,43.91c-1.02-1.04-1.05-2.69-0.09-3.76L7.22,40.02
+                            l15.54-15.37L7.22,40.02L7.22,40.02z M46.63,0C56.22,0,64,7.8,64,17.43s-7.78,17.43-17.37,17.43s-17.37-7.8-17.37-17.43
+                            C29.26,7.8,37.03,0,46.63,0z M46.63,5.5c-6.56,0-11.89,5.34-11.89,11.93s5.32,11.93,11.89,11.93c6.56,0,11.89-5.34,11.89-11.93
+                            C58.51,10.85,53.19,5.5,46.63,5.5z" />
                 </svg>
             </div>
             <h1 class="hero">Accio</h1>
@@ -64,7 +71,7 @@
         </div>
         <div class="w-100">
             <div class="mw6 center">
-                <div id="spotlight" class="mw6 relative animated fadeIn">
+                <div id="spotlight" class="mw6 relative animated fadeIn mt5">
                     <div class="cf">
                         <div class="fl w-third relative card-image">
                             <a href="@card1.CardPageUrl">
@@ -128,6 +135,9 @@
 
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js">
     </script>
-    <script src="~/js/accio.bundle.min.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/fd25a25548.js">
+    </script>
+    <script src="~/js/accio.bundle.min.js" asp-append-version="true">
+    </script>
 </body>
 </html>
