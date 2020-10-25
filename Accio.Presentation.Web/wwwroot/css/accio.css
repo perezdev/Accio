@@ -71,27 +71,12 @@ p {
     These styles are mobile-first with the a media query defining larger rules.
 */
 
-.home-nav {
-}
-
-    .home-nav > a {
-        font-size: 1rem !important;
-    }
-
-.home-body {
-    
-}
-
 #main {
     background-color: var(--blackBat);
     background-image: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0), #000000 70%), linear-gradient(180deg, #6B63B5 0%, #6B63B5 100%), url("../images/hogwarts.png");
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover;
-
-
-
-
     min-height: 85vh !important;
     background-blend-mode: multiply, overlay, normal;
     text-align: center;
