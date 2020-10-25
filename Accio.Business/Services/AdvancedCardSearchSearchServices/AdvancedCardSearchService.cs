@@ -95,7 +95,6 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         {
             var detailTable = GetDetailTable(param.AdvancedSearchText);
             var cardTable = GetCardTable(param.AdvancedSearchText);
-            var subTypeTable = GetSubTypeTable(param.AdvancedSearchText);
 
             var query = (from card in cardTable
                          join cardDetail in detailTable on card.CardId equals cardDetail.CardId
@@ -111,7 +110,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          join cardSubType in _context.CardSubType on card.CardId equals cardSubType.CardId into cst
                          from cardSubType in cst.DefaultIfEmpty()
-                         join subType in subTypeTable on cardSubType.SubTypeId equals subType.SubTypeId into st
+                         join subType in _context.SubType on cardSubType.SubTypeId equals subType.SubTypeId into st
                          from subType in st.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted
                          select new AdvancedSearchCardQuery()
@@ -177,8 +176,6 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsExact.Select(x => $"{x.Value}").ToArray(), field.DatabaseColumnName);
                 }
-
-
             }
 
             return detailTable;
@@ -277,43 +274,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
             return cardTable;
         }
-        private IQueryable<SubType> GetSubTypeTable(string advancedSearchString)
-        {
-            var subTypeTable = (from subType in _context.SubType
-                                where !subType.Deleted
-                                select subType);
-
-            var fields = GetSubTypeTableFields(advancedSearchString);
-            //if (fields.Count <= 0)
-            //{
-            //    return null;
-            //}
-
-            foreach (var field in fields)
-            {
-                //Contains
-                var fieldsContains = fields.Where(x => x.Field == field.Field && x.Expression == AdvancedSearchFieldExpression.Contains).ToList();
-                if (fieldsContains.Count > 0)
-                {
-                    if (fieldsContains.Any(x => x.Value.Contains(AdvancedSearchExpressions.Or)))
-                        fieldsContains = GetOrFields(fieldsContains);
-
-                    subTypeTable = GetSubTypeQueryWithWhereClause(subTypeTable, fieldsContains.Select(x => $"%{x.Value}%").ToArray(), field.DatabaseColumnName);
-                }
-
-                //Exact
-                var fieldsExact = fields.Where(x => x.Field == field.Field && x.Expression == AdvancedSearchFieldExpression.Exact).ToList();
-                if (fieldsExact.Count > 0)
-                {
-                    if (fieldsExact.Any(x => x.Value.Contains(AdvancedSearchExpressions.Or)))
-                        fieldsExact = GetOrFields(fieldsExact);
-
-                    subTypeTable = GetSubTypeQueryWithWhereClause(subTypeTable, fieldsExact.Select(x => $"{x.Value}").ToArray(), field.DatabaseColumnName);
-                }
-            }
-
-            return subTypeTable;
-        }
+        
         /* Swap all the "tablefields" methods to a single one with an enum for the table. Maybe */
 
         private List<AdvancedSearchFieldValue> GetCardDetailTableFields(string advancedSearchString)
@@ -839,51 +800,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var filteredQuery = query.Where(lambdaPredicate);
             return filteredQuery;
         }
-        private IQueryable<SubType> GetSubTypeQueryWithWhereClause(IQueryable<SubType> query, object[] values, string propertyName)
-        {
-            var likeMethod = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new[] { typeof(DbFunctions), typeof(string), typeof(string) });
-
-            var entityProperties = new List<PropertyInfo>();
-            var ep = typeof(SubType).GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
-            entityProperties.Add(ep);
-
-            // EF.Functions.Like(x.OrderNumber, v1) || EF.Functions.Like(x.OrderNumber, v2)...
-            Expression likePredicate = null;
-
-            var efFunctionsInstance = Expression.Constant(EF.Functions);
-
-            // Will be the predicate paramter (the 'x' in x => EF.Functions.Like(x.OrderNumber, v1)...)
-            var lambdaParam = Expression.Parameter(typeof(SubType));
-            foreach (var val in values)
-            {
-                // EF.Functions.Like(x.OrderNumber, v1)
-                //                                 |__|
-                var numberValue = Expression.Constant(val);
-
-                foreach (var entityProperty in entityProperties)
-                {
-                    // EF.Functions.Like(x.OrderNumber, v1)
-                    //                  |_____________|
-                    var propertyAccess = Expression.Property(lambdaParam, entityProperty);
-
-                    // EF.Functions.Like(x.OrderNumber, v1)
-                    //|____________________________________|
-                    var likeMethodCall = Expression.Call(likeMethod, efFunctionsInstance, propertyAccess, numberValue);
-
-                    // Aggregating the current predicate with "OR" (||)
-                    likePredicate = likePredicate == null
-                                        ? (Expression)likeMethodCall
-                                        : Expression.OrElse(likePredicate, likeMethodCall);
-                }
-            }
-
-            // x => EF.Functions.Like(x.OrderNumber, v1) || EF.Functions.Like(x.OrderNumber, v2)...
-            var lambdaPredicate = Expression.Lambda<Func<SubType, bool>>(likePredicate, lambdaParam);
-
-            var filteredQuery = query.Where(lambdaPredicate);
-            return filteredQuery;
-        }
-
+        
         private IQueryable<AdvancedSearchCardQuery> GetProvidesLessonWhereClause(IQueryable<AdvancedSearchCardQuery> query, List<AdvancedSearchFieldValue> values)
         {
             var guids = values.Select(x => Guid.Parse(x.Value)).ToList();
