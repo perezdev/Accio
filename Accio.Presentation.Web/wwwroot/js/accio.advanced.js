@@ -74,7 +74,7 @@ function RedirectToSearchWithAdvancedSearchString() {
     if (cardTypes) {
         fd.append('cardTypes', cardTypes);
     }
-    if (cardTypes) {
+    if (lessonTypes) {
         fd.append('lessonTypes', lessonTypes);
     }
     if (power) {
