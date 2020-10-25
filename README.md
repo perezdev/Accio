@@ -2,7 +2,7 @@
 
 http://accio.cards
 
-![](https://i.imgur.com/uJ9Ap80.png)
+![](https://i.imgur.com/JYqfGhD.png)
 
 # Overview
 
