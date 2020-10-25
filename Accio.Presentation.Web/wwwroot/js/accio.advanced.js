@@ -20,7 +20,8 @@
     PremiumCheckboxId: '#premiumCheckbox',
     FlavorTextId: '#flavorText',
     ArtistId: '#artist',
-    CardNumberId: '#cardNumber'
+    CardNumberId: '#cardNumber',
+    KeywordId: '#keyword',
 };
 
 function InitializeAdvancedPage() {
@@ -63,6 +64,7 @@ function RedirectToSearchWithAdvancedSearchString() {
     var artist = $(advancedSearchElements.ArtistId).val();
     var cardNumber = $(advancedSearchElements.CardNumberId).val();
     var provides = GetLessonsDelimitedString('provides');
+    var keyword = $(advancedSearchElements.KeywordId).val();
 
     var fd = new FormData();
     if (cardName) {
@@ -97,6 +99,9 @@ function RedirectToSearchWithAdvancedSearchString() {
     }
     if (provides) {
         fd.append('provides', provides);
+    }
+    if (keyword) {
+        fd.append('keyword', keyword);
     }
 
     $.ajax({

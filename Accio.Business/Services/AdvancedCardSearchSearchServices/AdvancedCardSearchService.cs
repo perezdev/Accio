@@ -404,7 +404,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         public string GetAdvancedSearchUrlValue(string cardName, string cardText, string cardTypes, string lessonTypes,
                                                 string power, string sets, string rarity, string flavorText, string artist,
-                                                string cardNumber, string provides)
+                                                string cardNumber, string provides, string keyword)
         {
             var urlList = new List<string>();
 
@@ -451,6 +451,10 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             if (!string.IsNullOrEmpty(provides))
             {
                 urlList.Add($"{AdvancedSearchKeywords.Provides}{AdvancedSearchExpressions.Exact}{provides.ToPipeDelimitedFromCommaDelimited()}");
+            }
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                urlList.Add($"{AdvancedSearchKeywords.Keywords}{AdvancedSearchExpressions.Exact}{keyword.ToPipeDelimitedFromCommaDelimited()}");
             }
 
             return string.Join('+', urlList);

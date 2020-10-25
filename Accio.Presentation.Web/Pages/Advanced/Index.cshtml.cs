@@ -40,13 +40,13 @@ namespace Accio.Presentation.Web.Pages.Advanced
 
         public JsonResult OnPostGetAdvancedSearchUrlValueAsync(string cardName, string cardText, string cardTypes, string lessonTypes,
                                                                string power, string sets, string rarity, string flavorText, string artist,
-                                                               string cardNumber, string provides)
+                                                               string cardNumber, string provides, string keyword)
         {
             try
             {
                 var searchUrl = _advancedCardSearchService.GetAdvancedSearchUrlValue(cardName, cardText, cardTypes, lessonTypes,
                                                                                      power, sets, rarity, flavorText, artist,
-                                                                                     cardNumber, provides);
+                                                                                     cardNumber, provides, keyword);
                 return new JsonResult(new { success = true, json = searchUrl });
             }
             catch (Exception ex)
