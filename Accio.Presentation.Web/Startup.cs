@@ -1,4 +1,7 @@
+using Accio.Business.Services.AccountServices;
 using Accio.Business.Services.AdvancedCardSearchSearchServices;
+using Accio.Business.Services.AuthenticationHistoryServices;
+using Accio.Business.Services.AuthenticationServices;
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.ConfigurationServices;
@@ -60,6 +63,9 @@ namespace Accio.Web
             services.AddTransient<ImageService>();
             services.AddTransient<ImageSizeService>();
             services.AddTransient<SingleCardService>();
+            services.AddTransient<AccountService>();
+            services.AddTransient<AuthenticationService>();
+            services.AddTransient<AuthenticationHistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

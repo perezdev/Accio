@@ -13,6 +13,8 @@ namespace Accio.Data
         {
         }
 
+        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<AuthenticationHistory> AuthenticationHistory { get; set; }
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
         public virtual DbSet<CardImage> CardImage { get; set; }
@@ -40,6 +42,45 @@ namespace Accio.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasKey(e => new { e.AccountId, e.EmailAddress })
+                    .HasName("PK_Account_1");
+
+                entity.Property(e => e.EmailAddress).HasMaxLength(100);
+
+                entity.Property(e => e.AccountName)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.Active)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.PasswordHash).IsRequired();
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<AuthenticationHistory>(entity =>
+            {
+                entity.Property(e => e.AuthenticationHistoryId).ValueGeneratedNever();
+
+                entity.Property(e => e.BogusData).HasMaxLength(50);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EmailAddress).HasMaxLength(100);
+
+                entity.Property(e => e.Type).HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Username).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Card>(entity =>
             {
                 entity.Property(e => e.CardId).ValueGeneratedNever();

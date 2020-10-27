@@ -7,7 +7,9 @@
       "wwwroot/js/accio.core.js",
       "wwwroot/js/accio.home.js",
       "wwwroot/js/accio.search.js",
-      "wwwroot/js/accio.set.js"
+      "wwwroot/js/accio.set.js",
+      "wwwroot/js/accio.account.register.js",
+      "wwwroot/js/accio.account.login.js"
     ]
   }
 ]
