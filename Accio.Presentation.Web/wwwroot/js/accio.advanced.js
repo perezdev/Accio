@@ -38,9 +38,14 @@ function InitializeAdvancedSearchElements() {
         RedirectToSearchWithAdvancedSearchString();
     });
 
-    $(advancedSearchElements.CardNameId + ',' + advancedSearchElements.CardTextId +
-        ',' + advancedSearchElements.PowerId + ',' + advancedSearchElements.FlavorTextId +
-        ',' + advancedSearchElements.ArtistId, + ',' + advancedSearchElements.CardNumberId).on('keypress', function (e) {
+    $(advancedSearchElements.CardNameId + ',' + advancedSearchElements.CardTextId + ',' + advancedSearchElements.PowerId + ',' +
+        advancedSearchElements.FlavorTextId + ',' + advancedSearchElements.ArtistId + ',' + advancedSearchElements.CardNumberId + ',' +
+        advancedSearchElements.KeywordId + ',' + advancedSearchElements.ComcCheckboxId + ',' + advancedSearchElements.CharmsCheckboxId + ',' +
+        advancedSearchElements.PotionsCheckboxId + ',' + advancedSearchElements.QuidditchCheckboxId + ',' + advancedSearchElements.TransfigurationCheckboxId + ',' +
+        advancedSearchElements.CommonCheckboxId + ',' + advancedSearchElements.UncommonCheckboxId + ',' + advancedSearchElements.RareCheckboxId + ',' +
+        advancedSearchElements.PremiumCheckboxId + ',' + advancedSearchElements.ProvidesComcCheckboxId + ',' + advancedSearchElements.ProvidesCharmsCheckboxId + ',' +
+        advancedSearchElements.ProvidesPotionsCheckboxId + ',' + advancedSearchElements.ProvidesQuidditchCheckboxId + ',' + advancedSearchElements.ProvidesTransfigurationCheckboxId
+    ).on('keypress', function (e) {
             if (e.which === 13) {
                 e.preventDefault();
                 RedirectToSearchWithAdvancedSearchString();
