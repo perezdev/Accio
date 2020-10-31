@@ -54,7 +54,7 @@ function InitializeSetsTable() {
 
     $(setsPageElements.SetsTableId + ' tbody').on('click', 'tr', function () {
         var data = setsTable.row(this).data();
-        window.location.href = '/Search?setName=' + data[0] + '&sortBy=sn&cardView=images';
+        window.location.href = '/Search?set=' + data[0] + '&sortBy=sn&cardView=images';
     });
 }
 
