@@ -371,11 +371,11 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
             if (!string.IsNullOrEmpty(cardName))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Name}{AdvancedSearchExpressions.Contains}{cardName.ToStringWithoutIllegalCharacters()}");
+                urlList.Add($"{AdvancedSearchKeywords.Name}{AdvancedSearchExpressions.Contains}{cardName.ToStringWithoutIllegalCharacters().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(cardText))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Text}{AdvancedSearchExpressions.Contains}{cardText.ToStringWithoutIllegalCharacters()}");
+                urlList.Add($"{AdvancedSearchKeywords.Text}{AdvancedSearchExpressions.Contains}{cardText.ToStringWithoutIllegalCharacters().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(cardTypes))
             {
@@ -387,7 +387,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             }
             if (!string.IsNullOrEmpty(power))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Power}{AdvancedSearchExpressions.Exact}{power.ToStringWithoutIllegalCharacters()}");
+                urlList.Add($"{AdvancedSearchKeywords.Power}{AdvancedSearchExpressions.Exact}{power.ToStringWithoutIllegalCharacters().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(sets))
             {
@@ -399,15 +399,15 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             }
             if (!string.IsNullOrEmpty(flavorText))
             {
-                urlList.Add($"{AdvancedSearchKeywords.FlavorText}{AdvancedSearchExpressions.Contains}{flavorText.ToStringWithoutIllegalCharacters()}");
+                urlList.Add($"{AdvancedSearchKeywords.FlavorText}{AdvancedSearchExpressions.Contains}{flavorText.ToStringWithoutIllegalCharacters().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(artist))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Artist}{AdvancedSearchExpressions.Contains}{artist.ToStringWithoutIllegalCharacters()}");
+                urlList.Add($"{AdvancedSearchKeywords.Artist}{AdvancedSearchExpressions.Contains}{artist.ToStringWithoutIllegalCharacters().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(cardNumber))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Number}{AdvancedSearchExpressions.Exact}{cardNumber.ToPipeDelimitedFromCommaDelimited()}");
+                urlList.Add($"{AdvancedSearchKeywords.Number}{AdvancedSearchExpressions.Exact}{cardNumber.ToPipeDelimitedFromCommaDelimited().ToDoubleQuotedString()}");
             }
             if (!string.IsNullOrEmpty(provides))
             {
@@ -415,7 +415,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             }
             if (!string.IsNullOrEmpty(keyword))
             {
-                urlList.Add($"{AdvancedSearchKeywords.Keywords}{AdvancedSearchExpressions.Exact}{keyword.ToPipeDelimitedFromCommaDelimited()}");
+                urlList.Add($"{AdvancedSearchKeywords.Keywords}{AdvancedSearchExpressions.Exact}{keyword.ToPipeDelimitedFromCommaDelimited().ToDoubleQuotedString()}");
             }
 
             return string.Join('+', urlList);
@@ -1166,5 +1166,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         public static string ToPipeDelimitedFromCommaDelimited(this string s) => s.Replace(',', '|');
         public static string ToStringWithoutIllegalCharacters(this string s) => s.Replace("+", "").Replace("&", "").Replace("*", "").Replace(":", "")
                                                                                 .Replace(">", "").Replace("<", "").Replace("=", "");
+        //Adds double quotes to a string that contains spaces
+        public static string ToDoubleQuotedString(this string s) => s.Contains(" ") ? $"\"{s.Replace("\"", "")}\"" : s;
     }
 }
