@@ -115,7 +115,7 @@
                                     <hr class="segment-divider" />
                                 </div>
                                 <div class="dt-row">
-                                    <div class="v-mid mv2 flex flex-wrap items-center ml0i">
+                                    <div class="v-mid mv2 flex items-center ml0i">
                                         @{
                                             var cardTypeElements = new List<string>();
                                             cardTypeElements.Add($"<div class=\"card-type b mr0\">{@Model.Card.CardType.Name}</div>");
@@ -130,7 +130,7 @@
                                             }
                                         }
 
-                                        @Html.Raw(string.Join("<div class=\"set-info-separator set-info-item\">●</div>", cardTypeElements))
+                                        @Html.Raw("<div class=\"flex flex-wrap card-type-container\">" + string.Join("<div class=\"set-info-separator set-info-item\">●</div>", cardTypeElements) + "</div>")
                                     </div>
 
                                     <hr class="segment-divider" />

@@ -390,10 +390,6 @@ footer {
     line-height: 1.5rem;
 }
 
-.card-types {
-    font-weight: 700;
-}
-
 #rulings {
     background-color: var(--whiteWizard);
     border-top: .0625rem inset rgba(29, 29, 29, 0.30);
@@ -796,9 +792,11 @@ td:nth-child(6) {
     font-style: italic;
 }
 
+.card-type-container {
+    margin-left: 1rem;
+}
 .card-type {
     color: var(--grayGargoyle);
-    margin-left: 1rem;
     margin-right: 0.35rem;
 }
 
