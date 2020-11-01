@@ -500,7 +500,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             switch (field)
             {
                 case AdvancedSearchField.Name:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Name)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Name)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -510,7 +510,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Text:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Text)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Text)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -520,7 +520,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Type:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Type)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Type)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -531,7 +531,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Artist:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Artist)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Artist)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -541,7 +541,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.FlavorText:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.FlavorText)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.FlavorText)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -551,7 +551,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.LessonType:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.LessonType)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.LessonType)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -562,7 +562,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Keywords:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Keywords)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Keywords)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -573,7 +573,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Rarity:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Rarity)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Rarity)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -584,7 +584,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Set:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Set)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Set)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -595,7 +595,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Number:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Number)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Number)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -605,7 +605,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Power:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Power)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Power)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -615,7 +615,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Health:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Health)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Health)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -625,7 +625,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Damage:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Damage)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Damage)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
@@ -636,7 +636,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
                     break;
                 case AdvancedSearchField.Provides:
-                    rawFields = fields.Where(x => x.Contains(AdvancedSearchKeywords.Provides)).ToList();
+                    rawFields = fields.Where(x => x.StartsWith(AdvancedSearchKeywords.Provides)).ToList();
                     fieldValues = GetAdvancedFieldValueFromRawField(field, rawFields);
                     if (fieldValues.Count > 0)
                     {
