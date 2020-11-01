@@ -104,8 +104,8 @@
                                                 var lessonTypeImageUrl = $"/images/lessons/{Model.Card.LessonType.ImageName}";
                                                 <div class="fl w-30 tl">
                                                     <div class="card-row-item-content-right tr">
-                                                        <label class="v-mid @Model.Card.LessonType.CssClassName">@Model.Card.LessonCost</label>
-                                                        <img src="@lessonTypeImageUrl" class="lesson-image v-mid" />
+                                                        <label class="@Model.Card.LessonType.CssClassName card-lesson-label">@Model.Card.LessonCost</label>
+                                                        <img src="@lessonTypeImageUrl" class="v-mid" />
                                                     </div>
                                                 </div>
                                             }

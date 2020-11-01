@@ -343,6 +343,11 @@ footer {
         min-width: 100%;
     }
 
+.card-lesson-label {
+    margin-top: 10px !important;
+    margin-right: 3px;
+}
+
 .hover-card {
     height: 325px;
     position: absolute;
@@ -781,7 +786,7 @@ td:nth-child(6) {
 }
 
 .card-row-item-content-right {
-    margin-left: 1rem;
+    /*margin-left: 1rem;*/
     margin-right: 1.25rem;
 }
 
@@ -795,6 +800,7 @@ td:nth-child(6) {
 .card-type-container {
     margin-left: 1rem;
 }
+
 .card-type {
     color: var(--grayGargoyle);
     margin-right: 0.35rem;
@@ -823,11 +829,6 @@ td:nth-child(6) {
 
 .lesson-color-transfig {
     color: var(--redLion);
-}
-
-.lesson-image {
-    height: 1rem;
-    width: 1rem;
 }
 
 .printings-unselected {
