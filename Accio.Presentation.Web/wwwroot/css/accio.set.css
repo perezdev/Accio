@@ -1,0 +1,36 @@
+﻿.sets-content-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    min-height: 68vh; /* Default height for the area so it isn't smushed when there are no cards */
+    overflow: visible;
+}
+
+.sets-set-table-set-icon {
+    height: 1.125rem;
+    margin-right: 0.5rem;
+    width: 1.125rem;
+}
+
+.printings-enabled,
+.set-language-enabled {
+    background-color: var(--mainColor);
+    border-radius: 2px;
+    color: var(--whiteWizard);
+    font-size: 0.75rem;
+    line-height: 1.67;
+    margin: 0 0.5rem 0 0;
+    padding: 0.125rem 0.25rem;
+}
+
+.printings-disabled,
+.set-language-disabled {
+    background-color: var(--whiteWizard);
+    border: 1px solid var(--mainColor);
+    border-radius: 2px;
+    color: var(--mainColor);
+    font-size: 0.75rem;
+    line-height: 1.67;
+    margin: 0 0.5rem 0 0;
+    padding: 0.094rem 0.25rem;
+}

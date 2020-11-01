@@ -1,0 +1,197 @@
+﻿.card-lesson-label {
+    margin-top: 10px !important;
+    margin-right: 3px;
+}
+
+.card-name {
+    border-bottom: 0.0625rem solid rgba(29, 29, 29, 0.08);
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+#rulings {
+    background-color: var(--whiteWizard);
+    border-top: .0625rem inset rgba(29, 29, 29, 0.30);
+}
+
+    #rulings h3 {
+        color: var(--blackBat);
+        font-size: 0.875rem;
+        line-height: 1.715;
+    }
+
+    #rulings .ruling {
+        font-family: var(--sansSerif);
+    }
+
+.single-no-card-container {
+    min-height: 75vh;
+    padding-top: 265px !important;
+}
+
+.single-card-main-container {
+    margin-top: 90px;
+    min-height: 63vh;
+}
+
+.card-content-container {
+    overflow: auto;
+}
+
+.single-card-segment {
+    background-color: var(--whiteWizard);
+}
+
+.single-card-set-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+
+    .single-card-set-anchor:hover {
+        text-decoration: underline;
+    }
+
+.single-card-artist-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+
+    .single-card-artist-anchor:hover {
+        text-decoration: underline;
+    }
+
+
+.segment-header-border-default {
+    border-top: 4px solid var(--mainColor);
+}
+
+.segment-header-border-comc {
+    border-top: 4px solid var(--brownPaw);
+}
+
+.segment-header-border-charms {
+    border-top: 4px solid var(--blueRaven);
+}
+
+.segment-header-border-potions {
+    border-top: 4px solid var(--greenSnake);
+}
+
+.segment-header-border-quidditch {
+    border-top: 4px solid var(--yellowBadger);
+}
+
+.segment-header-border-transfig {
+    border-top: 4px solid var(--redLion);
+}
+
+.segment-divider {
+    border: 1px solid var(--parchmentPaper);
+    margin: 0.5rem 0 0 0;
+}
+/* Card Page - Card Info */
+.card-row-item-content {
+    color: var(--grayGargoyle);
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.card-row-item-content-right {
+    /*margin-left: 1rem;*/
+    margin-right: 1.25rem;
+}
+
+.card-row-item-content-flavor {
+    margin-top: 1rem;
+    color: var(--blackBat);
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+.card-type-container {
+    margin-left: 1rem;
+}
+
+.card-type {
+    color: var(--grayGargoyle);
+    margin-right: 0.35rem;
+}
+
+.card-printings-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.lesson-color-comc {
+    color: var(--brownPaw);
+}
+
+.lesson-color-charms {
+    color: var(--blueRaven);
+}
+
+.lesson-color-potions {
+    color: var(--greenSnake);
+}
+
+.lesson-color-quidditch {
+    color: var(--yellowBadger);
+}
+
+.lesson-color-transfig {
+    color: var(--redLion);
+}
+
+.printings-unselected {
+    cursor: pointer;
+}
+
+.set-info-separator {
+    color: var(--parchmentPaper);
+}
+
+.set-info-item {
+    float: left;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
+
+.set-info-icon {
+    height: 1.125rem;
+    margin-top: 0.25rem;
+    width: 1.125rem;
+}
+
+.set-info {
+    display: inline-block !important;
+}
+
+.rule-label {
+    font-weight: 700;
+}
+
+.rule-card-name {
+    color: var(--mainColor);
+}
+
+.rule-date {
+    font-style: italic;
+    opacity: 0.5;
+}
+
+.rule-anchor {
+    text-decoration: none;
+    color: var(--blueRaven);
+}
+
+    .rule-anchor:hover {
+        text-decoration: underline;
+    }
+
+.sub-type-item {
+    float: left;
+    margin-left: 4px;
+    margin-right: 4px;
+    opacity: 0.75;
+    color: var(--grayGargoyle);
+}

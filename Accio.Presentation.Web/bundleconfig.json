@@ -11,5 +11,20 @@
       "wwwroot/js/accio.account.register.js",
       "wwwroot/js/accio.account.login.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/accio.bundle.min.css",
+    "inputFiles": [
+      "wwwroot/css/accio.core.css",
+      "wwwroot/css/accio.account.login.css",
+      "wwwroot/css/accio.account.register.css",
+      "wwwroot/css/accio.advanced.css",
+      "wwwroot/css/accio.card.css",
+      "wwwroot/css/accio.environment.css",
+      "wwwroot/css/accio.home.css",
+      "wwwroot/css/accio.search.css",
+      "wwwroot/css/accio.set.css",
+      "wwwroot/css/accio.utility.css"
+    ]
   }
 ]

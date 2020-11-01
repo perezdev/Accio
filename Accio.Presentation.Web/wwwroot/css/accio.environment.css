@@ -1,0 +1,9 @@
+﻿.environment-display {
+    margin-top: 4px;
+    margin-left: 5px;
+    padding: 4px;
+    border: 2px solid white;
+    font-family: monospace;
+    background-color: var(--blueRaven);
+    color: white;
+}

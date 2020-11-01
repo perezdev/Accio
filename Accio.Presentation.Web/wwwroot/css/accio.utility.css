@@ -1,0 +1,23 @@
+﻿.vh {
+    visibility: hidden;
+}
+
+.vv {
+    visibility: visible;
+}
+
+.ml0i {
+    margin-left: 0px !important;
+}
+
+.dni {
+    display: none !important;
+}
+
+.negmt10 {
+    margin-top: -10px;
+}
+
+.bs1 {
+    box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25), 0 10px 10px 0 rgba(0, 0, 0, 0.26);
+}
