@@ -8,7 +8,7 @@ namespace Accio.Business.Models.CardModels
         public Guid CardProvidesLessonId { get; set; }
         public Guid CardId { get; set; }
         public LessonTypeModel Lesson { get; set; } = new LessonTypeModel();
-        public int Provides { get; set; }
+        public int ProvidesCount { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

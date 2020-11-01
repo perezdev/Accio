@@ -21,7 +21,7 @@ namespace Accio.Business.Services.CardServices
                 CardProvidesLessonId = cardProvidesLesson.CardProvidesLessonId,
                 CardId = cardProvidesLesson.CardId,
                 Lesson = LessonService.GetLessonTypeModel(lessonType),
-                Provides = cardProvidesLesson.Provides,
+                ProvidesCount = cardProvidesLesson.Provides,
                 CreatedById = cardProvidesLesson.CreatedById,
                 CreatedDate = cardProvidesLesson.CreatedDate,
                 UpdatedById = cardProvidesLesson.UpdatedById,

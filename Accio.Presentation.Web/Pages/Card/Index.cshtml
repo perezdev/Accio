@@ -99,7 +99,7 @@
                                                     @Model.Card.Detail.Name
                                                 </div>
                                             </div>
-                                            @if (Model.Card.LessonType != null)
+                                            @if (Model.Card.LessonType != null && Model.Card.LessonCost != null)
                                             {
                                                 var lessonTypeImageUrl = $"/images/lessons/{Model.Card.LessonType.ImageName}";
                                                 <div class="fl w-30 tl">
@@ -144,8 +144,6 @@
                                             switch (cardType)
                                             {
                                                 case TypeOfCard.Adventure:
-
-
                                                     var effect = $"<p><b>Effect:</b> {Model.Card.Detail.Effect}</p>";
                                                     var toSolve = $"<p><b>To Solve:</b> {Model.Card.Detail.ToSolve}</p>";
                                                     var reward = $"<p><b>Opponent's Reward:</b> {Model.Card.Detail.Reward}</p>";
@@ -176,10 +174,36 @@
                                                     }
 
                                                     break;
-                                                case TypeOfCard.Character:
                                                 case TypeOfCard.Creature:
-                                                case TypeOfCard.Item:
+                                                    text = $"{Model.Card.Detail.Text}";
+                                                    break;
                                                 case TypeOfCard.Lesson:
+                                                case TypeOfCard.Character:
+                                                case TypeOfCard.Item:
+                                                    var providesCount = Model.Card.ProvidesLesson?.ProvidesCount;
+                                                    if (providesCount == null)
+                                                    {
+                                                        text = $"{Model.Card.Detail.Text}";
+                                                        break;
+                                                    }
+
+                                                    var providesImages = "";
+                                                    for (int i = 0; i < providesCount; i++)
+                                                    {
+                                                        var providesImageMarginClassName = "";
+                                                        if (i == 0)
+                                                        {
+                                                            providesImageMarginClassName = "ml2";
+                                                        }
+                                                        else
+                                                        {
+                                                            providesImageMarginClassName = "ml1";
+                                                        }
+                                                        providesImages += $"<img class=\"{providesImageMarginClassName}\" src=\"/images/lessons/{Model.Card.ProvidesLesson.Lesson.ImageName}\" />";
+                                                    }
+                                                    text = $"<p>{Model.Card.Detail.Text}</p><p class=\"flex items-center\"><b>Provides:</b>{providesImages}</p>";
+
+                                                    break;
                                                 case TypeOfCard.Location:
                                                     var locationText = $"<p>{Model.Card.Detail.Text}</p>";
                                                     if (!string.IsNullOrEmpty(Model.Card.Detail.Note))
