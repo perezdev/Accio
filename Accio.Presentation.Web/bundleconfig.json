@@ -24,7 +24,8 @@
       "wwwroot/css/accio.home.css",
       "wwwroot/css/accio.search.css",
       "wwwroot/css/accio.set.css",
-      "wwwroot/css/accio.utility.css"
+      "wwwroot/css/accio.utility.css",
+      "wwwroot/css/accio.404.css"
     ]
   }
 ]

@@ -1,0 +1,29 @@
+﻿.fourohfour-content-container {
+    margin-top: 80px;
+    min-height: 67vh; /* Default height for the card area so it isn't smushed when there are no cards */
+    overflow: visible;
+}
+
+.merlins-beard {
+    color: var(--purpleFirecracker);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.fourohfour-gohome {
+    border-radius: 4px;
+    border: solid 1px var(--purpleFirecracker);
+    background-color: rgba(255, 255, 255, 0.75);
+    font-weight: bold;
+}
+
+.fourohfour-attribution {
+    bottom: 0%;
+    position: absolute;
+    width: 30%;
+    font-size: 0.75rem;
+}
+
+.fourohfour-attribution-a {
+    color: var(--purpleFirecracker);
+}

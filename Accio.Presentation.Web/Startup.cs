@@ -71,17 +71,8 @@ namespace Accio.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
+            app.UseHsts();
+            app.UseStatusCodePagesWithReExecute("/404");
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -91,11 +82,8 @@ namespace Accio.Web
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
                 }
             });
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

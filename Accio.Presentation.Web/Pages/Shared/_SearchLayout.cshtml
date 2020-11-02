@@ -17,8 +17,27 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <link href="~/css/animate.css" rel="stylesheet" />
-    @*    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />*@
-    <link href="~/css/accio.bundle.min.css" rel="stylesheet" asp-append-version="true" />
+
+    @* Raw files for development *@
+    <environment include="Development">
+        <link href="~/css/accio.404.css" rel="stylesheet" />
+        <link href="~/css/accio.account.login.css" rel="stylesheet" />
+        <link href="~/css/accio.account.register.css" rel="stylesheet" />
+        <link href="~/css/accio.advanced.css" rel="stylesheet" />
+        <link href="~/css/accio.card.css" rel="stylesheet" />
+        <link href="~/css/accio.core.css" rel="stylesheet" />
+        <link href="~/css/accio.environment.css" rel="stylesheet" />
+        <link href="~/css/accio.home.css" rel="stylesheet" />
+        <link href="~/css/accio.search.css" rel="stylesheet" />
+        <link href="~/css/accio.set.css" rel="stylesheet" />
+        <link href="~/css/accio.utility.css" rel="stylesheet" />
+        <link href="~/css/animate.css" rel="stylesheet" />
+    </environment>
+
+    @* Bundled css for production *@
+    <environment exclude="Development">
+        <link href="~/css/accio.bundle.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
 </head>
 <body>
     <!-- Begin Header -->

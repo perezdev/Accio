@@ -1,0 +1,30 @@
+﻿@page
+@model Accio.Presentation.Web.Pages._404.IndexModel
+@{
+    ViewData["Title"] = "Not Found - Accio Harry Potter TCG Search";
+    Layout = "~/Pages/Shared/_SearchLayout.cshtml";
+}
+
+<main class="w-100 main-container pl2">
+    <div class="mw5 mw7-ns center pa3 ph5-ns fourohfour-content-container">
+        <img src="~/images/404.png" class="mt4" />
+        <p class="mt4 merlins-beard tc">
+            Merlin's beard!
+        </p>
+        <p class="mt2 mb0 tc">
+            This page mysteriously disappeared...
+        </p>
+        <p class="tc mt0 mb4">
+            We suspect the Nargles are behind it.
+        </p>
+        @* Hackey solution to redirect to home without using JS *@
+        <form action="~/">
+            <button class="fourohfour-gohome flex items-center center">
+                Go Home
+            </button>
+        </form>
+        <p class="fourohfour-attribution tc">
+            Artwork provided by <a href="https://www.instagram.com/ashleybedore/" class="fourohfour-attribution-a">Ashely Bedore</a>
+        </p>
+    </div>
+</main>
