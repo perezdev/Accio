@@ -5,6 +5,7 @@ using Accio.Business.Services.AuthenticationServices;
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.ConfigurationServices;
+using Accio.Business.Services.EmailServices;
 using Accio.Business.Services.ImageServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
@@ -66,6 +67,10 @@ namespace Accio.Web
             services.AddTransient<AccountService>();
             services.AddTransient<AuthenticationService>();
             services.AddTransient<AuthenticationHistoryService>();
+            services.AddTransient<ConfigurationService>();
+            services.AddTransient<EmailService>();
+            services.AddTransient<AccountVerificationNumberService>();
+            services.AddTransient<AccountVerificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

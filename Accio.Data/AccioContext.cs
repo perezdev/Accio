@@ -14,6 +14,7 @@ namespace Accio.Data
         }
 
         public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<AccountVerificationNumber> AccountVerificationNumber { get; set; }
         public virtual DbSet<AuthenticationHistory> AuthenticationHistory { get; set; }
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardDetail> CardDetail { get; set; }
@@ -60,6 +61,17 @@ namespace Accio.Data
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.PasswordHash).IsRequired();
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<AccountVerificationNumber>(entity =>
+            {
+                entity.Property(e => e.AccountVerificationNumberId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Expires).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });

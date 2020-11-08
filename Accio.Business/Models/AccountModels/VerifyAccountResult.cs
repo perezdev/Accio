@@ -2,10 +2,9 @@
 
 namespace Accio.Business.Models.AccountModels
 {
-    public class AccountPersistResult
+    public class VerifyAccountResult
     {
-        public bool Result { get; set; }
+        public bool Result { get; set; } = true;
         public List<string> Messages { get; set; } = new List<string>();
-        public AccountModel Account { get; set; }
     }
 }

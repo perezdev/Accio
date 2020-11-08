@@ -1,6 +1,8 @@
 ﻿using Accio.Business.Models.AccountModels;
 using Accio.Business.Models.AuthenticationModels;
+using Accio.Business.Models.EmailModels;
 using Accio.Business.Services.AuthenticationHistoryServices;
+using Accio.Business.Services.EmailServices;
 using Accio.Data;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -13,11 +15,13 @@ namespace Accio.Business.Services.AccountServices
     {
         private AccioContext _context { get; set; }
         private AuthenticationHistoryService _authenticationHistoryService { get; set; }
+        private AccountVerificationService _accountVerificationService { get; set; }
 
-        public AccountService(AccioContext context, AuthenticationHistoryService authenticationHistoryService)
+        public AccountService(AccioContext context, AuthenticationHistoryService authenticationHistoryService, AccountVerificationService accountVerificationService)
         {
             _context = context;
             _authenticationHistoryService = authenticationHistoryService;
+            _accountVerificationService = accountVerificationService;
         }
 
         public AccountPersistResult CreateAccount(AccountPersistParams accountParams)
@@ -38,10 +42,12 @@ namespace Accio.Business.Services.AccountServices
                 return result;
             }
 
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(accountParams.Password, BCrypt.Net.SaltRevision.Revision2Y);
             var account = GetAccountForCreate(accountParams.FirstName, accountParams.FirstName, accountParams.AccountName,
-                                              accountParams.EmailAddress, accountParams.Password);
+                                              accountParams.EmailAddress, hashedPassword);
             _context.Account.Add(account);
             _context.SaveChanges();
+            _accountVerificationService.SendAccountVerificationEmail(account.AccountId, accountParams.EmailAddress, accountParams.AccountName);
 
             result.Result = true;
             result.Account = GetAccountModel(account);

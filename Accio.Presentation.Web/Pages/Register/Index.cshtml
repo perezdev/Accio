@@ -13,7 +13,7 @@
     test
 </div>
 
-<div class="ml3 mt3">
+<div id="registerContainer" class="ml3 mt3">
     <h3>Register </h3>
     <input id="username" class="mt2" placeholder="user name" />
     <br />
@@ -23,6 +23,19 @@
     <br />
     <input id="data" class="dn" />
     <button id="signUp">Sign Up</button>
+</div>
+
+<div id="verifyContainer" class="ml3 mt3 dn">
+    <h4>We sent you a code</h4>
+    <p>Enter it below to verify <div id="verifyEmailAddress"></div></p>
+    <input id="verificationCode" />
+    <p>
+        <button id="verifyCode">Verify</button>
+    </p>
+</div>
+
+<div id="successContainer" class="ml3 mt3 dn">
+    <h1>Boom! We're done. Thanks for registering for an Accio account!</h1>
 </div>
 
 <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
