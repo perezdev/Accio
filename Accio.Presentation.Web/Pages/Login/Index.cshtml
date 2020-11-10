@@ -1,0 +1,34 @@
+﻿@page
+@model Accio.Presentation.Web.Pages.Login.IndexModel
+@{
+    ViewData["Title"] = "Login - Accio Harry Potter TCG Search";
+    Layout = null;
+}
+
+@Html.AntiForgeryToken()
+
+<link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
+
+<div id="error" class="bg-washed-red red w-25 ml2 mt2 dn">
+</div>
+
+<div id="registerContainer" class="ml3 mt3">
+    <h3>Login</h3>
+    <input id="emailAddress" class="mv2" placeholder="email address" />
+    <br />
+    <input id="password" type="password" class="mb2" placeholder="password" />
+    <br />
+    <button id="login">Login</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="~/js/accio.bundle.min.js" asp-append-version="true"></script>
