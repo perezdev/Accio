@@ -18,7 +18,7 @@ ASP.NET Core/Web API, SQL Server, HTML/JS/AJAX, Entity Framework
 
 # Requirements
 
-DotNet Core 3.1, SQL Server
+.NET 5, SQL Server
 
 # Project Overview
 
