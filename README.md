@@ -1,6 +1,6 @@
 # Accio
 
-http://accio.cards
+https://accio.cards
 
 ![](https://i.imgur.com/JYqfGhD.png)
 
@@ -34,7 +34,9 @@ The Accio **solution** consists of 4 projects:
 
 Once you have the code downloaded and the database server running, you need to make the following changes to run the website:
 
-Add two application JSON settings files to the root of **Accio.Web**:
+Add one or both application JSON settings files to the root of **Accio.Web**:
+
+Note: Only appsettings.Development.json is required. appsettings.json is for prod, but the development name is the default variable value in the debug environment setting.
 
 appsettings.json:
 
@@ -50,6 +52,12 @@ appsettings.json:
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "AccioConnection": "Server=<SERVER_NAME>;Initial Catalog=Accio;Persist Security Info=False;User ID=<SQL_USER_NAME>;Password=<SQL_USER_PASSWORD>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+  "AccioEmailAccounts": {
+    "AccountsEmail": {
+      "Address": "<yourEmail>",
+      "SendGridApiKey": "<yourSendGridApiKey>"
+    }
   }
 }
 ```
@@ -67,11 +75,17 @@ appsettings.Development.json:
   },
   "ConnectionStrings": {
     "AccioConnection": "Server=<SERVER_NAME>;Initial Catalog=Accio;Persist Security Info=False;User ID=<SQL_USER_NAME>;Password=<SQL_USER_PASSWORD>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+  "AccioEmailAccounts": {
+    "AccountsEmail": {
+      "Address": "<yourEmail>",
+      "SendGridApiKey": "<yourSendGridApiKey>"
+    }
   }
 }
 ````
 
-You will need to replace **<SERVER_NAME>**, **<SQL_USER_NAME>**, and **<SQL_USER_PASSWORD>** in each file.
+You will need to replace **<SERVER_NAME>**, **<SQL_USER_NAME>**, and **<SQL_USER_PASSWORD>** in each file. You will also need to replace **<yourEmail>** and **<yourSendGridApiKey>** with the appropriate values if you want to test the email sending functionality. You don't need to change anything here if you aren't testing login/registration.
 
 After the config changes are in place, you can run the data scripts to create the database, create the schema, and upload the data. The scripts are located in the Scripts folder under the Accio.Data project:
 
