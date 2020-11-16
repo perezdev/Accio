@@ -17,7 +17,7 @@ namespace Accio.Business.Services.LanguageServices
 
         public List<LanguageModel> GetLanguages()
         {
-            var languageModels = (from language in _context.Language
+            var languageModels = (from language in _context.Languages
                                   where !language.Deleted
                                   select GetLanguageModel(language)).ToList();
 
@@ -25,7 +25,7 @@ namespace Accio.Business.Services.LanguageServices
         }
         public Guid? GetLanguageIdByCode(string languageCode)
         {
-            var language = (from lang in _context.Language
+            var language = (from lang in _context.Languages
                             where !lang.Deleted && lang.Code == languageCode
                             select lang).SingleOrDefault();
             return language?.LanguageId;

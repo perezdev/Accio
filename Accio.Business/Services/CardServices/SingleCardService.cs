@@ -41,17 +41,17 @@ namespace Accio.Business.Services.CardServices
                 param.LanguageId = englishLanguageId;
             }
 
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+            var cards = (from card in _context.Cards
+                         join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == param.LanguageId && cardSet.ShortName == param.SetShortName &&
@@ -87,9 +87,9 @@ namespace Accio.Business.Services.CardServices
         /// </summary>
         public SingleCardRoute GetSingleCardRoute(Guid cardId)
         {
-            var val = (from card in _context.Card
-                       join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                       join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
+            var val = (from card in _context.Cards
+                       join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                       join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
                        where !card.Deleted && !cardSet.Deleted && card.CardId == cardId
                        select new SingleCardRoute()
                        {

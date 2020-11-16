@@ -54,7 +54,7 @@ namespace Accio.Business.Services.CardServices
 
         public void UpdateCardDetailNote(Guid cardDetailId, string note)
         {
-            var cardDetail = _context.CardDetail.Single(x => x.CardDetailId == cardDetailId);
+            var cardDetail = _context.CardDetails.Single(x => x.CardDetailId == cardDetailId);
             cardDetail.Note = note;
             _context.SaveChanges();
         }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+#nullable disable
+
 namespace Accio.Data
 {
     public partial class AccioContext : DbContext
@@ -13,29 +15,31 @@ namespace Accio.Data
         {
         }
 
-        public virtual DbSet<Account> Account { get; set; }
-        public virtual DbSet<AccountVerificationNumber> AccountVerificationNumber { get; set; }
-        public virtual DbSet<AuthenticationHistory> AuthenticationHistory { get; set; }
-        public virtual DbSet<Card> Card { get; set; }
-        public virtual DbSet<CardDetail> CardDetail { get; set; }
-        public virtual DbSet<CardImage> CardImage { get; set; }
-        public virtual DbSet<CardProvidesLesson> CardProvidesLesson { get; set; }
-        public virtual DbSet<CardRuling> CardRuling { get; set; }
-        public virtual DbSet<CardSearchHistory> CardSearchHistory { get; set; }
-        public virtual DbSet<CardSubType> CardSubType { get; set; }
-        public virtual DbSet<CardType> CardType { get; set; }
-        public virtual DbSet<Image> Image { get; set; }
-        public virtual DbSet<ImageSize> ImageSize { get; set; }
-        public virtual DbSet<Language> Language { get; set; }
-        public virtual DbSet<LessonType> LessonType { get; set; }
-        public virtual DbSet<Rarity> Rarity { get; set; }
-        public virtual DbSet<Ruling> Ruling { get; set; }
-        public virtual DbSet<RulingSource> RulingSource { get; set; }
-        public virtual DbSet<RulingType> RulingType { get; set; }
-        public virtual DbSet<Set> Set { get; set; }
-        public virtual DbSet<SetLanguage> SetLanguage { get; set; }
-        public virtual DbSet<Source> Source { get; set; }
-        public virtual DbSet<SubType> SubType { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<AccountRole> AccountRoles { get; set; }
+        public virtual DbSet<AccountVerificationNumber> AccountVerificationNumbers { get; set; }
+        public virtual DbSet<AuthenticationHistory> AuthenticationHistories { get; set; }
+        public virtual DbSet<Card> Cards { get; set; }
+        public virtual DbSet<CardDetail> CardDetails { get; set; }
+        public virtual DbSet<CardImage> CardImages { get; set; }
+        public virtual DbSet<CardProvidesLesson> CardProvidesLessons { get; set; }
+        public virtual DbSet<CardRuling> CardRulings { get; set; }
+        public virtual DbSet<CardSearchHistory> CardSearchHistories { get; set; }
+        public virtual DbSet<CardSubType> CardSubTypes { get; set; }
+        public virtual DbSet<CardType> CardTypes { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<ImageSize> ImageSizes { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<LessonType> LessonTypes { get; set; }
+        public virtual DbSet<Rarity> Rarities { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Ruling> Rulings { get; set; }
+        public virtual DbSet<RulingSource> RulingSources { get; set; }
+        public virtual DbSet<RulingType> RulingTypes { get; set; }
+        public virtual DbSet<Set> Sets { get; set; }
+        public virtual DbSet<SetLanguage> SetLanguages { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
+        public virtual DbSet<SubType> SubTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,6 +51,8 @@ namespace Accio.Data
             {
                 entity.HasKey(e => new { e.AccountId, e.EmailAddress })
                     .HasName("PK_Account_1");
+
+                entity.ToTable("Account");
 
                 entity.Property(e => e.EmailAddress).HasMaxLength(100);
 
@@ -65,8 +71,21 @@ namespace Accio.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<AccountRole>(entity =>
+            {
+                entity.ToTable("AccountRole");
+
+                entity.Property(e => e.AccountRoleId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<AccountVerificationNumber>(entity =>
             {
+                entity.ToTable("AccountVerificationNumber");
+
                 entity.Property(e => e.AccountVerificationNumberId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -78,6 +97,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<AuthenticationHistory>(entity =>
             {
+                entity.ToTable("AuthenticationHistory");
+
                 entity.Property(e => e.AuthenticationHistoryId).ValueGeneratedNever();
 
                 entity.Property(e => e.BogusData).HasMaxLength(50);
@@ -95,6 +116,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Card>(entity =>
             {
+                entity.ToTable("Card");
+
                 entity.Property(e => e.CardId).ValueGeneratedNever();
 
                 entity.Property(e => e.CardNumber).HasMaxLength(50);
@@ -110,6 +133,8 @@ namespace Accio.Data
             {
                 entity.HasKey(e => new { e.CardDetailId, e.CardId, e.LanguageId })
                     .HasName("PK_CardDetails");
+
+                entity.ToTable("CardDetail");
 
                 entity.Property(e => e.Copyright).HasMaxLength(300);
 
@@ -128,6 +153,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardImage>(entity =>
             {
+                entity.ToTable("CardImage");
+
                 entity.Property(e => e.CardImageId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -137,6 +164,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardProvidesLesson>(entity =>
             {
+                entity.ToTable("CardProvidesLesson");
+
                 entity.Property(e => e.CardProvidesLessonId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -146,6 +175,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardRuling>(entity =>
             {
+                entity.ToTable("CardRuling");
+
                 entity.Property(e => e.CardRulingId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -155,6 +186,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardSearchHistory>(entity =>
             {
+                entity.ToTable("CardSearchHistory");
+
                 entity.Property(e => e.CardSearchHistoryId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -168,6 +201,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardSubType>(entity =>
             {
+                entity.ToTable("CardSubType");
+
                 entity.Property(e => e.CardSubTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -177,6 +212,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<CardType>(entity =>
             {
+                entity.ToTable("CardType");
+
                 entity.Property(e => e.CardTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -188,6 +225,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Image>(entity =>
             {
+                entity.ToTable("Image");
+
                 entity.Property(e => e.ImageId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -199,6 +238,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<ImageSize>(entity =>
             {
+                entity.ToTable("ImageSize");
+
                 entity.Property(e => e.ImageSizeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -212,6 +253,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Language>(entity =>
             {
+                entity.ToTable("Language");
+
                 entity.Property(e => e.LanguageId).ValueGeneratedNever();
 
                 entity.Property(e => e.Code).HasMaxLength(10);
@@ -225,6 +268,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<LessonType>(entity =>
             {
+                entity.ToTable("LessonType");
+
                 entity.Property(e => e.LessonTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -242,6 +287,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Rarity>(entity =>
             {
+                entity.ToTable("Rarity");
+
                 entity.Property(e => e.RarityId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -255,8 +302,21 @@ namespace Accio.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("Role");
+
+                entity.Property(e => e.RoleId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Ruling>(entity =>
             {
+                entity.ToTable("Ruling");
+
                 entity.Property(e => e.RulingId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -270,6 +330,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<RulingSource>(entity =>
             {
+                entity.ToTable("RulingSource");
+
                 entity.Property(e => e.RulingSourceId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -281,6 +343,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<RulingType>(entity =>
             {
+                entity.ToTable("RulingType");
+
                 entity.Property(e => e.RulingTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -294,6 +358,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Set>(entity =>
             {
+                entity.ToTable("Set");
+
                 entity.Property(e => e.SetId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -313,6 +379,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<SetLanguage>(entity =>
             {
+                entity.ToTable("SetLanguage");
+
                 entity.Property(e => e.SetLanguageId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -322,6 +390,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<Source>(entity =>
             {
+                entity.ToTable("Source");
+
                 entity.Property(e => e.SourceId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -333,6 +403,8 @@ namespace Accio.Data
 
             modelBuilder.Entity<SubType>(entity =>
             {
+                entity.ToTable("SubType");
+
                 entity.Property(e => e.SubTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");

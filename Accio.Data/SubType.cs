@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace Accio.Data
 {
     public partial class SubType
     {
         public Guid SubTypeId { get; set; }
         public string Name { get; set; }
+        public Guid? LanguageId { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

@@ -18,9 +18,9 @@ namespace Accio.Business.Services.CardServices
 
         public List<CardSubTypeModel> GetCardSubTypes(Guid cardId)
         {
-            var cardSubTypes = (from subType in _context.SubType
-                                join cardSubType in _context.CardSubType on subType.SubTypeId equals cardSubType.SubTypeId
-                                join card in _context.Card on cardSubType.CardId equals card.CardId
+            var cardSubTypes = (from subType in _context.SubTypes
+                                join cardSubType in _context.CardSubTypes on subType.SubTypeId equals cardSubType.SubTypeId
+                                join card in _context.Cards on cardSubType.CardId equals card.CardId
                                 where !subType.Deleted && !cardSubType.Deleted && !card.Deleted && card.CardId == cardId
                                 select GetCardSubTypeModel(cardSubType, subType)).ToList();
 
@@ -28,9 +28,9 @@ namespace Accio.Business.Services.CardServices
         }
         public List<CardSubTypeModel> GetAllCardSubTypes()
         {
-            var cardSubTypes = (from subType in _context.SubType
-                                join cardSubType in _context.CardSubType on subType.SubTypeId equals cardSubType.SubTypeId
-                                join card in _context.Card on cardSubType.CardId equals card.CardId
+            var cardSubTypes = (from subType in _context.SubTypes
+                                join cardSubType in _context.CardSubTypes on subType.SubTypeId equals cardSubType.SubTypeId
+                                join card in _context.Cards on cardSubType.CardId equals card.CardId
                                 where !subType.Deleted && !cardSubType.Deleted && !card.Deleted
                                 select GetCardSubTypeModel(cardSubType, subType)).ToList();
 
@@ -51,7 +51,7 @@ namespace Accio.Business.Services.CardServices
                 Deleted = false,
             };
 
-            _context.CardSubType.Add(cardSubType);
+            _context.CardSubTypes.Add(cardSubType);
             _context.SaveChanges();
         }
 

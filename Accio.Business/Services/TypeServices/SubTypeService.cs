@@ -16,7 +16,7 @@ namespace Accio.Business.Services.TypeServices
 
         public List<SubTypeModel> GetAllSubTypes()
         {
-            var subTypes = (from subType in _context.SubType
+            var subTypes = (from subType in _context.SubTypes
                             where !subType.Deleted
                             select GetSubTypeModel(subType)).ToList();
             return subTypes;
@@ -24,7 +24,7 @@ namespace Accio.Business.Services.TypeServices
 
         public SubTypeModel GetSubTypeByName(string name)
         {
-            var st = (from subType in _context.SubType
+            var st = (from subType in _context.SubTypes
                       where !subType.Deleted && subType.Name == name
                       select GetSubTypeModel(subType)).Single();
             return st;

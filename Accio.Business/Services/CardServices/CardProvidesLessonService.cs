@@ -45,7 +45,7 @@ namespace Accio.Business.Services.CardServices
                 UpdatedDate = now,
                 Deleted = false,
             };
-            _context.CardProvidesLesson.Add(cardProvidesLesson);
+            _context.CardProvidesLessons.Add(cardProvidesLesson);
             _context.SaveChanges();
         }
     }

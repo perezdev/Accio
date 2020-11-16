@@ -35,7 +35,7 @@ namespace Accio.Business.Services.LessonServices
 
         public List<LessonTypeModel> GetLessonTypes()
         {
-            var lessonTypeModels = (from lessonType in _context.LessonType
+            var lessonTypeModels = (from lessonType in _context.LessonTypes
                                     where !lessonType.Deleted
                                     select GetLessonTypeModel(lessonType)).ToList();
 

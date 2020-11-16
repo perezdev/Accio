@@ -1,10 +1,10 @@
 ﻿using Accio.Business.Models.AccountModels;
 using Accio.Business.Models.AuthenticationModels;
-using Accio.Business.Models.EmailModels;
+using Accio.Business.Models.RoleModels;
+using Accio.Business.Services.AccountRoleServices;
 using Accio.Business.Services.AuthenticationHistoryServices;
-using Accio.Business.Services.EmailServices;
+using Accio.Business.Services.RoleServices;
 using Accio.Data;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +16,17 @@ namespace Accio.Business.Services.AccountServices
         private AccioContext _context { get; set; }
         private AuthenticationHistoryService _authenticationHistoryService { get; set; }
         private AccountVerificationService _accountVerificationService { get; set; }
+        private AccountRoleService _accountRoleService { get; set; }
+        private RoleService _roleService { get; set; }
 
-        public AccountService(AccioContext context, AuthenticationHistoryService authenticationHistoryService, AccountVerificationService accountVerificationService)
+        public AccountService(AccioContext context, AuthenticationHistoryService authenticationHistoryService, AccountVerificationService accountVerificationService,
+                              AccountRoleService accountRoleService, RoleService roleService)
         {
             _context = context;
             _authenticationHistoryService = authenticationHistoryService;
             _accountVerificationService = accountVerificationService;
+            _accountRoleService = accountRoleService;
+            _roleService = roleService;
         }
 
         public AccountPersistResult CreateAccount(AccountPersistParams accountParams)
@@ -45,14 +50,29 @@ namespace Accio.Business.Services.AccountServices
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(accountParams.Password, BCrypt.Net.SaltRevision.Revision2Y);
             var account = GetAccountForCreate(accountParams.FirstName, accountParams.FirstName, accountParams.AccountName,
                                               accountParams.EmailAddress, hashedPassword);
-            _context.Account.Add(account);
+            _context.Accounts.Add(account);
             _context.SaveChanges();
+            var userRole = _roleService.GetRoleByType(RoleType.User);
+            _accountRoleService.AddRoleToAccount(userRole.RoleId, account.AccountId, account.AccountId);
+
             _accountVerificationService.SendAccountVerificationEmail(account.AccountId, accountParams.EmailAddress, accountParams.AccountName);
 
+            var accountModel = GetAccountModel(account);
+            accountModel.Roles.Add(userRole);
+
             result.Result = true;
-            result.Account = GetAccountModel(account);
+            result.Account = accountModel;
             return result;
         }
+
+        public AccountModel GetAccountByEmailAddress(string emailAddress)
+        {
+            var account = _context.Accounts.SingleOrDefault(x => x.EmailAddress == emailAddress);
+            var accountModel = GetAccountModel(account);
+            accountModel.Roles = _accountRoleService.GetAccountRoles(account.AccountId);
+            return account == null ? null : accountModel;
+        }
+
         private List<string> GetValidationMessages(AccountPersistParams accountParams)
         {
             var messages = new List<string>();
@@ -69,11 +89,11 @@ namespace Accio.Business.Services.AccountServices
             {
                 messages.Add("Account name cannot be empty.");
             }
-            if (_context.Account.Any(x => x.EmailAddress == accountParams.EmailAddress && !x.Deleted))
+            if (_context.Accounts.Any(x => x.EmailAddress == accountParams.EmailAddress && !x.Deleted))
             {
                 messages.Add("An account with that email address already exists.");
             }
-            if (_context.Account.Any(x => x.AccountName == accountParams.AccountName && !x.Deleted))
+            if (_context.Accounts.Any(x => x.AccountName == accountParams.AccountName && !x.Deleted))
             {
                 messages.Add("An account with that account name already exists.");
             }

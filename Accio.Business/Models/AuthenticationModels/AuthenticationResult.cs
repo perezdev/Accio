@@ -5,7 +5,7 @@ namespace Accio.Business.Models.AuthenticationModels
 {
     public class AuthenticationResult
     {
-        public List<AuthenticationResultItem> ResultItems { get; set; }
+        public List<AuthenticationResultItem> ResultItems { get; set; } = new List<AuthenticationResultItem>();
         public AccountModel Account { get; set; }
     }
 }

@@ -98,19 +98,19 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
             var query = (from card in cardTable
                          join cardDetail in detailTable on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join cardSubType in _context.CardSubType on card.CardId equals cardSubType.CardId into cst
+                         join cardSubType in _context.CardSubTypes on card.CardId equals cardSubType.CardId into cst
                          from cardSubType in cst.DefaultIfEmpty()
-                         join subType in _context.SubType on cardSubType.SubTypeId equals subType.SubTypeId into st
+                         join subType in _context.SubTypes on cardSubType.SubTypeId equals subType.SubTypeId into st
                          from subType in st.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted
                          select new AdvancedSearchCardQuery()
@@ -150,7 +150,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         private IQueryable<CardDetail> GetDetailTable(string advancedSearchString)
         {
-            var detailTable = (from cardDetail in _context.CardDetail
+            var detailTable = (from cardDetail in _context.CardDetails
                                where !cardDetail.Deleted
                                select cardDetail);
 
@@ -186,7 +186,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         private IQueryable<Card> GetCardTable(string advancedSearchString)
         {
-            var cardTable = (from card in _context.Card
+            var cardTable = (from card in _context.Cards
                              where !card.Deleted
                              select card);
 
@@ -877,7 +877,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         IQueryable<Card> GetCardQueryByCostValue(int?[] numbers, AdvancedSearchField field, AdvancedSearchFieldExpression expression)
         {
-            IQueryable<Card> query = _context.Card;
+            IQueryable<Card> query = _context.Cards;
 
             for (int i = 0; i < numbers.Length; i++)
             {

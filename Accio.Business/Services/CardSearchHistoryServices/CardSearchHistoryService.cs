@@ -23,7 +23,7 @@ namespace Accio.Business.Services.CardSearchHistoryServices
             var cardSearchHistoryModel = GetCardSearchHistoryModel(searchParams, createdDateTime, updatedDateTime);
             var cardSearchHistory = GetCardSearchHistory(cardSearchHistoryModel);
 
-            _context.CardSearchHistory.Add(cardSearchHistory);
+            _context.CardSearchHistories.Add(cardSearchHistory);
             _context.SaveChanges();
         }
         public void PersistCardSearchHistory(SingleCardParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)
@@ -31,7 +31,7 @@ namespace Accio.Business.Services.CardSearchHistoryServices
             var cardSearchHistoryModel = GetCardSearchHistoryModel(searchParams, createdDateTime, updatedDateTime);
             var cardSearchHistory = GetCardSearchHistory(cardSearchHistoryModel);
 
-            _context.CardSearchHistory.Add(cardSearchHistory);
+            _context.CardSearchHistories.Add(cardSearchHistory);
             _context.SaveChanges();
         }
         public void PersistCardSearchHistory(AdvancedSearchParameters searchParams, DateTime createdDateTime, DateTime updatedDateTime)
@@ -39,7 +39,7 @@ namespace Accio.Business.Services.CardSearchHistoryServices
             var cardSearchHistoryModel = GetCardSearchHistoryModel(searchParams, createdDateTime, updatedDateTime);
             var cardSearchHistory = GetCardSearchHistory(cardSearchHistoryModel);
 
-            _context.CardSearchHistory.Add(cardSearchHistory);
+            _context.CardSearchHistories.Add(cardSearchHistory);
             _context.SaveChanges();
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Accio.Business.Models.RoleModels;
+using System;
+using System.Collections.Generic;
 
 namespace Accio.Business.Models.AccountModels
 {
@@ -12,6 +14,7 @@ namespace Accio.Business.Models.AccountModels
         public string PasswordHash { get; set; }
         public bool? Active { get; set; }
         public bool Verified { get; set; }
+        public List<RoleModel> Roles { get; set; } = new List<RoleModel>();
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

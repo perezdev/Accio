@@ -2,13 +2,14 @@
     LoginButtonId: '#login',
     EmailTextId: '#emailAddress',
     PasswordTextId: '#password',
+    LoginContainerId: '#loginContainer',
 };
 
 $(document).ready(function () {
-    InitializeElements();
+    InitializeLoginElements();
 });
 
-function InitializeElements() {
+function InitializeLoginElements() {
     $(loginElements.LoginButtonId).click(function (e) {
         e.preventDefault();
         Login();
@@ -26,7 +27,33 @@ function Login() {
         return;
     }
 
-    alert('test');
+    var fd = new FormData();
+    fd.append('emailAddress', emailAddress);
+    fd.append('password', password);
+
+    $.ajax({
+        type: "POST",
+        url: "?handler=Login",
+        traditional: true,
+        data: fd,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                location.reload();
+            }
+            else {
+                ShowLoginErrors(response.json);
+            }
+        },
+        failure: function (response) {
+            alert('Catastropic error');
+        }
+    });
 }
 
 function ShowLoginErrors(message) {

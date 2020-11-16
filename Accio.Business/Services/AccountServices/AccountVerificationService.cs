@@ -38,8 +38,8 @@ namespace Accio.Business.Services.AccountServices
         {
             var now = DateTime.UtcNow;
 
-            var verificationNumber = (from number in _context.AccountVerificationNumber
-                                      join account in _context.Account on number.AccountId equals account.AccountId
+            var verificationNumber = (from number in _context.AccountVerificationNumbers
+                                      join account in _context.Accounts on number.AccountId equals account.AccountId
                                       where !number.Deleted && number.Number == code && account.EmailAddress == emailAddress
                                       select number).SingleOrDefault();
             var result = new VerifyAccountResult();
@@ -58,11 +58,11 @@ namespace Accio.Business.Services.AccountServices
             if (result.Result)
             {
                 //At this point, the account has been verified. The code is valid and is hasn't expired
-                var userAccount = _context.Account.Single(x => x.EmailAddress == emailAddress);
+                var userAccount = _context.Accounts.Single(x => x.EmailAddress == emailAddress);
                 userAccount.Verified = true;
                 userAccount.Active = true;
                 //Hard delte the verification row to free up the number
-                _context.AccountVerificationNumber.Remove(verificationNumber);
+                _context.AccountVerificationNumbers.Remove(verificationNumber);
 
                 _context.SaveChanges();
             }

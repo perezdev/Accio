@@ -35,7 +35,7 @@ namespace Accio.Business.Services.CardServices
 
         public List<CardTypeModel> GetCardTypes()
         {
-            var types = (from cardType in _context.CardType
+            var types = (from cardType in _context.CardTypes
                          where !cardType.Deleted
                          select GetCardTypeModel(cardType)).ToList();
 

@@ -31,7 +31,7 @@ namespace Accio.Business.Services.CardServices
 
         public List<RarityModel> GetCardRarities()
         {
-            var rarities = (from set in _context.Rarity
+            var rarities = (from set in _context.Rarities
                             where !set.Deleted
                             select GetRarityModel(set)).ToList();
 

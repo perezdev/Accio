@@ -32,10 +32,10 @@ namespace Accio.Business.Services.CardServices
             }
 
             //Grab rules that apply to the card
-            var rules = (from ruling in _context.Ruling
-                          join source in _context.RulingSource on ruling.RulingSourceId equals source.RulingSourceId
-                          join type in _context.RulingType on ruling.RulingTypeId equals type.RulingTypeId
-                          join cardRuling in _context.CardRuling on ruling.RulingId equals cardRuling.RulingId
+            var rules = (from ruling in _context.Rulings
+                          join source in _context.RulingSources on ruling.RulingSourceId equals source.RulingSourceId
+                          join type in _context.RulingTypes on ruling.RulingTypeId equals type.RulingTypeId
+                          join cardRuling in _context.CardRulings on ruling.RulingId equals cardRuling.RulingId
                           where !ruling.Deleted && !source.Deleted && !type.Deleted && !cardRuling.Deleted &&
                                 cardRuling.CardId == cardId && ruling.LanguageId == languageId
                           select RulingService.GetRulingModel(ruling, source, type, null)).ToList();
@@ -63,10 +63,10 @@ namespace Accio.Business.Services.CardServices
             }
 
             //Grab rules that apply to the card
-            var rules1 = (from ruling in _context.Ruling
-                          join source in _context.RulingSource on ruling.RulingSourceId equals source.RulingSourceId
-                          join type in _context.RulingType on ruling.RulingTypeId equals type.RulingTypeId
-                          join cardRuling in _context.CardRuling on ruling.RulingId equals cardRuling.RulingId
+            var rules1 = (from ruling in _context.Rulings
+                          join source in _context.RulingSources on ruling.RulingSourceId equals source.RulingSourceId
+                          join type in _context.RulingTypes on ruling.RulingTypeId equals type.RulingTypeId
+                          join cardRuling in _context.CardRulings on ruling.RulingId equals cardRuling.RulingId
                           where !ruling.Deleted && !source.Deleted && !type.Deleted && !cardRuling.Deleted &&
                                 cardRuling.CardId == cardId && ruling.LanguageId == languageId
                           select RulingService.GetRulingModel(ruling, source, type, null)).ToList();
@@ -77,10 +77,10 @@ namespace Accio.Business.Services.CardServices
 
 
             //Grab rules that apply to the card type
-            var rules2 = (from ruling in _context.Ruling
-                          join source in _context.RulingSource on ruling.RulingSourceId equals source.RulingSourceId
-                          join type in _context.RulingType on ruling.RulingTypeId equals type.RulingTypeId
-                          join cardType in _context.CardType on ruling.CardTypeId equals cardType.CardTypeId
+            var rules2 = (from ruling in _context.Rulings
+                          join source in _context.RulingSources on ruling.RulingSourceId equals source.RulingSourceId
+                          join type in _context.RulingTypes on ruling.RulingTypeId equals type.RulingTypeId
+                          join cardType in _context.CardTypes on ruling.CardTypeId equals cardType.CardTypeId
                           where !ruling.Deleted && !source.Deleted && !type.Deleted && !cardType.Deleted &&
                                  cardType.CardTypeId == cardTypeId && ruling.LanguageId == languageId
                           select RulingService.GetRulingModel(ruling, source, type, cardType)).ToList();

@@ -14,10 +14,10 @@
 };
 
 $(document).ready(function () {
-    InitializeElements();
+    InitializeRegisterElements();
 });
 
-function InitializeElements() {
+function InitializeRegisterElements() {
     $(registerElements.SignUpButtonId).click(function (e) {
         e.preventDefault();
         SignUp();
@@ -100,7 +100,7 @@ function VerifyCode() {
         processData: false,
         success: function (response) {
             if (response.success) {
-                TransitionToSuccess();
+                TransitionToRegisterSuccess();
             }
             else {
                 ShowRegisterErrors(response.json);
@@ -115,7 +115,7 @@ function TransitionToVerify() {
     $(registerElements.RegisterContainerId).addClass('dn');
     $(registerElements.VerifyContainerId).removeClass('dn');
 }
-function TransitionToSuccess() {
+function TransitionToRegisterSuccess() {
     $(registerElements.VerifyContainerId).addClass('dn');
     $(registerElements.SuccessContainerId).removeClass('dn');
 }

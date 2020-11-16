@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
-#nullable disable
-
-namespace Accio.Data
+namespace Accio.Business.Models.RoleModels
 {
-    public partial class CardType
+    public class RoleModel
     {
-        public Guid CardTypeId { get; set; }
+        public Guid RoleId { get; set; }
         public string Name { get; set; }
-        public Guid? LanguageId { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

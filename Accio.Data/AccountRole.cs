@@ -5,12 +5,11 @@ using System.Collections.Generic;
 
 namespace Accio.Data
 {
-    public partial class CardProvidesLesson
+    public partial class AccountRole
     {
-        public Guid CardProvidesLessonId { get; set; }
-        public Guid CardId { get; set; }
-        public Guid LessonId { get; set; }
-        public int Provides { get; set; }
+        public Guid AccountRoleId { get; set; }
+        public Guid RoleId { get; set; }
+        public Guid AccountId { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }

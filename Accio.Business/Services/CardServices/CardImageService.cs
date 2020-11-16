@@ -20,10 +20,10 @@ namespace Accio.Business.Services.CardServices
 
         public List<CardImageModel> GetCardImages(List<Guid> cardIds)
         {
-            var cardImages = (from cardImage in _context.CardImage
-                              join image in _context.Image on cardImage.ImageId equals image.ImageId
-                              join imageSize in _context.ImageSize on image.ImageSizeId equals imageSize.ImageSizeId
-                              join lang in _context.Language on image.LanguageId equals lang.LanguageId
+            var cardImages = (from cardImage in _context.CardImages
+                              join image in _context.Images on cardImage.ImageId equals image.ImageId
+                              join imageSize in _context.ImageSizes on image.ImageSizeId equals imageSize.ImageSizeId
+                              join lang in _context.Languages on image.LanguageId equals lang.LanguageId
                               where cardIds.Contains(cardImage.CardId) && !cardImage.Deleted && !image.Deleted
                               && !imageSize.Deleted && !lang.Deleted
                               select GetImageModel(cardImage, image, imageSize, lang)).ToList();

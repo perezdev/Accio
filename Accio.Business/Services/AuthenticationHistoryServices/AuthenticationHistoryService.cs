@@ -32,7 +32,7 @@ namespace Accio.Business.Services.AuthenticationHistoryServices
                 UpdatedDate = now,
                 Deleted = false,
             };
-            _context.AuthenticationHistory.Add(history);
+            _context.AuthenticationHistories.Add(history);
             _context.SaveChanges();
         }
     }

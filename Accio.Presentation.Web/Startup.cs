@@ -1,3 +1,4 @@
+using Accio.Business.Services.AccountRoleServices;
 using Accio.Business.Services.AccountServices;
 using Accio.Business.Services.AdvancedCardSearchSearchServices;
 using Accio.Business.Services.AuthenticationHistoryServices;
@@ -9,12 +10,16 @@ using Accio.Business.Services.EmailServices;
 using Accio.Business.Services.ImageServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
+using Accio.Business.Services.RoleServices;
 using Accio.Business.Services.RulingServices;
 using Accio.Business.Services.SourceServices;
 using Accio.Business.Services.TypeServices;
 using Accio.Data;
+using Accio.Presentation.Web.PresentationServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,10 +42,24 @@ namespace Accio.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<AccioContext>(options => options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
                                                                   .UseSqlServer(Configuration.GetConnectionString("AccioConnection"), sqlServerOptions => sqlServerOptions.CommandTimeout(300))
                                                 );
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/Login";
+            });
 
             services.AddTransient<CardService>();
             services.AddTransient<SetService>();
@@ -71,6 +90,10 @@ namespace Accio.Web
             services.AddTransient<EmailService>();
             services.AddTransient<AccountVerificationNumberService>();
             services.AddTransient<AccountVerificationService>();
+            services.AddTransient<AuthenticationService>();
+            services.AddTransient<AccountRoleService>();
+            services.AddTransient<RoleService>();
+            services.AddTransient<ClaimService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +111,7 @@ namespace Accio.Web
                 }
             });
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

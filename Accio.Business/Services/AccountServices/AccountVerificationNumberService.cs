@@ -39,7 +39,7 @@ namespace Accio.Business.Services.AccountServices
         public void SaveAccountVerificationNumber(AccountVerificationNumberModel numberModel)
         {
             var number = GetAccountVerificationNumber(numberModel);
-            _context.AccountVerificationNumber.Add(number);
+            _context.AccountVerificationNumbers.Add(number);
             _context.SaveChanges();
         }
 
@@ -57,7 +57,7 @@ namespace Accio.Business.Services.AccountServices
              * number is not in the pulled list, we know it's unique. So we stop the loop and return the value.
              */
 
-            var randomNumbers = _context.AccountVerificationNumber.Where(x => !x.Deleted).Select(x => x.Number).ToList();
+            var randomNumbers = _context.AccountVerificationNumbers.Where(x => !x.Deleted).Select(x => x.Number).ToList();
             var randomNumber = new Random().Next(100000, 999999);
 
             var isRandomNumberValid = false;

@@ -37,13 +37,13 @@ namespace Accio.Business.Services.CardServices
             if (SetsCache.Count > 0)
                 return SetsCache;
 
-            var sets = (from set in _context.Set
+            var sets = (from set in _context.Sets
                         where !set.Deleted
                         orderby set.Order
                         select GetSetModel(set)).ToList();
 
-            var setLanguages = (from setLang in _context.SetLanguage
-                                join lang in _context.Language on setLang.LanguageId equals lang.LanguageId
+            var setLanguages = (from setLang in _context.SetLanguages
+                                join lang in _context.Languages on setLang.LanguageId equals lang.LanguageId
                                 where !setLang.Deleted && !lang.Deleted && sets.Select(x => x.SetId).ToList().Contains(setLang.SetId)
                                 select new { setLang, lang }).ToList();
 
@@ -73,7 +73,7 @@ namespace Accio.Business.Services.CardServices
             if (SetsCache.Count > 0)
                 return SetsCache.Single(x => x.SetId == setId);
 
-            var setModel = (from set in _context.Set
+            var setModel = (from set in _context.Sets
                             where !set.Deleted && set.SetId == setId
                             orderby set.Order
                             select GetSetModel(set)).Single();
@@ -86,7 +86,7 @@ namespace Accio.Business.Services.CardServices
             if (SetsCache.Count > 0)
                 return SetsCache.FirstOrDefault(set => set.ShortName.ToLower() == setShortName.ToLower());
 
-            return (from set in _context.Set
+            return (from set in _context.Sets
                     where !set.Deleted && set.ShortName == setShortName
                     select GetSetModel(set)).FirstOrDefault();
         }

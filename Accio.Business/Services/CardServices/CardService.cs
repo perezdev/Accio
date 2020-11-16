@@ -63,17 +63,17 @@ namespace Accio.Business.Services.CardServices
                 param.LanguageId = englishLanguageId;
             }
 
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+            var cards = (from card in _context.Cards
+                         join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted
                          /*&& language.LanguageId == param.LanguageId*/
@@ -154,17 +154,17 @@ namespace Accio.Business.Services.CardServices
             var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
             var popularCardGuids = _cardSearchHistoryService.GetMostPopularSearchedCardIds();
 
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+            var cards = (from card in _context.Cards
+                         join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
 
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
@@ -191,18 +191,18 @@ namespace Accio.Business.Services.CardServices
         public List<CardModel> GetRandomCards(int numberOfCards)
         {
             var englishLanguageId = _languageService.GetLanguageId(TypeOfLanguage.English);
-            var randomCardIds = _context.Card.Where(x => x.Orientation == "Vertical").OrderBy(r => Guid.NewGuid()).Take(numberOfCards).Select(x => x.CardId).ToList();
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+            var randomCardIds = _context.Cards.Where(x => x.Orientation == "Vertical").OrderBy(r => Guid.NewGuid()).Take(numberOfCards).Select(x => x.CardId).ToList();
+            var cards = (from card in _context.Cards
+                         join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardSet.Deleted && !cardRarity.Deleted && !cardType.Deleted &&
                                language.LanguageId == englishLanguageId && randomCardIds.Contains(card.CardId)
@@ -299,17 +299,17 @@ namespace Accio.Business.Services.CardServices
 
         public List<CardModel> GetAllCards()
         {
-            var cards = (from card in _context.Card
-                         join cardDetail in _context.CardDetail on card.CardId equals cardDetail.CardId
-                         join language in _context.Language on cardDetail.LanguageId equals language.LanguageId
-                         join cardSet in _context.Set on card.CardSetId equals cardSet.SetId
-                         join cardRarity in _context.Rarity on card.CardRarityId equals cardRarity.RarityId
-                         join cardType in _context.CardType on card.CardTypeId equals cardType.CardTypeId
-                         join lessonType in _context.LessonType on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
+            var cards = (from card in _context.Cards
+                         join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
+                         join language in _context.Languages on cardDetail.LanguageId equals language.LanguageId
+                         join cardSet in _context.Sets on card.CardSetId equals cardSet.SetId
+                         join cardRarity in _context.Rarities on card.CardRarityId equals cardRarity.RarityId
+                         join cardType in _context.CardTypes on card.CardTypeId equals cardType.CardTypeId
+                         join lessonType in _context.LessonTypes on card.LessonTypeId equals lessonType.LessonTypeId into lessonTypeDefault
                          from lessonType in lessonTypeDefault.DefaultIfEmpty()
-                         join provides in _context.CardProvidesLesson on card.CardId equals provides.CardId into cardsProvidesLesson
+                         join provides in _context.CardProvidesLessons on card.CardId equals provides.CardId into cardsProvidesLesson
                          from provides in cardsProvidesLesson.DefaultIfEmpty()
-                         join plesson in _context.LessonType on provides.LessonId equals plesson.LessonTypeId into providesLesson
+                         join plesson in _context.LessonTypes on provides.LessonId equals plesson.LessonTypeId into providesLesson
                          from plesson in providesLesson.DefaultIfEmpty()
                          where !card.Deleted && !cardDetail.Deleted && !language.Deleted && !cardSet.Deleted && !cardRarity.Deleted &&
                                !cardType.Deleted
@@ -352,8 +352,8 @@ namespace Accio.Business.Services.CardServices
                         var card = GetCard(importCard, set.Name, setCache, cardTypeCache, rarityCache, lessonCache);
                         var cardDetail = GetCardDetail(card.CardId, importCard);
 
-                        _context.Card.Add(card);
-                        _context.CardDetail.Add(cardDetail);
+                        _context.Cards.Add(card);
+                        _context.CardDetails.Add(cardDetail);
                     }
                 }
             }
@@ -464,13 +464,13 @@ namespace Accio.Business.Services.CardServices
         public Guid GetRandomCardId()
         {
             //I have no idea how ordering by a random GUID produces a random row, but, it works - https://stackoverflow.com/a/7781899/1339826
-            var randomCard = _context.Card.OrderBy(r => Guid.NewGuid()).Take(1).Single();
+            var randomCard = _context.Cards.OrderBy(r => Guid.NewGuid()).Take(1).Single();
             return randomCard.CardId;
         }
 
         public void UpdateMatchData(Guid cardId, string toSolve, string prize)
         {
-            var card = _context.CardDetail.Single(x => x.CardId == cardId);
+            var card = _context.CardDetails.Single(x => x.CardId == cardId);
             card.ToSolve = toSolve;
             card.Reward = prize;
             _context.SaveChanges();
@@ -493,7 +493,7 @@ namespace Accio.Business.Services.CardServices
 
         public void UpdateCreatureData(Guid cardId, int? damage, int? health)
         {
-            var card = _context.Card.Single(x => x.CardId == cardId);
+            var card = _context.Cards.Single(x => x.CardId == cardId);
             card.Damage = damage;
             card.Health = health;
             _context.SaveChanges();
