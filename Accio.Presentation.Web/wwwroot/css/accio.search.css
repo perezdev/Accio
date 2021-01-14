@@ -136,7 +136,7 @@ header {
 
 /* Search sub-menu */
 
-select {
+.submenu-select {
     appearance: none;
     -ms-appearance: none;
     -moz-appearance: none;
@@ -155,21 +155,21 @@ select {
     padding: 0.188rem 2rem 0.25rem 0.75rem;
 }
 
-    select option {
+    .submenu-select option {
         background: var(--whiteWizard);
         color: var(--grayGargoyle);
         font-family: var(--sansSerif);
     }
 
-        select option:hover,
-        select option:focus,
-        select option:active {
+        .submenu-select option:hover,
+        .submenu-select option:focus,
+        .submenu-select option:active {
             background: linear-gradient(#000000, #000000);
             background-color: #000000 !important; /* for IE */
             color: #ffed00 !important;
         }
 
-        select option:checked {
+        .submenu-select option:checked {
             background: linear-gradient(#d6d6d6, #d6d6d6);
             background-color: #d6d6d6 !important; /* for IE */
             color: #000000 !important;

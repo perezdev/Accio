@@ -259,7 +259,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 {
                     fieldsGreaterThan = GetOrFields(fieldsGreaterThan);
                     var values = fieldsGreaterThan.Select(x => x.Value.ToIntNullable()).ToArray();
-                    cardTable = GetCardQueryByCostValue(values, field.Field, AdvancedSearchFieldExpression.GreaterThan);
+                    cardTable = GetCardQueryByCostValue(cardTable, values, field.Field, AdvancedSearchFieldExpression.GreaterThan);
                 }
 
                 //Less than
@@ -268,7 +268,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 {
                     fieldsLessThan = GetOrFields(fieldsLessThan);
                     var values = fieldsLessThan.Select(x => x.Value.ToIntNullable()).ToArray();
-                    cardTable = GetCardQueryByCostValue(values, field.Field, AdvancedSearchFieldExpression.LessThan);
+                    cardTable = GetCardQueryByCostValue(cardTable, values, field.Field, AdvancedSearchFieldExpression.LessThan);
                 }
             }
 
@@ -365,7 +365,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// </summary>
         public string GetAdvancedSearchUrlValue(string cardName, string cardText, string cardTypes, string lessonTypes,
                                                 string power, string sets, string rarity, string flavorText, string artist,
-                                                string cardNumber, string provides, string keyword)
+                                                string cardNumber, string provides, string keyword, string stats)
         {
             var urlList = new List<string>();
 
@@ -417,8 +417,63 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             {
                 urlList.Add($"{AdvancedSearchKeywords.Keywords}{AdvancedSearchExpressions.Exact}{keyword.ToPipeDelimitedFromCommaDelimited().ToDoubleQuotedString()}");
             }
+            if (!string.IsNullOrEmpty(stats))
+            {
+                var concatenatedStats = "";
+                var items = GetAdvancedSearchStatItemsFromDelimitedString(stats);
+                foreach (var item in items)
+                {
+                    concatenatedStats += $"{item.Keyword}{item.Expression}{item.Value} ";
+                }
+
+                urlList.Add(concatenatedStats.TrimEnd(' '));
+            }
 
             return string.Join('+', urlList);
+        }
+        private List<AdvancedSearchStatItemModel> GetAdvancedSearchStatItemsFromDelimitedString(string value)
+        {
+            var items = new List<AdvancedSearchStatItemModel>();
+
+            var delimitedLines = value.TrimEnd(';').Split(';');
+            for (int i = 0; i < delimitedLines.Length; i++)
+            {
+                var delimitedItems = delimitedLines[i].Split('|');
+                var keyword = "";
+                var delimitedType = delimitedItems[0].ToLower();
+                if (delimitedType == AdvancedSearchKeywords.Health || delimitedItems[0] == AdvancedSearchKeywords.HealthAlias)
+                {
+                    keyword = AdvancedSearchKeywords.Health;
+                }
+                else if (delimitedType == AdvancedSearchKeywords.Damage || delimitedItems[0] == AdvancedSearchKeywords.DamageAlias)
+                {
+                    keyword = AdvancedSearchKeywords.Damage;
+                }
+                var expression = "";
+                var delimitedExpression = delimitedItems[1].ToLower();
+                if (delimitedExpression == AdvancedSearchExpressions.EqualToName)
+                {
+                    expression = AdvancedSearchExpressions.Exact;
+                }
+                else if (delimitedExpression == AdvancedSearchExpressions.GreaterThanName)
+                {
+                    expression = AdvancedSearchExpressions.GreaterThan;
+                }
+                else if (delimitedExpression == AdvancedSearchExpressions.LessThan)
+                {
+                    expression = AdvancedSearchExpressions.LessThan;
+                }
+
+                var item = new AdvancedSearchStatItemModel()
+                {
+                    Keyword = keyword,
+                    Expression = expression,
+                    Value = delimitedItems[2],
+                };
+                items.Add(item);
+            }
+
+            return items;
         }
 
         /// <summary>
@@ -875,10 +930,8 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
         /// <summary>
         /// Applies the greater than and lesson than where clause for the power, health, damage
         /// </summary>
-        IQueryable<Card> GetCardQueryByCostValue(int?[] numbers, AdvancedSearchField field, AdvancedSearchFieldExpression expression)
+        IQueryable<Card> GetCardQueryByCostValue(IQueryable<Card> query, int?[] numbers, AdvancedSearchField field, AdvancedSearchFieldExpression expression)
         {
-            IQueryable<Card> query = _context.Cards;
-
             for (int i = 0; i < numbers.Length; i++)
             {
                 var number = numbers[i];

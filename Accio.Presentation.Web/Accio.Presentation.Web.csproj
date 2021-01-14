@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Admin\" />
+    <Folder Include="wwwroot\_robots\prod\" />
   </ItemGroup>
 
   <ItemGroup>

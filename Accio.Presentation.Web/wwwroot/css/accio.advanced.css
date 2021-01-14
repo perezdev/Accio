@@ -159,3 +159,61 @@
     width: 16px;
     vertical-align: middle !important;
 }
+
+.select-stats {
+    appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: url("../images/chevron_select_advanced.svg");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 0.5rem 0.875rem;
+    border: solid 1px #999999;
+    border-radius: 4px;
+    color: #000000;
+    font-family: var(--sansSerif);
+    font-size: 0.875rem;
+    line-height: 1.71;
+    padding: 0.188rem 2rem 0.25rem 0.75rem;
+}
+
+    .select-stats option {
+        background: var(--whiteWizard);
+        color: var(--grayGargoyle);
+        font-family: var(--sansSerif);
+    }
+
+        .select-stats option:hover,
+        .select-stats option:focus,
+        .select-stats option:active {
+            background: linear-gradient(#000000, #000000);
+            background-color: #000000 !important; /* for IE */
+            color: #ffed00 !important;
+        }
+
+        .select-stats option:checked {
+            background: linear-gradient(#d6d6d6, #d6d6d6);
+            background-color: #d6d6d6 !important; /* for IE */
+            color: #000000 !important;
+        }
+
+.stat-value-input {
+    line-height: 2 !important;
+}
+
+.stat-item-delete-img {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(../images/clear.svg);
+    filter: invert(66%) sepia(0%) saturate(631%) hue-rotate(144deg) brightness(86%) contrast(87%);
+    cursor: pointer;
+    width: 16px !important;
+    height: 16px !important;
+    margin-top: 8px;
+    border: 0 !important;
+    outline: none !important;
+}
+/*.stat-item-delete-img:hover {
+        filter: contrast(0) sepia(100%) hue-rotate(350deg) brightness(0.2) saturate(25.28);
+    }*/

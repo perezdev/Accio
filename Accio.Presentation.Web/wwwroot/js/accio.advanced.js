@@ -22,6 +22,11 @@
     ArtistId: '#artist',
     CardNumberId: '#cardNumber',
     KeywordId: '#keyword',
+    StatsValueInputId: '#statsValueInput',
+    StatsTypeId: '#statsType',
+    StatsOperatorId: '#statsOperator',
+    StatsIemsContainerId: '#statsIemsContainer',
+    StatValueInputClassName: '.stat-value-input',
 };
 
 function InitializeAdvancedPage() {
@@ -46,14 +51,49 @@ function InitializeAdvancedSearchElements() {
         advancedSearchElements.PremiumCheckboxId + ',' + advancedSearchElements.ProvidesComcCheckboxId + ',' + advancedSearchElements.ProvidesCharmsCheckboxId + ',' +
         advancedSearchElements.ProvidesPotionsCheckboxId + ',' + advancedSearchElements.ProvidesQuidditchCheckboxId + ',' + advancedSearchElements.ProvidesTransfigurationCheckboxId
     ).on('keypress', function (e) {
-            if (e.which === 13) {
-                e.preventDefault();
-                RedirectToSearchWithAdvancedSearchString();
-            }
-        });
+        if (e.which === 13) {
+            e.preventDefault();
+            RedirectToSearchWithAdvancedSearchString();
+        }
+    });
 
     $('.ui.dropdown').dropdown({
         clearable: true,
+    });
+
+    $(advancedSearchElements.StatValueInputClassName).on('keypress', function (e) {
+        if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
+            event.preventDefault(); //stop character from entering input
+        }
+    });
+
+    $(advancedSearchElements.StatsValueInputId).on('keyup', function (e) {
+        //Perform search if enter is pressed. Add new item otherwise
+        if (e.which === 13) {
+            e.preventDefault();
+            RedirectToSearchWithAdvancedSearchString();
+        }
+        else {
+            if (!this.value) {
+                return;
+            }
+
+            var type = $(advancedSearchElements.StatsTypeId).val();
+            var operator = $(advancedSearchElements.StatsOperatorId).val();
+            var value = $(advancedSearchElements.StatsValueInputId).val();
+
+            AddStatsItem(type, operator, value);
+
+            //Reset default settings
+            $(advancedSearchElements.StatsTypeId).prop('selectedIndex', 0).change();
+            $(advancedSearchElements.StatsOperatorId).prop('selectedIndex', 0).change();
+            $(advancedSearchElements.StatsValueInputId).val('');
+
+            //Select the last input in the main container and set the cursor at the end so the user can keep typing if needed
+            var input = $(".stat-value-input").last();
+            input.select();
+            input[0].selectionStart = input[0].selectionEnd = input.val().length;
+        }
     });
 }
 
@@ -70,6 +110,7 @@ function RedirectToSearchWithAdvancedSearchString() {
     var cardNumber = $(advancedSearchElements.CardNumberId).val();
     var provides = GetLessonsDelimitedString('provides');
     var keyword = $(advancedSearchElements.KeywordId).val();
+    var statItems = GetStatItems();
 
     var fd = new FormData();
     if (cardName) {
@@ -107,6 +148,9 @@ function RedirectToSearchWithAdvancedSearchString() {
     }
     if (keyword) {
         fd.append('keyword', keyword);
+    }
+    if (statItems) {
+        fd.append('stats', statItems);
     }
 
     $.ajax({
@@ -206,4 +250,92 @@ function GetRarityDelimitedString() {
     }
 
     return val.slice(0, -1).trim();
+}
+function AddStatsItem(type, operator, value) {
+    var healthOption = '<option>Health</option>';
+    var damageOption = '<option>Damage</option>';
+
+    if (type === 'Health') {
+        healthOption = '<option selected="selected">Health</option>';
+    } else if (type === 'Damage') {
+        healthOption = '<option selected="selected">Damage</option>';
+    }
+
+    var lessThanOption = '<option>less than</option>'
+    var greaterThanOption = '<option>greater than</option>'
+    var equalToOption = '<option>equal to</option>'
+
+    if (operator === 'less than') {
+        lessThanOption = '<option selected="selected">less than</option>';
+    }
+    else if (operator === 'greater than') {
+        greaterThanOption = '<option selected="selected">greater than</option>';
+    }
+    else if (operator === 'equal to') {
+        equalToOption = '<option selected="selected">equal to</option>';
+    }
+
+    var valueInput = '<input class="stat-value-input input-reset pl2 ml2" type="text" value="' + value + '" />';
+
+    //We create a random ID per stat item so we can identify the container for each item in order to
+    //remove it when needed. The same ID is used for the image to setup the click event for removal
+    var rid = Math.floor(Math.random() * 1000000000);
+    var removeItemId = 'remove' + rid;
+
+    var statsItem = `
+        <div id="` + rid + `" class="flex flex-items-start mt2">
+           <div class="fl ml3">
+              <select class="select-stats">
+                 ` + healthOption + `
+                 ` + damageOption + `
+              </select>
+           </div>
+           <div class="fl ml2">
+               <select class="select-stats">
+                   ` + lessThanOption + `
+                   ` + greaterThanOption + `
+                   ` + equalToOption + `
+               </select>
+           </div>
+           <div class="fl">
+               ` + valueInput + `
+           </div>
+           <div class="fl">
+               <div id="` + removeItemId + `" class="ml2 stat-item-delete-img"></div>
+           </div>
+        </div>
+    `;
+
+    $(advancedSearchElements.StatsIemsContainerId).append(statsItem);
+
+    $('#' + removeItemId).click(function (e) {
+        //Remove container of stat item
+        $('#' + rid).remove();
+    });
+}
+function GetStatItems() {
+    var items = '';
+
+    //Loop through each div in the main container. Each div is the container for each item's type, operator, and value.
+    $(advancedSearchElements.StatsIemsContainerId + ' >  div').each(function (i) {
+        $(this).each(function (ii) {
+            var type = $(this).find('select')[0];
+            var operator = $(this).find('select')[1];
+            var value = $(this).find('input')[0];
+
+            var typeText = $(type).find(':selected').text();
+            var operatorText = $(operator).find(':selected').text();
+            var valueText = $(value).val();
+
+            if (items.includes(typeText)) {
+                return true;
+            }
+
+            var item = typeText + '|' + operatorText + '|' + valueText;
+            items += item + ';'
+        });
+    });
+
+    //String of items where each item is separated by a semicolon and each value in each item is separated by a comma
+    return items;
 }
