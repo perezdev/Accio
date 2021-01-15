@@ -459,7 +459,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 {
                     expression = AdvancedSearchExpressions.GreaterThan;
                 }
-                else if (delimitedExpression == AdvancedSearchExpressions.LessThan)
+                else if (delimitedExpression == AdvancedSearchExpressions.LessThanName)
                 {
                     expression = AdvancedSearchExpressions.LessThan;
                 }
