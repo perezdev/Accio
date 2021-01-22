@@ -253,6 +253,15 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     }
                 }
 
+                //Greater than or equal to
+                var fieldsGreaterThanOrEqualTo = fields.Where(x => x.Field == field.Field && x.Expression == AdvancedSearchFieldExpression.GreaterThanOrEqualTo).ToList();
+                if (fieldsGreaterThanOrEqualTo?.Count > 0)
+                {
+                    fieldsGreaterThanOrEqualTo = GetOrFields(fieldsGreaterThanOrEqualTo);
+                    var values = fieldsGreaterThanOrEqualTo.Select(x => x.Value.ToIntNullable()).ToArray();
+                    cardTable = GetCardQueryByCostValue(cardTable, values, field.Field, AdvancedSearchFieldExpression.GreaterThanOrEqualTo);
+                }
+
                 //Greater than
                 var fieldsGreaterThan = fields.Where(x => x.Field == field.Field && x.Expression == AdvancedSearchFieldExpression.GreaterThan).ToList();
                 if (fieldsGreaterThan?.Count > 0)
@@ -260,6 +269,15 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     fieldsGreaterThan = GetOrFields(fieldsGreaterThan);
                     var values = fieldsGreaterThan.Select(x => x.Value.ToIntNullable()).ToArray();
                     cardTable = GetCardQueryByCostValue(cardTable, values, field.Field, AdvancedSearchFieldExpression.GreaterThan);
+                }
+
+                //Less than or equal to
+                var fieldsLessThanOrEqualTo = fields.Where(x => x.Field == field.Field && x.Expression == AdvancedSearchFieldExpression.LessThanOrEqualTo).ToList();
+                if (fieldsLessThanOrEqualTo?.Count > 0)
+                {
+                    fieldsLessThanOrEqualTo = GetOrFields(fieldsLessThanOrEqualTo);
+                    var values = fieldsLessThanOrEqualTo.Select(x => x.Value.ToIntNullable()).ToArray();
+                    cardTable = GetCardQueryByCostValue(cardTable, values, field.Field, AdvancedSearchFieldExpression.LessThanOrEqualTo);
                 }
 
                 //Less than
@@ -274,7 +292,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
 
             return cardTable;
         }
-        
+
         /* Swap all the "tablefields" methods to a single one with an enum for the table. Maybe */
 
         private List<AdvancedSearchFieldValue> GetCardDetailTableFields(string advancedSearchString)
@@ -459,9 +477,17 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                 {
                     expression = AdvancedSearchExpressions.GreaterThan;
                 }
+                else if (delimitedExpression == AdvancedSearchExpressions.GreaterThanOrEqualToName)
+                {
+                    expression = AdvancedSearchExpressions.GreaterThanOrEqualTo;
+                }
                 else if (delimitedExpression == AdvancedSearchExpressions.LessThanName)
                 {
                     expression = AdvancedSearchExpressions.LessThan;
+                }
+                else if (delimitedExpression == AdvancedSearchExpressions.LessThanOrEqualToName)
+                {
+                    expression = AdvancedSearchExpressions.LessThanOrEqualTo;
                 }
 
                 var item = new AdvancedSearchStatItemModel()
@@ -720,19 +746,31 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                         fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.Exact);
                         fieldValues.Add(fieldValue);
                     }
-                    if (rawField.Contains(AdvancedSearchExpressions.Contains))
+                    else if (rawField.Contains(AdvancedSearchExpressions.Contains))
                     {
                         fieldValue.Expression = AdvancedSearchFieldExpression.Contains;
                         fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.Contains);
                         fieldValues.Add(fieldValue);
                     }
-                    if (rawField.Contains(AdvancedSearchExpressions.GreaterThan))
+                    else if (rawField.Contains(AdvancedSearchExpressions.GreaterThanOrEqualTo))
+                    {
+                        fieldValue.Expression = AdvancedSearchFieldExpression.GreaterThanOrEqualTo;
+                        fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.GreaterThanOrEqualTo);
+                        fieldValues.Add(fieldValue);
+                    }
+                    else if (rawField.Contains(AdvancedSearchExpressions.GreaterThan))
                     {
                         fieldValue.Expression = AdvancedSearchFieldExpression.GreaterThan;
                         fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.GreaterThan);
                         fieldValues.Add(fieldValue);
                     }
-                    if (rawField.Contains(AdvancedSearchExpressions.LessThan))
+                    else if (rawField.Contains(AdvancedSearchExpressions.LessThanOrEqualTo))
+                    {
+                        fieldValue.Expression = AdvancedSearchFieldExpression.LessThanOrEqualTo;
+                        fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.LessThanOrEqualTo);
+                        fieldValues.Add(fieldValue);
+                    }
+                    else if (rawField.Contains(AdvancedSearchExpressions.LessThan))
                     {
                         fieldValue.Expression = AdvancedSearchFieldExpression.LessThan;
                         fieldValue.Value = GetFieldValue(rawField, AdvancedSearchExpressions.LessThan);
@@ -855,7 +893,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var filteredQuery = query.Where(lambdaPredicate);
             return filteredQuery;
         }
-        
+
         private IQueryable<AdvancedSearchCardQuery> GetProvidesLessonWhereClause(IQueryable<AdvancedSearchCardQuery> query, List<AdvancedSearchFieldValue> values)
         {
             var guids = values.Select(x => Guid.Parse(x.Value)).ToList();
@@ -935,7 +973,22 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             for (int i = 0; i < numbers.Length; i++)
             {
                 var number = numbers[i];
-                if (expression == AdvancedSearchFieldExpression.GreaterThan)
+                if (expression == AdvancedSearchFieldExpression.GreaterThanOrEqualTo)
+                {
+                    if (field == AdvancedSearchField.Power)
+                    {
+                        query = query.Where(p => p.LessonCost >= number);
+                    }
+                    else if (field == AdvancedSearchField.Health)
+                    {
+                        query = query.Where(p => p.Health >= number);
+                    }
+                    else if (field == AdvancedSearchField.Damage)
+                    {
+                        query = query.Where(p => p.Damage >= number);
+                    }
+                }
+                else if (expression == AdvancedSearchFieldExpression.GreaterThan)
                 {
                     if (field == AdvancedSearchField.Power)
                     {
@@ -948,6 +1001,21 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     else if (field == AdvancedSearchField.Damage)
                     {
                         query = query.Where(p => p.Damage > number);
+                    }
+                }
+                else if (expression == AdvancedSearchFieldExpression.LessThanOrEqualTo)
+                {
+                    if (field == AdvancedSearchField.Power)
+                    {
+                        query = query.Where(p => p.LessonCost <= number);
+                    }
+                    else if (field == AdvancedSearchField.Health)
+                    {
+                        query = query.Where(p => p.Health <= number);
+                    }
+                    else if (field == AdvancedSearchField.Damage)
+                    {
+                        query = query.Where(p => p.Damage <= number);
                     }
                 }
                 else if (expression == AdvancedSearchFieldExpression.LessThan)

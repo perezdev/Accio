@@ -7,7 +7,9 @@
         And,
         Or,
         GreaterThan,
+        GreaterThanOrEqualTo,
         LessThan,
+        LessThanOrEqualTo,
         EqualTo,
         NONE
     }

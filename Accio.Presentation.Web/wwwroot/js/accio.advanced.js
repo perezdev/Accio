@@ -261,15 +261,23 @@ function AddStatsItem(type, operator, value) {
         healthOption = '<option selected="selected">Damage</option>';
     }
 
-    var lessThanOption = '<option>less than</option>'
     var greaterThanOption = '<option>greater than</option>'
+    var greaterThanOrEqualToOption = '<option>greater than or equal to</option>'
+    var lessThanOption = '<option>less than</option>'
+    var lessThanOrEqualToOption = '<option>less than or equal to</option>'
     var equalToOption = '<option>equal to</option>'
 
-    if (operator === 'less than') {
+    if (operator === 'greater than') {
+        greaterThanOption = '<option selected="selected">greater than</option>';
+    }
+    else if (operator === 'greater than or equal to') {
+        greaterThanOrEqualToOption = '<option selected="selected">greater than or equal to</option>';
+    }
+    else if (operator === 'less than') {
         lessThanOption = '<option selected="selected">less than</option>';
     }
-    else if (operator === 'greater than') {
-        greaterThanOption = '<option selected="selected">greater than</option>';
+    else if (operator === 'less than or equal to') {
+        lessThanOrEqualToOption = '<option selected="selected">less than or equal to</option>';
     }
     else if (operator === 'equal to') {
         equalToOption = '<option selected="selected">equal to</option>';
@@ -292,9 +300,11 @@ function AddStatsItem(type, operator, value) {
            </div>
            <div class="fl ml2">
                <select class="select-stats">
-                   ` + lessThanOption + `
-                   ` + greaterThanOption + `
-                   ` + equalToOption + `
+                    ` + greaterThanOption + `
+                    ` + greaterThanOrEqualToOption + `
+                    ` + lessThanOption + `
+                    ` + lessThanOrEqualToOption + `
+                    ` + equalToOption + `
                </select>
            </div>
            <div class="fl">
