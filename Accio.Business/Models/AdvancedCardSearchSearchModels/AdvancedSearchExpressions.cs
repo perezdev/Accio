@@ -2,7 +2,7 @@
 {
     public static class AdvancedSearchExpressions
     {
-        public const string Exact = ":";
+        public const string Exact = "=";
         public const string Contains = "*";
         public const string And = "&";
         public const string Or = "|";
