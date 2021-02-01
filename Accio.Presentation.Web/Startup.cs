@@ -7,10 +7,12 @@ using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.CardServices;
 using Accio.Business.Services.ConfigurationServices;
 using Accio.Business.Services.EmailServices;
+using Accio.Business.Services.FormatServices;
 using Accio.Business.Services.ImageServices;
 using Accio.Business.Services.LanguageServices;
 using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.RoleServices;
+using Accio.Business.Services.RulingRestrictionServices;
 using Accio.Business.Services.RulingServices;
 using Accio.Business.Services.SourceServices;
 using Accio.Business.Services.TypeServices;
@@ -23,7 +25,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
@@ -94,6 +95,9 @@ namespace Accio.Web
             services.AddTransient<AccountRoleService>();
             services.AddTransient<RoleService>();
             services.AddTransient<ClaimService>();
+            services.AddTransient<RulingRestrictionService>();
+            services.AddTransient<CardRulingRestrictionService>();
+            services.AddTransient<FormatService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

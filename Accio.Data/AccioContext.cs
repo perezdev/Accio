@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -24,9 +26,11 @@ namespace Accio.Data
         public virtual DbSet<CardImage> CardImages { get; set; }
         public virtual DbSet<CardProvidesLesson> CardProvidesLessons { get; set; }
         public virtual DbSet<CardRuling> CardRulings { get; set; }
+        public virtual DbSet<CardRulingRestriction> CardRulingRestrictions { get; set; }
         public virtual DbSet<CardSearchHistory> CardSearchHistories { get; set; }
         public virtual DbSet<CardSubType> CardSubTypes { get; set; }
         public virtual DbSet<CardType> CardTypes { get; set; }
+        public virtual DbSet<Format> Formats { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageSize> ImageSizes { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -34,6 +38,7 @@ namespace Accio.Data
         public virtual DbSet<Rarity> Rarities { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Ruling> Rulings { get; set; }
+        public virtual DbSet<RulingRestriction> RulingRestrictions { get; set; }
         public virtual DbSet<RulingSource> RulingSources { get; set; }
         public virtual DbSet<RulingType> RulingTypes { get; set; }
         public virtual DbSet<Set> Sets { get; set; }
@@ -184,6 +189,17 @@ namespace Accio.Data
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<CardRulingRestriction>(entity =>
+            {
+                entity.ToTable("CardRulingRestriction");
+
+                entity.Property(e => e.CardRulingRestrictionId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<CardSearchHistory>(entity =>
             {
                 entity.ToTable("CardSearchHistory");
@@ -219,6 +235,19 @@ namespace Accio.Data
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(150);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Format>(entity =>
+            {
+                entity.ToTable("Format");
+
+                entity.Property(e => e.FormatId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
@@ -324,6 +353,21 @@ namespace Accio.Data
                 entity.Property(e => e.Ruling1).HasColumnName("Ruling");
 
                 entity.Property(e => e.RulingDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<RulingRestriction>(entity =>
+            {
+                entity.ToTable("RulingRestriction");
+
+                entity.Property(e => e.RulingRestrictionId).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.ShortName).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });

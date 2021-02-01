@@ -200,3 +200,72 @@
     /* Tachons is screwing up vertical alignment between the image and a label. This isn't ideal, but it makes it mostly work. */
     margin-top: 3px;
 }
+
+.card-ruling-restriction-legal {
+    width: 69px;
+    border-radius: 2px;
+    border: solid 1px var(--greenSnake);
+    background-color: var(--whiteWizard);
+}
+
+    .card-ruling-restriction-legal > div {
+        padding-top: 6px;
+        padding-bottom: 3px;
+        font-family: Arial;
+        font-size: 0.625rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: var(--greenSnake);
+    }
+
+.card-ruling-restriction-banned {
+    width: 69px;
+    border-radius: 2px;
+    border: solid 1px var(--redLion);
+    background-color: var(--whiteWizard);
+}
+
+    .card-ruling-restriction-banned > div {
+        padding-top: 6px;
+        padding-bottom: 3px;
+        font-family: Arial;
+        font-size: 0.625rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: var(--redLion);
+    }
+
+.card-ruling-restriction-restricted {
+    width: 69px;
+    border-radius: 2px;
+    border: solid 1px var(--blueRaven);
+    background-color: var(--whiteWizard);
+}
+
+    .card-ruling-restriction-restricted > div {
+        padding-top: 6px;
+        padding-bottom: 3px;
+        font-family: Arial;
+        font-size: 0.625rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: var(--blueRaven);
+    }
+
+.card-ruling-restriction-format-text {
+    font-family: Arial;
+    font-size: 0.75rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: var(--grayGargoyle);
+    margin-top: 6px;
+}

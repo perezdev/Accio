@@ -11,6 +11,7 @@
 @using Accio.Business.Models.ImageModels
 @using Accio.Business.Models.LessonModels;
 @using Accio.Business.Models.TypeModels;
+@using Accio.Business.Models.RulingRestrictionModels;
 
 @* Required for AJAX async calls *@
 @Html.AntiForgeryToken()
@@ -275,6 +276,50 @@
                                     <div class="card-row-item-content v-mid mv2 pb2">
                                         <p class="card-printings-text mb2">Printings</p>
                                         <div class="printings-enabled dib">EN</div>
+                                    </div>
+
+                                    <hr class="segment-divider" />
+                                </div>
+                                <div class="dt-row">
+                                    <div class="card-row-item-content v-mid">
+                                        <div class="mw9 center">
+                                            <div class="cf pv2">
+                                                @foreach (var ruling in Model.Card.RulingRestrictions)
+                                                {
+                                                    var restrictionFormat = ruling.Format.ToString();
+                                                    var restrictionShortName = ruling.RulingRestriction.ShortName;
+                                                    var rulingRestrictionCssClassName = "";
+
+                                                    switch (ruling.RulingRestriction.Type)
+                                                    {
+                                                        case RulingRestrictionType.Banned:
+                                                            rulingRestrictionCssClassName = "card-ruling-restriction-banned";
+                                                            break;
+                                                        case RulingRestrictionType.Legal:
+                                                            rulingRestrictionCssClassName = "card-ruling-restriction-legal";
+                                                            break;
+                                                        case RulingRestrictionType.Restricted:
+                                                            rulingRestrictionCssClassName = "card-ruling-restriction-restricted";
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+
+                                                    <div class="fl w-100 w-50-ns pv2">
+                                                        <div class="cf">
+                                                            <div class="@rulingRestrictionCssClassName tc fl w-70">
+                                                                <div>
+                                                                    @restrictionShortName
+                                                                </div>
+                                                            </div>
+                                                            <div class="fl w-30 pl2 card-ruling-restriction-format-text v-mid">
+                                                                @restrictionFormat
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

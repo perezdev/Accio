@@ -17,10 +17,11 @@ namespace Accio.Business.Services.CardServices
         private CardSearchHistoryService _cardSearchHistoryService { get; set; }
         private CardSubTypeService _cardSubTypeService { get; set; }
         private CardImageService _cardImageService { get; set; }
+        private CardRulingRestrictionService _cardRulingRestrictionService { get; set; }
 
         public SingleCardService(AccioContext context, TypeService cardTypeService, LanguageService languageService,
                                  CardSearchHistoryService cardSearchHistoryService, CardSubTypeService cardSubTypeService,
-                                 CardImageService cardImageService)
+                                 CardImageService cardImageService, CardRulingRestrictionService cardRulingRestrictionService)
         {
             _context = context;
             _cardTypeService = cardTypeService;
@@ -28,6 +29,7 @@ namespace Accio.Business.Services.CardServices
             _cardSearchHistoryService = cardSearchHistoryService;
             _cardSubTypeService = cardSubTypeService;
             _cardImageService = cardImageService;
+            _cardRulingRestrictionService = cardRulingRestrictionService;
         }
 
         public CardModel GetCard(SingleCardParameters singleCardParameters)
@@ -76,6 +78,7 @@ namespace Accio.Business.Services.CardServices
                 cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes(cardModel.CardId);
                 cardModel = GetCardsWithImages(new List<CardModel>() { cardModel })[0];
                 cardModel.MetaDescription = GetMetaDescription(cardModel);
+                cardModel.RulingRestrictions = _cardRulingRestrictionService.GetCardRulingRestrictionsByCardId(cardModel.CardId);
 
                 _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
             }

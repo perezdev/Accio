@@ -27,6 +27,7 @@ namespace Accio.Business.Models.CardModels
         public List<ImageModel> Images { get; set; } = new List<ImageModel>();
         public string MetaDescription { get; set; }
         public string CardPageUrl { get; set; }
+        public List<CardRulingRestrictionModel> RulingRestrictions { get; set; } = new List<CardRulingRestrictionModel>();
         public Guid CreatedById { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid UpdatedById { get; set; }
