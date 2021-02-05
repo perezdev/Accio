@@ -212,6 +212,12 @@ header {
     overflow: visible;
 }
 
+@media all and (max-width: 480px) {
+    .content-container {
+        margin-top: 350px;
+    }
+}
+
 .card-orientation-vertical {
     height: 350px !important;
     width: 250px !important;

@@ -34,6 +34,12 @@
     min-height: 63vh;
 }
 
+@media all and (max-width: 480px) {
+    .single-card-main-container {
+        margin-top: 205px;
+    }
+}
+
 .card-content-container {
     overflow: auto;
 }

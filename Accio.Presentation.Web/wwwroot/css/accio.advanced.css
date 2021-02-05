@@ -20,6 +20,12 @@
             border: solid 1px #666666;
         }
 
+@media all and (max-width: 480px) {
+    .advanced-content-container {
+        margin-top: 205px;
+    }
+}
+
 .advanced-row-segment {
     color: #E9E9E9;
     opacity: 0.3;
