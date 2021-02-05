@@ -506,8 +506,8 @@ function AddCardsToDeck(cards) {
 
         var smallImage = GetImageFromCardImages(card, ImageSizeType.Small);
 
-        var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);"';
-        var hoverCss = card.orientation === 'Horizontal' ? hoverFunctions : '';
+        var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);" touchend="RotateCardVertically(this);"';
+        var hoverCss = card.orientation === 'Horizontal' && !IsMobile ? hoverFunctions : '';
 
         var cardUrl = location.protocol + '//' + location.host + card.cardPageUrl;
         var cardHtml = `
