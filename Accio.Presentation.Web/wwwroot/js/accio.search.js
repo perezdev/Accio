@@ -298,6 +298,12 @@ function SearchCards() {
                 UnHideAllContainers();
 
                 cards = response.json;
+
+                if (cards.length === 1) {
+                    window.location.href = GenerateCardUrl(cards[0]);
+                    return;
+                }
+
                 $(searchElementNames.CardCountId).html(cards.length + ' cards');
                 AddCardsToContainer(cards);
             }
@@ -497,6 +503,11 @@ function AddCardsToContainer(cards) {
         AddCardsToTable(cards);
     }
 }
+
+function GenerateCardUrl(card) {
+    return card && `${location.protocol}//${location.host}${card.cardPageUrl}`;
+}
+
 function AddCardsToDeck(cards) {
     //Clear existing cards
     $(resultsContainerNames.CardContainerId).html('');
@@ -509,7 +520,7 @@ function AddCardsToDeck(cards) {
         var hoverFunctions = 'onmouseover="RotateCardHorizontally(this);" onmouseleave="RotateCardVertically(this);" touchend="RotateCardVertically(this);"';
         var hoverCss = card.orientation === 'Horizontal' && !IsMobile ? hoverFunctions : '';
 
-        var cardUrl = location.protocol + '//' + location.host + card.cardPageUrl;
+        var cardUrl = GenerateCardUrl(card);
         var cardHtml = `
                         <a ` + hoverCss + ` href="` + cardUrl + `" class="card-image w-25-ns pa1 w-50">
                             <img class="card-image tc" id="` + card.cardId + `" data-cardname="` + card.detail.name + `" src="` + smallImage.url + `" />
