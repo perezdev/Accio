@@ -247,7 +247,7 @@
                                         <div class="card-row-item-content">
                                             @{
                                                 var illustrator = Model.Card.Detail.Illustrator;
-                                                var illustratorUrl = $"/search?searchText=artist:\"{illustrator}\"";
+                                                var illustratorUrl = $"/search?searchText=artist=\"{illustrator}\"";
                                             }
                                             <div class="card-illustrator">Illustrated by <a href="@illustratorUrl" class="single-card-artist-anchor">@illustrator</a></div>
                                         </div>
