@@ -379,7 +379,7 @@ namespace Accio.Business.Services.CardServices
                 Orientation = card.Orientation,
                 ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
                                  CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
-                CardPageUrl = $"/Card/{cardSet.ShortName}/{card.CardNumber}/{language.Code}/{cardDetail.Name.Replace(" ", "-")}",
+                CardPageUrl = $"/card/{cardSet.ShortName.ToLower()}/{card.CardNumber.ToLower()}/{language.Code.ToLower()}/{cardDetail.Name.Replace(" ", "-").ToLower()}",
                 Damage = card.Damage,
                 Health = card.Health,
                 CreatedById = card.CreatedById,

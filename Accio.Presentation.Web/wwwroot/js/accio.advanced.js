@@ -155,7 +155,7 @@ function RedirectToSearchWithAdvancedSearchString() {
 
     $.ajax({
         type: "POST",
-        url: "Advanced?handler=GetAdvancedSearchUrlValue",
+        url: "advanced?handler=GetAdvancedSearchUrlValue",
         traditional: true,
         data: fd,
         beforeSend: function (xhr) {
@@ -169,7 +169,7 @@ function RedirectToSearchWithAdvancedSearchString() {
                 var url = response.json;
 
                 var baseUrl = location.protocol + '//' + location.host;
-                var cardRoute = '/Search?searchText=' + url;
+                var cardRoute = '/search?searchText=' + url;
                 window.location.href = baseUrl + cardRoute;
             }
         },

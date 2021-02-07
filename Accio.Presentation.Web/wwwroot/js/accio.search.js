@@ -92,7 +92,7 @@ var hasSetsLoaded = false;
 function SetCardSets() {
     $.ajax({
         type: "POST",
-        url: "Search?handler=GetSets",
+        url: "search?handler=GetSets",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -284,7 +284,7 @@ function SearchCards() {
 
     $.ajax({
         type: "POST",
-        url: "Search?handler=SearchCards",
+        url: "search?handler=SearchCards",
         data: fd,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
@@ -382,7 +382,7 @@ function PopulateDefaultCards() {
 
     $.ajax({
         type: "POST",
-        url: "Search?handler=GetPopularCards",
+        url: "search?handler=GetPopularCards",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -459,7 +459,7 @@ function ToggleSearchResultData() {
 
         $.ajax({
             type: "POST",
-            url: "Search?handler=GetSetByShortName",
+            url: "search?handler=GetSetByShortName",
             data: fd,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("XSRF-TOKEN",

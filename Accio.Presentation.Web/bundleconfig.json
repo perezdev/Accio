@@ -1,18 +1,5 @@
 [
   {
-    "outputFileName": "wwwroot/js/accio.bundle.min.js",
-    "inputFiles": [
-      "wwwroot/js/accio.advanced.js",
-      "wwwroot/js/accio.card.js",
-      "wwwroot/js/accio.core.js",
-      "wwwroot/js/accio.home.js",
-      "wwwroot/js/accio.search.js",
-      "wwwroot/js/accio.set.js",
-      "wwwroot/js/accio.account.register.js",
-      "wwwroot/js/accio.account.login.js"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/css/accio.bundle.min.css",
     "inputFiles": [
       "wwwroot/css/accio.core.css",
@@ -26,6 +13,19 @@
       "wwwroot/css/accio.set.css",
       "wwwroot/css/accio.utility.css",
       "wwwroot/css/accio.404.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/accio.bundle.min.js",
+    "inputFiles": [
+      "wwwroot/js/accio.account.login.js",
+      "wwwroot/js/accio.account.register.js",
+      "wwwroot/js/accio.advanced.js",
+      "wwwroot/js/accio.card.js",
+      "wwwroot/js/accio.core.js",
+      "wwwroot/js/accio.home.js",
+      "wwwroot/js/accio.search.js",
+      "wwwroot/js/accio.set.js"
     ]
   }
 ]

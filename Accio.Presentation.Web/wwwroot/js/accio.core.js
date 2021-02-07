@@ -3,10 +3,10 @@ var currentPage = null;
 
 const Page = {
     Home: '',
-    Search: 'Search',
-    Card: 'Card',
-    Sets: 'Sets',
-    Advanced: 'Advanced',
+    Search: 'search',
+    Card: 'card',
+    Sets: 'sets',
+    Advanced: 'advanced',
 };
 
 var IsMobile = false; //initiate as false
@@ -85,7 +85,7 @@ function InitializeSearchBoxOnNonSearchPage() {
     //Search text press enter
     $(searchElementNames.SearchInputId).on('keypress', function (e) {
         if (e.which === 13) {
-            window.location.href = '/Search?searchText=' + $(this).val() + '&sortBy=sn&cardView=images';
+            window.location.href = '/search?searchText=' + $(this).val() + '&sortBy=sn&cardView=images';
             e.preventDefault();
         }
     });

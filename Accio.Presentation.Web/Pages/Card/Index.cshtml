@@ -247,7 +247,7 @@
                                         <div class="card-row-item-content">
                                             @{
                                                 var illustrator = Model.Card.Detail.Illustrator;
-                                                var illustratorUrl = $"/Search?searchText=artist:\"{illustrator}\"";
+                                                var illustratorUrl = $"/search?searchText=artist:\"{illustrator}\"";
                                             }
                                             <div class="card-illustrator">Illustrated by <a href="@illustratorUrl" class="single-card-artist-anchor">@illustrator</a></div>
                                         </div>
@@ -260,7 +260,7 @@
                                         <img src="~/images/seticons/@Model.Card.CardSet.IconFileName" class="set-info-item set-info-icon v-mid" />
                                         <div class="set-info-item">
                                             @{
-                                                var searchBySetUrl = $"/Search?set={Model.Card.CardSet.ShortName.ToLower()}";
+                                                var searchBySetUrl = $"/search?set={Model.Card.CardSet.ShortName.ToLower()}";
                                             }
                                             <a class="single-card-set-anchor" href="@searchBySetUrl">@Model.Card.CardSet.Name</a>
                                         </div>

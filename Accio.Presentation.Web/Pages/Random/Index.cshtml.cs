@@ -18,7 +18,7 @@ namespace Accio.Presentation.Web.Pages.Random
         {
             //Since we're going to redirect to the details page, it makes sense to just grab the ID instead of the full card object
             var randomCardId = _cardService.GetRandomCardId();
-            return Redirect($"/Card?cardId={randomCardId}");
+            return Redirect($"/card?cardId={randomCardId}");
         }
     }
 }
