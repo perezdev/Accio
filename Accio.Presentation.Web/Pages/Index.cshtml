@@ -2,13 +2,11 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Accio Harry Potter TCG Search";
-    Layout = null;
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 @using System.Linq
 @using Accio.Business.Models.ImageModels
-
-<!DOCTYPE html>
 
 @{
     var card1 = @Model.RandomCards[0];
@@ -20,40 +18,12 @@
     var thirdImage = Model.RandomCards[2].Images.Single(x => x.Size == ImageSizeType.Small);
 }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title</title>
-
-    <meta name="description" content="A fast, magical Harry Potter Trading Card Game search." />
-    <meta property="og:site_name" content="Accio Harry Potter TCG Search" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Accio Harry Potter TCG Search" />
-    <meta property="og:description" content="A fast, magical Harry Potter Trading Card Game search." />
-    <meta property="og:url" content="http://accio.cards/" />
-
-    <link href="https://unpkg.com/tippy.js@6/themes/light.css" />
-    <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
-    <link href="~/css/animate.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
-    <link href="~/css/accio.bundle.min.css" rel="stylesheet" asp-append-version="true" />
-</head>
-<body>
-    <div id="main" class="w-100 relative">
-        <nav class="tc center home-nav pv4">
-            <a class="dib-ns db mr4-ns" href="/Advanced" title="Advanced"><i class="fas fa-hat-wizard mr2"></i>Advanced Search</a>
-            <a class="dib-ns db mr4-ns" href="https://github.com/perezdev/Accio/wiki/%F0%9F%93%9D-Syntax" target="_blank"><i class="fas fa-code mr2"></i>Syntax</a>
-            <a class="dib-ns db mr4-ns" href="/Sets" title="All Sets"><i class="fas fa-book mr2"></i>Sets</a>
-            <a class="dib-ns db" href="/Random" title="Random Card"><i class="fas fa-magic mr2"></i>Random Card</a>
-        </nav>
-
-        <div id="homeSearch" class="mw8 center">
-            <div id="accioLogo">
-                <?xml version="1.0" encoding="utf-8" ?>
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0"
-                     viewBox="0 0 64 64" xml:space="preserve">
-                    <path d="M31.2,32.93c1.02,1.04,1.06,2.68,0.11,3.76l-0.12,0.13L4.67,63.2c-1.08,1.07-2.81,1.06-3.88-0.02
+<div id="homeSearch" class="mw8 center">
+    <div id="accioLogo">
+        <?xml version="1.0" encoding="utf-8" ?>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0"
+             viewBox="0 0 64 64" xml:space="preserve">
+        <path d="M31.2,32.93c1.02,1.04,1.06,2.68,0.11,3.76l-0.12,0.13L4.67,63.2c-1.08,1.07-2.81,1.06-3.88-0.02
                             c-1.02-1.04-1.06-2.68-0.11-3.76l0.12-0.13l26.51-26.38C28.4,31.84,30.14,31.85,31.2,32.93L31.2,32.93z M39.44,37.52
                             c1.02,1.04,1.05,2.69,0.1,3.76l-0.12,0.13L23.87,56.79c-1.08,1.07-2.82,1.05-3.88-0.03c-1.02-1.04-1.05-2.69-0.09-3.76l0.12-0.13
                             l15.54-15.37C36.64,36.42,38.38,36.44,39.44,37.52z M7.22,40.02l15.54-15.37c1.08-1.07,2.82-1.06,3.88,0.03
@@ -62,82 +32,33 @@
                             C29.26,7.8,37.03,0,46.63,0z M46.63,5.5c-6.56,0-11.89,5.34-11.89,11.93s5.32,11.93,11.89,11.93c6.56,0,11.89-5.34,11.89-11.93
                             C58.51,10.85,53.19,5.5,46.63,5.5z" />
                 </svg>
-            </div>
-            <h1 class="hero">Accio</h1>
-            <p class="mb0">A magical <span class="b">Harry Potter Trading Card Game</span> search</p>
-            <form id="search" accept-charset="UTF-8" action="/Search" method="get">
-                <input id="searchInput" class="w-50-ns w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" />
-            </form>
-        </div>
-        <div class="w-100">
-            <div class="mw6 center">
-                <div id="spotlight" class="mw6 relative animated fadeIn mt5">
-                    <div class="cf">
-                        <div class="fl w-third relative card-image">
-                            <a href="@card1.CardPageUrl">
-                                <img src="@firstImage.Url" class="dib" />
-                            </a>
-                        </div>
-                        <div class="fl w-third relative card-image">
-                            <a href="@card2.CardPageUrl">
-                                <img src="@secondImage.Url" class="dib" />
-                            </a>
-                        </div>
-                        <div class="fl w-third relative card-image">
-                            <a href="@card3.CardPageUrl">
-                                <img src="@thirdImage.Url" class="dib" />
-                            </a>
-                        </div>
-                    </div>
+    </div>
+    <h1 class="hero">Accio</h1>
+    <p class="mb0">A magical <span class="b">Harry Potter Trading Card Game</span> search</p>
+    <form id="search" accept-charset="UTF-8" action="/Search" method="get">
+        <input id="searchInput" class="w-50-ns w-100" type="text" name="q" autocomplete="on" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" />
+    </form>
+</div>
+<div class="w-100">
+    <div class="mw6 center">
+        <div id="spotlight" class="mw6 relative animated fadeIn mt5">
+            <div class="cf">
+                <div class="fl w-third relative card-image">
+                    <a href="@card1.CardPageUrl">
+                        <img src="@firstImage.Url" class="dib" />
+                    </a>
+                </div>
+                <div class="fl w-third relative card-image">
+                    <a href="@card2.CardPageUrl">
+                        <img src="@secondImage.Url" class="dib" />
+                    </a>
+                </div>
+                <div class="fl w-third relative card-image">
+                    <a href="@card3.CardPageUrl">
+                        <img src="@thirdImage.Url" class="dib" />
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Begin Footer -->
-    <footer class="w-100 pv4 relative">
-        <div class="mw7 center">
-            <div class="cf">
-                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
-                    <h4>Find Cards</h4>
-                    <nav>
-                        @*<p><a href="#" title="Advanced">Advanced</a></p>*@
-                        @*<p><a href="#" title="All Cards">All Cards</a></p>*@
-                        <p><a href="https://github.com/perezdev/Accio/wiki/%F0%9F%93%9D-Syntax" target="_blank" title="Syntax Guide">Syntax Guide</a></p>
-                        <p><a href="/Sets" title="All Sets"></i>All Sets</a></p>
-                        <p><a href="/Random" title="Random Card">Random Card</a></p>
-                    </nav>
-                </div>
-                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
-                    <h4>Accio</h4>
-                    <nav>
-                        @*<p><a href="#" title="Deckbuilder">Deckbuilder</a></p>*@
-                        @*<p><a href="#" title="FAQ">FAQ</a></p>*@
-                        <p><a href="https://github.com/perezdev/Accio/wiki" target="_blank" title="Wiki">Wiki</a></p>
-                        <p><a href="https://cutt.ly/AccioContact" target="_blank" title="Contact">Contact</a></p>
-                    </nav>
-                </div>
-                <div class="fl w-100 w-third-ns mb4-ns mb3 ph3 tl-ns tc">
-                    <h4>Social</h4>
-                    <nav>
-                        <p><a href="https://github.com/perezdev/Accio" target="_blank" title="GitHub">GitHub</a></p>
-                        <p><a href="https://twitter.com/harrypottertcg?lang=en" target="_blank" title="Twitter">Twitter</a></p>
-                        <p><a href="https://discord.gg/EKJSXBC" target="_blank" title="Discord">Discord</a></p>
-                    </nav>
-                </div>
-            </div>
-            <div class="w-100 ph3 tc">
-                <p class="copyright">The information presented on this site about Harry Potter, including card images, characters, names and related indicia are &trade; and &copy; Warner Bros. Entertainment Inc. This website is not produced by, endorsed by, supported by, or affiliated with Warner Bros. Entertainment Inc. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    <!-- End Footer -->
-
-    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js">
-    </script>
-    <script src="https://kit.fontawesome.com/fd25a25548.js">
-    </script>
-    <script src="~/js/accio.bundle.min.js" asp-append-version="true">
-    </script>
-</body>
-</html>
+</div>
