@@ -6,5 +6,6 @@
         EmailAddressInvalid,
         AccountNameInvalid,
         PasswordInvalid,
+        Unverified
     }
 }

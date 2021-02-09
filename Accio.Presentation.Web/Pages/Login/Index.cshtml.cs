@@ -42,7 +42,8 @@ namespace Accio.Presentation.Web.Pages.Login
             {
                 var authenticate = _authenticationService.Authenticate(emailAddress, password);
                 if (authenticate.ResultItems.Any(x => x.Type == AuthenticationResultItemType.EmailAddressInvalid ||
-                                                      x.Type == AuthenticationResultItemType.PasswordInvalid))
+                                                      x.Type == AuthenticationResultItemType.PasswordInvalid ||
+                                                      x.Type == AuthenticationResultItemType.Unverified))
                 {
                     return new JsonResult(new { success = false, json = string.Join(" ", authenticate.ResultItems.Select(x => x.Message).ToList()) });
                 }

@@ -34,6 +34,10 @@ namespace Accio.Business.Services.AccountServices
         {
             return _context.Accounts.Any(x => x.EmailAddress == emailAddressOrUsername || x.AccountName == emailAddressOrUsername);
         }
+        public bool AccountVerified(string emailAddressOrUsername)
+        {
+            return _context.Accounts.Any(x => (x.EmailAddress == emailAddressOrUsername || x.AccountName == emailAddressOrUsername) && x.Verified);
+        }
 
         public AccountPersistResult CreateAccount(AccountPersistParams accountParams)
         {

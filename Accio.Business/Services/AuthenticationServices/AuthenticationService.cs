@@ -40,6 +40,15 @@ namespace Accio.Business.Services.AuthenticationServices
                 });
                 return result;
             }
+            if (!_accountService.AccountVerified(emailAddressOrUsername))
+            {
+                result.ResultItems.Add(new AuthenticationResultItem()
+                {
+                    Type = AuthenticationResultItemType.Unverified,
+                    Message = "Your account has not been verified. Please check your email address for the verification code.",
+                });
+                return result;
+            }
 
             var account = _accountService.GetAccountByEmailAddressOrUsername(emailAddressOrUsername);
             var verifyPassword = VerifyPassword(password, account.PasswordHash);
