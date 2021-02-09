@@ -4,6 +4,7 @@
     {
         Banned,
         Legal,
-        Restricted
+        Restricted,
+        NotLegal
     }
 }

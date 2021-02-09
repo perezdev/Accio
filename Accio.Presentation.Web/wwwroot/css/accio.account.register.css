@@ -1,2 +1,88 @@
-﻿body {
+﻿.register-to-accio {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--whiteWizard);
+}
+
+.register-form-input {
+    background-color: rgba(107, 99, 181, 0.25);
+    background-origin: content-box, padding-box;
+    border: none;
+    color: var(--whiteWizard);
+    font-family: var(--sansSerif);
+    min-width: 336px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(107, 99, 181, 0.25);
+    transition: background-color 0.125s ease-in;
+    text-indent: 0.8rem;
+}
+
+.register-form-have-an-account {
+    font-family: Arial;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--purpleFirecracker);
+}
+
+.register-form-register-button {
+    width: 336px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px var(--purpleFirecracker);
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.register-error {
+    font-family: Arial;
+    font-size: 0.875rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #bc3e4d;
+    display: inline;
+}
+
+.register-form-input-error {
+    background-image: url('../images/alert.svg');
+    background-origin: content-box, padding-box;
+    background-position: 308px center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: 18px 16px;
+    border-radius: 4px;
+    border: solid 1px #bc3e4d;
+    background-color: rgba(107, 99, 181, 0.25);
+}
+
+.register-form-input-error-message {
+    font-family: Arial;
+    font-size: 0.75rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #bc3e4d;
+}
+
+.error-message-margin-email {
+    margin-left: -150px;
+}
+.error-message-margin-username {
+    margin-left: -168px;
+}
+.error-message-margin-password {
+    margin-left: -120px;
+}
+.error-message-margin-password-notcomplicated {
+    margin-left: -60px;
+}
+.error-message-margin-confirm {
+    margin-left: -195px;
 }

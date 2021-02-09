@@ -3,6 +3,8 @@
     EmailTextId: '#emailAddress',
     PasswordTextId: '#password',
     LoginContainerId: '#loginContainer',
+    ErrorContainerId: '#errorContainer',
+    ErrorId: '#error',
 };
 
 $(document).ready(function () {
@@ -44,7 +46,7 @@ function Login() {
         processData: false,
         success: function (response) {
             if (response.success) {
-                location.reload();
+                document.location.href = "/";
             }
             else {
                 ShowLoginErrors(response.json);
@@ -57,11 +59,11 @@ function Login() {
 }
 
 function ShowLoginErrors(message) {
-    $(registerElements.ErrorId).html('');
-    $(registerElements.ErrorId).html(message);
-    $(registerElements.ErrorId).show();
+    $(loginElements.ErrorId).html('');
+    $(loginElements.ErrorId).html(message);
+    $(loginElements.ErrorContainerId).show();
 }
 function ClearLoginErrors() {
-    $(registerElements.ErrorId).html('');
-    $(registerElements.ErrorId).hide();
+    $(loginElements.ErrorId).html('');
+    $(loginElements.ErrorContainerId).hide();
 }

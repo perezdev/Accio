@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Accio.Presentation.Web.Pages.Login
 {
@@ -23,8 +24,16 @@ namespace Accio.Presentation.Web.Pages.Login
             _claimService = claimService;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public JsonResult OnPostLoginAsync(string emailAddress, string password)

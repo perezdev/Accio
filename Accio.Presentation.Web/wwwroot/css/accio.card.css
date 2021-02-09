@@ -275,3 +275,21 @@
     color: var(--grayGargoyle);
     margin-top: 6px;
 }
+
+.card-ruling-restriction-notlegal {
+    width: 69px;
+    border-radius: 2px;
+    border: solid 1px rgba(51, 51, 51, 0.75);
+    background-color: var(--whiteWizard);
+}
+    .card-ruling-restriction-notlegal > div {
+        padding-top: 6px;
+        padding-bottom: 3px;
+        font-family: Arial;
+        font-size: 0.625rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: rgba(51, 51, 51, 0.75);
+    }

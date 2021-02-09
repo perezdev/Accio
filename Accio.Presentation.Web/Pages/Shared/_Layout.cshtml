@@ -10,14 +10,24 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Accio Harry Potter TCG Search" />
     <meta property="og:description" content="A fast, magical Harry Potter Trading Card Game search." />
-    <meta property="og:url" content="http://accio.cards/" />
+    <meta property="og:url" content="https://accio.cards/" />
 
     <link href="https://unpkg.com/tippy.js@6/themes/light.css" />
     <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
-    <link href="~/css/animate.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.min.css" rel="stylesheet" />
-    <link href="~/css/accio.bundle.min.css" rel="stylesheet" asp-append-version="true" />
+
+    @* Raw files for development *@
+    <environment include="Development">
+        <link href="~/css/accio.core.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/accio.account.login.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/accio.account.register.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/accio.environment.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/accio.home.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+
+    @* Bundled css for production *@
+    <environment exclude="Development">
+        <link href="~/css/accio.bundle.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
 </head>
 <body>
     <div id="main" class="w-100 relative">
@@ -74,7 +84,19 @@
     </script>
     <script src="https://kit.fontawesome.com/fd25a25548.js">
     </script>
-    <script src="~/js/accio.bundle.min.js" asp-append-version="true">
-    </script>
+
+    @* Raw files for development *@
+    <environment include="Development">
+        <script src="~/js/accio.core.js" asp-append-version="true"></script>
+        <script src="~/js/accio.search.js" asp-append-version="true"></script>
+        <script src="~/js/accio.home.js" asp-append-version="true"></script>
+        <script src="~/js/accio.account.login.js" asp-append-version="true"></script>
+        <script src="~/js/accio.account.register.js" asp-append-version="true"></script>
+    </environment>
+
+    @* Bundled JS for production *@
+    <environment exclude="Development">
+        <script src="~/js/accio.bundle.min.js" asp-append-version="true"></script>
+    </environment>
 </body>
 </html>

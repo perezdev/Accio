@@ -8,6 +8,7 @@ using Accio.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Accio.Business.Services.AccountServices
 {
@@ -73,32 +74,48 @@ namespace Accio.Business.Services.AccountServices
             return account == null ? null : accountModel;
         }
 
-        private List<string> GetValidationMessages(AccountPersistParams accountParams)
+        private List<AccountValidateErrorType> GetValidationMessages(AccountPersistParams accountParams)
         {
-            var messages = new List<string>();
+            var errors = new List<AccountValidateErrorType>();
 
             if (string.IsNullOrEmpty(accountParams.EmailAddress))
             {
-                messages.Add("Email address cannot be emppty.");
+                errors.Add(AccountValidateErrorType.EmailAddressEmpty);
             }
-            if (string.IsNullOrEmpty(accountParams.Password))
+            try
             {
-                messages.Add("Password cannot be empty.");
+                new System.Net.Mail.MailAddress(accountParams.EmailAddress);
+            }
+            catch
+            {
+                errors.Add(AccountValidateErrorType.EmailAddressInvalidFormat);
+            }
+            if (string.IsNullOrEmpty(accountParams.Password) || accountParams.Password?.Length < 8)
+            {
+                errors.Add(AccountValidateErrorType.PasswordEmpty);
             }
             if (string.IsNullOrEmpty(accountParams.AccountName))
             {
-                messages.Add("Account name cannot be empty.");
+                errors.Add(AccountValidateErrorType.UsernameEmpty);
             }
             if (_context.Accounts.Any(x => x.EmailAddress == accountParams.EmailAddress && !x.Deleted))
             {
-                messages.Add("An account with that email address already exists.");
+                errors.Add(AccountValidateErrorType.EmailAddressAlreadyExists);
             }
             if (_context.Accounts.Any(x => x.AccountName == accountParams.AccountName && !x.Deleted))
             {
-                messages.Add("An account with that account name already exists.");
+                errors.Add(AccountValidateErrorType.UsernameExists);
             }
-
-            return messages;
+            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            if (!string.IsNullOrEmpty(accountParams.Password) && regexItem.IsMatch(accountParams.Password))
+            {
+                errors.Add(AccountValidateErrorType.PasswordNotComplicatedEnough);
+            }
+            if (accountParams.Password != accountParams.ConfirmPassword)
+            {
+                errors.Add(AccountValidateErrorType.ConfirmPasswordInvalid);
+            }
+            return errors;
         }
         private static AccountModel GetAccountModel(Account account)
         {

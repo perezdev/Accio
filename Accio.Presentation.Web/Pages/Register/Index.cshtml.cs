@@ -22,7 +22,7 @@ namespace Accio.Presentation.Web.Pages.Register
         {
         }
 
-        public JsonResult OnPostRegisterAsync(string userName, string emailAddress, string password, string bogusData)
+        public JsonResult OnPostRegisterAsync(string userName, string emailAddress, string password, string confirmPassword, string bogusData)
         {
             try
             {
@@ -31,7 +31,29 @@ namespace Accio.Presentation.Web.Pages.Register
                     AccountName = userName,
                     EmailAddress = emailAddress,
                     Password = password,
+                    ConfirmPassword = confirmPassword,
                     BogusData = bogusData,
+                };
+                var result = _accountService.CreateAccount(param);
+
+                return new JsonResult(new { success = result.Result, json = result.Messages });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, json = ex.Message });
+            }
+        }
+
+        public JsonResult OnPostValidateAsync(string userName, string emailAddress, string password, string confirmPassword)
+        {
+            try
+            {
+                var param = new AccountPersistParams()
+                {
+                    AccountName = userName,
+                    EmailAddress = emailAddress,
+                    Password = password,
+                    ConfirmPassword = confirmPassword,
                 };
                 var result = _accountService.CreateAccount(param);
 
