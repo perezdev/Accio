@@ -30,6 +30,11 @@ namespace Accio.Business.Services.AccountServices
             _roleService = roleService;
         }
 
+        public bool AccountExists(string emailAddressOrUsername)
+        {
+            return _context.Accounts.Any(x => x.EmailAddress == emailAddressOrUsername || x.AccountName == emailAddressOrUsername);
+        }
+
         public AccountPersistResult CreateAccount(AccountPersistParams accountParams)
         {
             if (!string.IsNullOrEmpty(accountParams.BogusData))
@@ -66,9 +71,9 @@ namespace Accio.Business.Services.AccountServices
             return result;
         }
 
-        public AccountModel GetAccountByEmailAddress(string emailAddress)
+        public AccountModel GetAccountByEmailAddressOrUsername(string emailAddressOrUsername)
         {
-            var account = _context.Accounts.SingleOrDefault(x => x.EmailAddress == emailAddress);
+            var account = _context.Accounts.SingleOrDefault(x => x.EmailAddress == emailAddressOrUsername || x.AccountName == emailAddressOrUsername);
             var accountModel = GetAccountModel(account);
             accountModel.Roles = _accountRoleService.GetAccountRoles(account.AccountId);
             return account == null ? null : accountModel;
@@ -82,11 +87,8 @@ namespace Accio.Business.Services.AccountServices
             {
                 errors.Add(AccountValidateErrorType.EmailAddressEmpty);
             }
-            try
-            {
-                new System.Net.Mail.MailAddress(accountParams.EmailAddress);
-            }
-            catch
+            var emailPattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+            if (!Regex.IsMatch(accountParams.EmailAddress, emailPattern))
             {
                 errors.Add(AccountValidateErrorType.EmailAddressInvalidFormat);
             }

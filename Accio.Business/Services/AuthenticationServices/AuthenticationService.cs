@@ -27,19 +27,29 @@ namespace Accio.Business.Services.AuthenticationServices
             return BCrypt.Net.BCrypt.Verify(existingHashedPassword, providedHashedPassword);
         }
 
-        public AuthenticationResult Authenticate(string emailAddress, string password)
+        public AuthenticationResult Authenticate(string emailAddressOrUsername, string password)
         {
             var result = new AuthenticationResult();
 
-            var account = _accountService.GetAccountByEmailAddress(emailAddress);
-            var verifyPassword = VerifyPassword(password, account.PasswordHash);
-
-            if (string.IsNullOrEmpty(emailAddress))
+            if (!_accountService.AccountExists(emailAddressOrUsername))
             {
-                result.ResultItems.Add(new AuthenticationResultItem() 
+                result.ResultItems.Add(new AuthenticationResultItem()
                 {
                     Type = AuthenticationResultItemType.EmailAddressInvalid,
-                    Message = "Email address cannot be empty.",
+                    Message = "An account with that email address or username doesn't exist.",
+                });
+                return result;
+            }
+
+            var account = _accountService.GetAccountByEmailAddressOrUsername(emailAddressOrUsername);
+            var verifyPassword = VerifyPassword(password, account.PasswordHash);
+
+            if (string.IsNullOrEmpty(emailAddressOrUsername))
+            {
+                result.ResultItems.Add(new AuthenticationResultItem()
+                {
+                    Type = AuthenticationResultItemType.EmailAddressInvalid,
+                    Message = "Email address or username cannot be empty.",
                 });
             }
             if (string.IsNullOrEmpty(password))
@@ -59,16 +69,16 @@ namespace Accio.Business.Services.AuthenticationServices
                 });
             }
 
-            if (result.ResultItems.Any(x => x.Type == AuthenticationResultItemType.EmailAddressInvalid || 
+            if (result.ResultItems.Any(x => x.Type == AuthenticationResultItemType.EmailAddressInvalid ||
                                             x.Type == AuthenticationResultItemType.EmailAddressInvalid))
             {
-                _authenticationHistoryService.LogAuthentication(AuthAttemptType.Fail, null, emailAddress, Guid.Empty);
+                _authenticationHistoryService.LogAuthentication(AuthAttemptType.Fail, null, emailAddressOrUsername, Guid.Empty);
                 return result;
             }
 
             result.ResultItems.Add(new AuthenticationResultItem() { Type = AuthenticationResultItemType.Authenticated });
             result.Account = account;
-            _authenticationHistoryService.LogAuthentication(AuthAttemptType.Success, null, emailAddress, Guid.Empty);
+            _authenticationHistoryService.LogAuthentication(AuthAttemptType.Success, null, emailAddressOrUsername, Guid.Empty);
 
             return result;
         }
