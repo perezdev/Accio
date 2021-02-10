@@ -164,7 +164,19 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     if (fieldsContains.Any(x => x.Value.Contains(AdvancedSearchExpressions.Or)))
                         fieldsContains = GetOrFields(fieldsContains);
 
-                    detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsContains.Select(x => $"%{x.Value}%").ToArray(), field.DatabaseColumnName);
+                    //When the user searches for the "text" of a card, we can't just compare it against the text field of a card. Some cards
+                    //have their "text" spread across several fields. Like matches and adventures. Since we don't really know the type of the
+                    //card, we'll search against all possible fields when search for text. All other fields will search against their pre-set column name
+                    var textFields = fieldsContains.Where(x => x.Field == AdvancedSearchField.Text).ToList();
+                    if (textFields.Any())
+                    {
+                        var propertyNames = GetTextPropertyNames();
+                        detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsContains.Select(x => $"%{x.Value}%").ToArray(), propertyNames);
+                    }
+                    else
+                    {
+                        detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsContains.Select(x => $"%{x.Value}%").ToArray(), field.DatabaseColumnName);
+                    }
                 }
 
                 //Exact
@@ -174,11 +186,31 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
                     if (fieldsExact.Any(x => x.Value.Contains(AdvancedSearchExpressions.Or)))
                         fieldsExact = GetOrFields(fieldsExact);
 
-                    detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsExact.Select(x => $"{x.Value}").ToArray(), field.DatabaseColumnName);
+                    var textFields = fieldsContains.Where(x => x.Field == AdvancedSearchField.Text).ToList();
+                    if (textFields.Any())
+                    {
+                        var propertyNames = GetTextPropertyNames();
+                        detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsExact.Select(x => $"{x.Value}").ToArray(), propertyNames);
+                    }
+                    else
+                    {
+                        detailTable = GetCardDetailQueryWithWhereClause(detailTable, fieldsExact.Select(x => $"{x.Value}").ToArray(), field.DatabaseColumnName);
+                    }
                 }
             }
 
             return detailTable;
+
+            List<string> GetTextPropertyNames()
+            {
+                var names = new List<string>();
+                names.Add(nameof(CardDetail.Text));
+                names.Add(nameof(CardDetail.Effect));
+                names.Add(nameof(CardDetail.ToSolve));
+                names.Add(nameof(CardDetail.Reward));
+
+                return names;
+            }
         }
 
         /// <summary>
@@ -812,6 +844,53 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var entityProperties = new List<PropertyInfo>();
             var ep = typeof(CardDetail).GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
             entityProperties.Add(ep);
+
+            // EF.Functions.Like(x.OrderNumber, v1) || EF.Functions.Like(x.OrderNumber, v2)...
+            Expression likePredicate = null;
+
+            var efFunctionsInstance = Expression.Constant(EF.Functions);
+
+            // Will be the predicate paramter (the 'x' in x => EF.Functions.Like(x.OrderNumber, v1)...)
+            var lambdaParam = Expression.Parameter(typeof(CardDetail));
+            foreach (var number in values)
+            {
+                // EF.Functions.Like(x.OrderNumber, v1)
+                //                                 |__|
+                var numberValue = Expression.Constant(number);
+
+                foreach (var entityProperty in entityProperties)
+                {
+                    // EF.Functions.Like(x.OrderNumber, v1)
+                    //                  |_____________|
+                    var propertyAccess = Expression.Property(lambdaParam, entityProperty);
+
+                    // EF.Functions.Like(x.OrderNumber, v1)
+                    //|____________________________________|
+                    var likeMethodCall = Expression.Call(likeMethod, efFunctionsInstance, propertyAccess, numberValue);
+
+                    // Aggregating the current predicate with "OR" (||)
+                    likePredicate = likePredicate == null
+                                        ? (Expression)likeMethodCall
+                                        : Expression.OrElse(likePredicate, likeMethodCall);
+                }
+            }
+
+            // x => EF.Functions.Like(x.OrderNumber, v1) || EF.Functions.Like(x.OrderNumber, v2)...
+            var lambdaPredicate = Expression.Lambda<Func<CardDetail, bool>>(likePredicate, lambdaParam);
+
+            var filteredQuery = query.Where(lambdaPredicate);
+            return filteredQuery;
+        }
+        private IQueryable<CardDetail> GetCardDetailQueryWithWhereClause(IQueryable<CardDetail> query, string[] values, List<string> propertyNames)
+        {
+            var likeMethod = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new[] { typeof(DbFunctions), typeof(string), typeof(string) });
+
+            var entityProperties = new List<PropertyInfo>();
+            foreach (var propertyName in propertyNames)
+            {
+                var ep = typeof(CardDetail).GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+                entityProperties.Add(ep);
+            }
 
             // EF.Functions.Like(x.OrderNumber, v1) || EF.Functions.Like(x.OrderNumber, v2)...
             Expression likePredicate = null;
