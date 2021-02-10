@@ -7,6 +7,7 @@ const Page = {
     Card: 'card',
     Sets: 'sets',
     Advanced: 'advanced',
+    DeckBuilder: 'deckbuilder',
 };
 
 var IsMobile = false; //initiate as false
@@ -39,6 +40,9 @@ $(document).ready(function () {
     }
     else if (currentPage === Page.Advanced) {
         InitializeAdvancedPage();
+    }
+    else if (currentPage === Page.DeckBuilder) {
+        InitializeDeckBuilderPage();
     }
 });
 
