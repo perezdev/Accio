@@ -365,6 +365,7 @@ namespace Accio.Business.Services.CardServices
                                              Language language, LessonType lessonType, LessonType providesLesson,
                                              CardProvidesLesson cardProvidesLesson)
         {
+            var cardName = GetCardDetailNameWithoutIllegalChars(cardDetail.Name);
             return new CardModel()
             {
                 CardId = card.CardId,
@@ -379,7 +380,7 @@ namespace Accio.Business.Services.CardServices
                 Orientation = card.Orientation,
                 ProvidesLesson = providesLesson == null && cardProvidesLesson == null ? null :
                                  CardProvidesLessonService.GetCardProvidesLessonModel(cardProvidesLesson, providesLesson),
-                CardPageUrl = $"/card/{cardSet.ShortName.ToLower()}/{card.CardNumber.ToLower()}/{language.Code.ToLower()}/{cardDetail.Name.Replace(" ", "-").ToLower()}",
+                CardPageUrl = $"/card/{cardSet.ShortName.ToLower()}/{card.CardNumber.ToLower()}/{language.Code.ToLower()}/{cardName}",
                 Damage = card.Damage,
                 Health = card.Health,
                 CreatedById = card.CreatedById,
@@ -388,6 +389,15 @@ namespace Accio.Business.Services.CardServices
                 UpdatedDate = card.UpdatedDate,
                 Deleted = card.Deleted,
             };
+
+            //The name is unimportant when forming the URL. We need to remove illegal characters so the URL
+            //doesn't blow up. So it doens't really matter what we replace them with.
+            string GetCardDetailNameWithoutIllegalChars(string name)
+            {
+                name = name.Replace(" ", "-");
+                name = name.Replace("/", "-");
+                return name.ToLower();
+            }
         }
         public Card GetCard(ImportCardModel importCardModel, string setName, List<SetModel> cardSetCache, List<CardTypeModel> cardTypesCache,
                             List<RarityModel> raritiesCache, List<LessonTypeModel> lessonTypeCache)
