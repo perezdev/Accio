@@ -78,7 +78,7 @@ namespace Accio.Business.Services.CardServices
                 cardModel.SubTypes = _cardSubTypeService.GetCardSubTypes(cardModel.CardId);
                 cardModel = GetCardsWithImages(new List<CardModel>() { cardModel })[0];
                 cardModel.MetaDescription = GetMetaDescription(cardModel);
-                cardModel.RulingRestrictions = _cardRulingRestrictionService.GetCardRulingRestrictionsByCardId(cardModel.CardId);
+                cardModel.RulingRestrictions = _cardRulingRestrictionService.GetCardRulingRestrictionsByCardId(cardModel.CardId).OrderBy(x => x.Format).ToList();
 
                 _cardSearchHistoryService.PersistCardSearchHistory(param, utcNow, utcNow);
             }
