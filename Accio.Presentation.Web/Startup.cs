@@ -1,6 +1,7 @@
 using Accio.Business.Services.AccountRoleServices;
 using Accio.Business.Services.AccountServices;
 using Accio.Business.Services.AdvancedCardSearchSearchServices;
+using Accio.Business.Services.ApiServices.UntapServices;
 using Accio.Business.Services.AuthenticationHistoryServices;
 using Accio.Business.Services.AuthenticationServices;
 using Accio.Business.Services.CardSearchHistoryServices;
@@ -44,6 +45,7 @@ namespace Accio.Web
         {
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddControllers();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -99,6 +101,7 @@ namespace Accio.Web
             services.AddTransient<RulingRestrictionService>();
             services.AddTransient<CardRulingRestrictionService>();
             services.AddTransient<FormatService>();
+            services.AddTransient<UntapService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,6 +123,7 @@ namespace Accio.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
