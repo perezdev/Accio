@@ -12,7 +12,7 @@ using Accio.Business.Services.LessonServices;
 using Accio.Business.Services.TypeServices;
 using Accio.Data;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
+//using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +64,7 @@ namespace Accio.Business.Services.AdvancedCardSearchSearchServices
             var cardModels = query.Select(x => CardService.GetCardModel(
                                           x.Card, x.Set, x.Rarity, x.CardType, x.CardDetail,
                                           x.Language, x.LessonType, x.CardProvidesLessonLessonType, x.CardProvidesLesson)
-                                         ).DistinctBy(x => new { x.CardId, x.Detail.Language.LanguageId }).ToList();
+                                         ).ToList().DistinctBy(x => new { x.CardId, x.Detail.Language.LanguageId }).ToList();
 
             //This isn't ideal, but there aren't a ton of sub types and it's easier to just pull all and assign than to do a complicated join
             var cardSubTypeModels = _cardSubTypeService.GetAllCardSubTypes();
