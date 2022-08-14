@@ -5,6 +5,7 @@
         Android,
         API,
         iOS,
-        Website
+        Website,
+        Untap
     }
 }

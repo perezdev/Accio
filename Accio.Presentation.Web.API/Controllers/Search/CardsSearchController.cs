@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Accio.Presentation.Web.API.Controllers.Cards.Search
 {
-    [Route("Search")]
+    [Route("Cards/Search")]
     [ApiController]
     public class CardsSearchController : ControllerBase
     {
@@ -22,13 +22,13 @@ namespace Accio.Presentation.Web.API.Controllers.Cards.Search
         }
 
         [HttpGet]
-        public IEnumerable<CardModel> Get(string searchText, Guid? setId, Guid? typeId, Guid? rarityId, Guid? languageId,
+        public IEnumerable<CardModel> Get(string text, Guid? setId, Guid? typeId, Guid? rarityId, Guid? languageId,
                                           int? lessonCost, string sortBy, string sortOrder)
         {
             var apiSource = _sourceService.GetSource(SourceType.API);
             var cardparams = new CardSearchParameters() 
             {
-                SearchText = searchText,
+                SearchText = text,
                 SetId = setId,
                 TypeId = typeId,
                 RarityId = rarityId,
@@ -40,6 +40,15 @@ namespace Accio.Presentation.Web.API.Controllers.Cards.Search
             };
 
             var cards = _cardService.SearchCards(cardparams);
+            return cards;
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public IEnumerable<CardModel> Get()
+        {
+            var source = _sourceService.GetSource(SourceType.API);
+            var cards = _cardService.GetAllCards(source);
             return cards;
         }
     }

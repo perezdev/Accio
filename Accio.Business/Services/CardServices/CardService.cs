@@ -4,6 +4,7 @@ using Accio.Business.Models.LanguageModels;
 using Accio.Business.Models.LessonModels;
 using Accio.Business.Models.RarityModels;
 using Accio.Business.Models.SetModels;
+using Accio.Business.Models.SourceModels;
 using Accio.Business.Models.TypeModels;
 using Accio.Business.Services.CardSearchHistoryServices;
 using Accio.Business.Services.LanguageServices;
@@ -297,7 +298,7 @@ namespace Accio.Business.Services.CardServices
             }
         }
 
-        public List<CardModel> GetAllCards()
+        public List<CardModel> GetAllCards(SourceModel source)
         {
             var cards = (from card in _context.Cards
                          join cardDetail in _context.CardDetails on card.CardId equals cardDetail.CardId
@@ -329,12 +330,17 @@ namespace Accio.Business.Services.CardServices
             var cardModels = cards.Select(x => GetCardModel(x.card, x.cardSet, x.cardRarity, x.cardType,
                                                             x.cardDetail, x.language, x.lessonType,
                                                             x.plesson, x.provides)).ToList();
+            cardModels = GetCardsWithImages(cardModels);
+
+            var searchParams = new CardSearchParameters() { SourceId = source.SourceId, SearchText = "GetAllCards" };
+            var utcNow = DateTime.UtcNow;
+            _cardSearchHistoryService.PersistCardSearchHistory(searchParams, utcNow, utcNow);
 
             return cardModels != null ? cardModels : new List<CardModel>();
         }
         public void ImportCardsFromSets(List<ImportSetModel> sets)
         {
-            var cardCache = GetAllCards();
+            var cardCache = GetAllCards(null);
             var setCache = _cardSetService.GetSets();
             var cardTypeCache = _cardTypeService.GetCardTypes();
             var rarityCache = _cardRarityService.GetCardRarities();

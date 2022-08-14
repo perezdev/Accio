@@ -90,7 +90,7 @@ namespace Accio.Presentation.SetUpload
         private static void ImportCardProvidesLessons()
         {
             var sets = GetSets();
-            var cards = _cardService.GetAllCards();
+            var cards = _cardService.GetAllCards(null);
             var lessons = _lessonService.GetLessonTypes();
 
             foreach (var card in cards)
@@ -111,7 +111,7 @@ namespace Accio.Presentation.SetUpload
         private static void ImportMatches()
         {
             var sets = GetSets();
-            var cards = _cardService.GetAllCards().Where(x => x.CardType.Name == "Match");
+            var cards = _cardService.GetAllCards(null).Where(x => x.CardType.Name == "Match");
             foreach (var card in cards)
             {
                 if (card.CardSet.SetId.ToString().ToUpper() != "33B77285-FBB2-4712-BECF-65A0B26C32C2")
@@ -131,7 +131,7 @@ namespace Accio.Presentation.SetUpload
             var sets = GetSets();
             var subTypes = _subTypeService.GetAllSubTypes();
 
-            foreach (var card in _cardService.GetAllCards())
+            foreach (var card in _cardService.GetAllCards(null))
             {
                 if (card.CardSet.SetId.ToString().ToUpper() != "33B77285-FBB2-4712-BECF-65A0B26C32C2")
                     continue;
@@ -164,7 +164,7 @@ namespace Accio.Presentation.SetUpload
         private static void ImportDamageAndHealth()
         {
             var sets = GetSets();
-            var cards = _cardService.GetAllCards().Where(x => x.CardType.Name == "Creature");
+            var cards = _cardService.GetAllCards(null).Where(x => x.CardType.Name == "Creature");
 
             foreach (var card in cards)
             {
@@ -184,7 +184,7 @@ namespace Accio.Presentation.SetUpload
         private static void ImportDescriptionNotes()
         {
             var sets = GetSets();
-            var cards = _cardService.GetAllCards();
+            var cards = _cardService.GetAllCards(null);
 
             foreach (var set in sets)
             {

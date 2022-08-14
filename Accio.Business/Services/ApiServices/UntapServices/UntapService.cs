@@ -1,7 +1,9 @@
 ﻿using Accio.Business.Models.ApiModels.UntapModels;
 using Accio.Business.Models.CardModels;
 using Accio.Business.Models.ImageModels;
+using Accio.Business.Models.SourceModels;
 using Accio.Business.Services.CardServices;
+using Accio.Business.Services.SourceServices;
 using Accio.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,13 @@ namespace Accio.Business.Services.ApiServices.UntapServices
     {
         private AccioContext _context { get; set; }
         private CardService _cardService { get; set; }
+        private SourceService _sourceService { get; set; }
 
-        public UntapService(AccioContext context, CardService cardService)
+        public UntapService(AccioContext context, CardService cardService, SourceService sourceService)
         {
             _context = context;
             _cardService = cardService;
+            _sourceService = sourceService;
         }
 
         /// <summary>
@@ -24,8 +28,8 @@ namespace Accio.Business.Services.ApiServices.UntapServices
         /// </summary>
         public List<UntapCardModel> GetAllCards()
         {
-            var cards = _cardService.GetAllCards();
-            cards = _cardService.GetCardsWithImages(cards);
+            var source = _sourceService.GetSource(SourceType.Untap);
+            var cards = _cardService.GetAllCards(source);
 
             return cards.Select(x => GetUntapCardModelFromCardModel(x)).ToList();
         }
